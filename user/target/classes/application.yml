@@ -1,0 +1,24 @@
+server:
+  port: 518
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/luo_demo?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+  redis:
+    password: 123456
+    host: localhost
+    port: 6379
+  thymeleaf:
+    cache: false
+# 配置MyBatis日志
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+okta:
+  oauth2:
+    issuer: https://dev-93007508.okta.com/oauth2/default
+    client-id: 0oa85qjs8yTvTawJn5d7
+    client-secret: u7acGnLYHAg-IthSCE-PX_R75dvJAuapSK5zod8o
+    redirect-uri: /router/oktaCallback
