@@ -1,6 +1,6 @@
 package com.luo.common.result;
 
-import com.luo.common.enums.unifiedEnums.UnifiedServiceHandleEnum;
+import com.luo.common.enums.unifiedEnums.UnifiedServiceHandleEnumError;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -45,19 +45,19 @@ public class UnifiedServiceHandle<T> implements Serializable {
     }
 
     public static <T> UnifiedServiceHandle<T> SUCCESS() {
-        return getSuccessResult(UnifiedServiceHandleEnum.STATUS_SUCCESS.getStatus(), UnifiedServiceHandleEnum.STATUS_SUCCESS.getValue());
+        return getSuccessResult(UnifiedServiceHandleEnumError.STATUS_SUCCESS.getStatus(), UnifiedServiceHandleEnumError.STATUS_SUCCESS.getValue());
     }
 
     public static <T> UnifiedServiceHandle<T> SUCCESS(T data) {
-        return getSuccessResult(UnifiedServiceHandleEnum.STATUS_SUCCESS.getStatus(), UnifiedServiceHandleEnum.STATUS_SUCCESS.getValue(), data);
+        return getSuccessResult(UnifiedServiceHandleEnumError.STATUS_SUCCESS.getStatus(), UnifiedServiceHandleEnumError.STATUS_SUCCESS.getValue(), data);
     }
 
     public static <T> UnifiedServiceHandle<T> SUCCESS(String message) {
-        return getSuccessResult(UnifiedServiceHandleEnum.STATUS_SUCCESS.getStatus(), message);
+        return getSuccessResult(UnifiedServiceHandleEnumError.STATUS_SUCCESS.getStatus(), message);
     }
 
     public static <T> UnifiedServiceHandle<T> SUCCESS(String message, T data) {
-        return getSuccessResult(UnifiedServiceHandleEnum.STATUS_SUCCESS.getStatus(), message, data);
+        return getSuccessResult(UnifiedServiceHandleEnumError.STATUS_SUCCESS.getStatus(), message, data);
     }
 
     public static <T> UnifiedServiceHandle<T> getFailureResult(int status, String message, T data) {

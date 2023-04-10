@@ -1,6 +1,6 @@
 package com.luo.login.service;
 
-import com.luo.model.user.UserRoleDto;
+import com.luo.model.user.dto.UserRoleDto;
 
 /**
  * @author: luoliang

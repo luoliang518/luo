@@ -1,8 +1,10 @@
 package com.luo.common.enums.unifiedEnums;
 
-import com.luo.common.enums.BaseEnum;
+import com.luo.common.enums.ErrorBaseEnum;
 
-public enum UnifiedServiceHandleEnum implements BaseEnum {
+public enum UnifiedServiceHandleEnumError implements ErrorBaseEnum {
+        AUTHOR_NAME(0, "罗亮"),
+        AUTHOR_PHONE(1, "17357170942"),
         STATUS_SUCCESS(200, "服务器成功返回"),
         STATUS_NOT_MODIFY(304, "自从上次请求后，请求的网页未修改过"),
         STATUS_ERROR(500, "服务器内部错误"),
@@ -35,12 +37,14 @@ public enum UnifiedServiceHandleEnum implements BaseEnum {
         CUSTOM_INVALID_REQUEST(914, "无效的请求"),
         CUSTOM_PARAMETER_NULL(915, "输入的参数为NULL、“null”、空字符串"),
         CUSTOM_IDEMPOTENTCHECK_ERROR(916, "请勿重复提交！"),
-        CUSTOM_SQL_INJECTION_ERROR(917, "包含非法字符，存在sql注入语句");
+        CUSTOM_SQL_INJECTION_ERROR(917, "包含非法字符，存在sql注入语句"),
+        GET_IP_ADDRESS_FAIL(999, "当前IP地址获取失败"),
+        ;
 
         private Integer status;
         private String value;
 
-        private UnifiedServiceHandleEnum(int status, String value) {
+        private UnifiedServiceHandleEnumError(int status, String value) {
             this.status = status;
             this.value = value;
         }

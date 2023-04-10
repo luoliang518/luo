@@ -1,4 +1,4 @@
-package com.luo.model.modelUtils;
+package com.luo.common.utils.modelUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

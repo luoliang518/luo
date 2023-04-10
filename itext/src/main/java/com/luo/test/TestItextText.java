@@ -12,8 +12,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.FontKerning;
-import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.properties.FontKerning;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -62,7 +61,7 @@ public class TestItextText {
                             // 设置斜体
                             .setItalic()
                             // 设置对齐方式
-                            .setTextAlignment(TextAlignment.LEFT)
+//                            .setTextAlignment(TextAlignment.LEFT)
                             // 设置字间距
                             .setFontKerning(FontKerning.NO)
                             // 设置行间距

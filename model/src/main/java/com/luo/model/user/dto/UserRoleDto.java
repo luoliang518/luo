@@ -1,4 +1,4 @@
-package com.luo.model.user;
+package com.luo.model.user.dto;
 
 import lombok.Data;
 

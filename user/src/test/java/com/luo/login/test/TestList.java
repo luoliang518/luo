@@ -1,8 +1,12 @@
 package com.luo.login.test;
 
-import com.luo.model.user.UserDo;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author: luoliang
@@ -11,16 +15,22 @@ import java.util.ArrayList;
  */
 public class TestList {
     public static void main(String[] args) {
-        ArrayList<UserDo> results = new ArrayList<UserDo>();
-        for (int i = 0; i < 3; i++) {
-            UserDo userDo = new UserDo();
-            userDo.setUserId(String.valueOf(i));
-            results.add(userDo);
-        }
-        results.removeIf(a->
-            "2".equals(a.getUserId())||"1".equals(a.getUserId())
-        );
-
-        System.out.println(results.toString());
+//        SimpleDateFormat a = new SimpleDateFormat("yyyyMMdd");
+//        Date date = new Date();
+//        String b=a.format(date);
+//        System.out.println(date);
+//        System.out.println(b);
+        String yyyyMMdd = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        System.out.println(yyyyMMdd);
+    }
+    public static String createToken(String name) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("作者", "罗亮");
+        map.put("name", name);
+        return JWT.create()
+                .withHeader(map)
+                .withClaim("name",name)
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1000))
+                .sign(Algorithm.HMAC512("jkhfghcv1nbxxdx"));
     }
 }

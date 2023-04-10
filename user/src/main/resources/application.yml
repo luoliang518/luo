@@ -3,13 +3,19 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/luo_demo?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://localhost:3307/luo_demo?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     password: 123456
   redis:
     password: 123456
     host: localhost
     port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 2
+        max-wait: -1
   thymeleaf:
     cache: false
 # 配置MyBatis日志
@@ -18,7 +24,19 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 okta:
   oauth2:
+    baseUri: https://dev-93007508.okta.com
+    getCodeUri: /oauth2/v1/authorize
+    getTokenUri: /oauth2/v1/token
+    getUserUri: /oauth2/v1/userinfo
     issuer: https://dev-93007508.okta.com/oauth2/default
-    client-id: 0oa85qjs8yTvTawJn5d7
-    client-secret: u7acGnLYHAg-IthSCE-PX_R75dvJAuapSK5zod8o
-    redirect-uri: /router/oktaCallback
+    client-id: 0oa8xgeqr2QdZ5iWu5d7
+    client-secret: MUwHsCjjI6fdNnwd1ddMQHzPuV2HzpBCQJRhzKbn
+jwt:
+  # header 名称
+  header: Authorization
+  #token前缀
+  tokenPrefix: "Bearer "
+  # 加密密钥
+  secret: luoliang
+  # token有效时长
+  expireTime: 3600

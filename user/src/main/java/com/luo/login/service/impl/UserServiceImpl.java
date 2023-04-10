@@ -2,13 +2,13 @@ package com.luo.login.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.luo.common.enums.unifiedEnums.OperateUserEnum;
+import com.luo.common.enums.unifiedEnums.OperateUserEnumError;
 import com.luo.common.result.IntegrateException;
 import com.luo.login.mapper.UserMapper;
 import com.luo.login.service.UserService;
 import com.luo.model.jopoMapper.UserFiledMapper;
-import com.luo.model.user.UserDo;
-import com.luo.model.user.UserDto;
+import com.luo.model.user.entity.UserDo;
+import com.luo.model.user.dto.UserDto;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         userDo.setPassword(encoder.encode(userDo.getPassword()));
         int insert = userMapper.insert(userDo);
         if (insert<1){
-            IntegrateException.buildExternalEx(OperateUserEnum.CREATE_USER_FAIL);
+            IntegrateException.buildExternalEx(OperateUserEnumError.CREATE_USER_FAIL);
         }
     }
 }

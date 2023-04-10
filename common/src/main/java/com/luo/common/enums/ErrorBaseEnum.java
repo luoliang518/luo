@@ -6,7 +6,7 @@ package com.luo.common.enums;
  * @TIME: 15:20
  * 所有抛出异常都需要实现此类
  */
-public interface BaseEnum {
+public interface ErrorBaseEnum {
     /**
      * 获取枚举状态
      * @return

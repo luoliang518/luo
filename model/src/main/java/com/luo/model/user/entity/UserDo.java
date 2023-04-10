@@ -1,5 +1,6 @@
-package com.luo.model.user;
+package com.luo.model.user.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -22,7 +23,7 @@ public class UserDo implements Serializable {
     /**
      * 用户ID
      */
-    @TableId("user_id")
+    @TableId(value = "user_id",type = IdType.AUTO)
     private String userId;
     /**
      * 用户账号 用于登录

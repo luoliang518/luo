@@ -1,6 +1,6 @@
 package com.luo.common.enums.unifiedEnums;
 
-import com.luo.common.enums.BaseEnum;
+import com.luo.common.enums.ErrorBaseEnum;
 
 /**
  * @author: luoliang
@@ -8,7 +8,7 @@ import com.luo.common.enums.BaseEnum;
  * @TIME: 15:40
  * 1000 - 1200
  */
-public enum OperateUserEnum implements BaseEnum {
+public enum OperateUserEnumError implements ErrorBaseEnum {
     CREATE_USER_SUCCESS(1000,"创建用户成功"),
     CREATE_USER_FAIL(1001,"创建用户失败"),
     CREATE_ROLE_SUCCESS(1002,"创建角色成功"),
@@ -17,7 +17,7 @@ public enum OperateUserEnum implements BaseEnum {
     private Integer status;
     private String value;
 
-    OperateUserEnum(int status, String value) {
+    OperateUserEnumError(int status, String value) {
         this.status = status;
         this.value = value;
     }

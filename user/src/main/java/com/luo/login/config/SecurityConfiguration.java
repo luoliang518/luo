@@ -14,6 +14,29 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .oauth2Client()
+//                .clientRegistrationRepository(new InMemoryClientRegistrationRepository())
+//                .authorizedClientRepository(new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(new JdbcOAuth2AuthorizedClientService()))
+//                .authorizedClientService(new JdbcOAuth2AuthorizedClientService())
+//                .authorizationCodeGrant()
+//                .authorizationRequestRepository(this.authorizationRequestRepository())
+//                .authorizationRequestResolver(this.authorizationRequestResolver())
+//                .accessTokenResponseClient(this.accessTokenResponseClient());
+//    }
+//
+//    @Bean
+//    SecurityFilterChain oauth2SecurityFilterChain(HttpSecurity http) throws Exception {
+//        // 所有请求需要认证
+//        http.authorizeRequests((requests) -> requests.anyRequest().authenticated());
+//        // 开启 oauth2login
+//        http.oauth2Login(Customizer.withDefaults());
+//        // 声明为 oauth2 client
+//        http.oauth2Client();
+//        return http.build();
+//    }
 
     @Bean
     public SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {
@@ -21,7 +44,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .antMatchers(
-                                        "/","/router/**",
+                                        "/",
+                                        "/test/**",
+                                        "/router/**",
                                         "/user/createUser","/resources/**",
                                         "/static/**").permitAll()
                                 // 角色
@@ -31,12 +56,12 @@ public class SecurityConfiguration {
 //                                .antMatchers("").authenticated()
                                 .anyRequest().authenticated()
                 )
-//                .formLogin()
-//                .loginPage("/router/toLogin")
-//                .usernameParameter("username").passwordParameter("password")
-//                .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/",true)
-//                .and()
+                .formLogin()
+                .loginPage("/router/toLogin")
+                .usernameParameter("username").passwordParameter("password")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/",true)
+                .and()
                 .csrf().disable()
                 .logout().logoutUrl("/router/logout").logoutSuccessUrl("/")
                 .clearAuthentication(true)

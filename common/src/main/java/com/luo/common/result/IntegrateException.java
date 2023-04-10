@@ -1,6 +1,6 @@
 package com.luo.common.result;
 
-import com.luo.common.enums.BaseEnum;
+import com.luo.common.enums.ErrorBaseEnum;
 import lombok.Data;
 
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.Objects;
  * @create: 2022-11-14 15:06
  **/
 @Data
-public class IntegrateException extends RuntimeException implements BaseEnum{
+public class IntegrateException extends RuntimeException implements ErrorBaseEnum {
     private static final long serialVersionUID = 1L;
     private Integer status;
     private String value;
@@ -43,15 +43,15 @@ public class IntegrateException extends RuntimeException implements BaseEnum{
         this.params = params;
     }
 
-    public static <T extends BaseEnum> IntegrateException buildExternalEx(T enumName) {
+    public static <T extends ErrorBaseEnum> void buildExternalEx(T enumName) {
         throw new IntegrateException(enumName.getStatus(), enumName.getValue());
     }
 
-    public static <T extends BaseEnum> IntegrateException buildExternalEx(T enumName, String... params) {
+    public static <T extends ErrorBaseEnum> void buildExternalEx(T enumName, String... params) {
         throw new IntegrateException(enumName.getStatus(), enumName.getValue(), null, params);
     }
 
-    public static <T extends BaseEnum> IntegrateException buildExternalEx(Throwable cause, T enumName, String... params) {
+    public static <T extends ErrorBaseEnum> void buildExternalEx(Throwable cause, T enumName, String... params) {
         throw new IntegrateException(enumName.getStatus(), enumName.getValue(), cause, params);
     }
 

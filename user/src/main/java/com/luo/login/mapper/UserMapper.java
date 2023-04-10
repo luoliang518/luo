@@ -2,7 +2,7 @@ package com.luo.login.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.luo.model.user.UserDo;
+import com.luo.model.user.entity.UserDo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

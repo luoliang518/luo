@@ -1,9 +1,9 @@
 package com.luo.model.jopoMapper;
 
-import com.luo.model.user.UserDo;
-import com.luo.model.user.UserDto;
-import com.luo.model.user.UserRoleDo;
-import com.luo.model.user.UserRoleDto;
+import com.luo.model.user.dto.UserDto;
+import com.luo.model.user.dto.UserRoleDto;
+import com.luo.model.user.entity.UserDo;
+import com.luo.model.user.entity.UserRoleDo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;

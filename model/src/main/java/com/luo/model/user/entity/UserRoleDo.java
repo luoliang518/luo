@@ -1,4 +1,4 @@
-package com.luo.model.user;
+package com.luo.model.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
