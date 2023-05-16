@@ -1,8 +1,8 @@
-package com.luo.login.controller;
+package com.luo.utils.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.luo.login.utils.QRCodeUtil;
+import com.luo.utils.util.QRCodeUtil;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

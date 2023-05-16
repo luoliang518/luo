@@ -1,4 +1,4 @@
-package com.luo;
+package com.luo.utils.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
