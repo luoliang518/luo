@@ -25,7 +25,6 @@ import java.net.UnknownHostException;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class UserApplication {
     private static Logger logger = LoggerFactory.getLogger(UserApplication.class);
-
     public static void main(String[] args) throws UnknownHostException {
         ConfigurableApplicationContext application = SpringApplication.run(UserApplication.class, args);
         // 初始化ApplicationContextUtils
@@ -38,5 +37,4 @@ public class UserApplication {
                 env.getProperty("server.port")
         );
     }
-
 }
