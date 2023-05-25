@@ -1,5 +1,5 @@
 package com.luo.spring.service;
 
-public interface UserBaseService {
+public interface UserBaseV2Service {
     String sout();
 }

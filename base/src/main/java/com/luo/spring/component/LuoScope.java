@@ -1,4 +1,4 @@
-package com.luo.spring.bean;
+package com.luo.spring.component;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

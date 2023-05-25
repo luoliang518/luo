@@ -3,7 +3,9 @@ package com.luo.spring.bean;
 public class LuoBeanDefinition {
     private Class clazz;
     private String scope;
-
+    public boolean isSingleton() {
+        return "singleton".equals(scope);
+    }
     public Class getClazz() {
         return clazz;
     }
