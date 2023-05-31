@@ -52,14 +52,6 @@ public class RouterController {
     @Autowired
     private RestTemplate restTemplate;
 
-//    @Autowired
-//    private List<UserService> userServiceList;
-//
-//    @RequestMapping({"/userServiceList"})
-//    public String userServiceList() {
-//        return userServiceList.toString();
-//    }
-
     @RequestMapping({"/","/index"})
     public String index() {
         return "index";

@@ -4,8 +4,8 @@ import com.luo.spring.application.LuoApplicationContext;
 import com.luo.spring.application.LuoApplicationContextAware;
 import com.luo.spring.bean.LuoBeanPostProcessor;
 import com.luo.spring.component.LuoComponent;
-import com.luo.spring.service.UserBaseV2Service;
-import com.luo.spring.service.impl.UserBaseV2ServiceImpl;
+import com.luo.spring.test.service.UserBaseV2Service;
+import com.luo.spring.test.service.impl.UserBaseV2ServiceImpl;
 
 import java.lang.reflect.Proxy;
 
@@ -31,13 +31,11 @@ public class LuoBeanPostProcessorImpl implements LuoBeanPostProcessor, LuoApplic
             });
             return userBaseV2ServiceProxy;
         }
-
-
         return bean;
     }
 
     @Override
-    public void setLuoApplicationContext(LuoApplicationContext LuoApplicationContext){
-        this.context = LuoApplicationContext;
+    public void setLuoApplicationContext(LuoApplicationContext luoApplicationContext){
+        this.context = luoApplicationContext;
     }
 }

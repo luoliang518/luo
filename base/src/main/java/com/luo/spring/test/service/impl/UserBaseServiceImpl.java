@@ -1,12 +1,12 @@
-package com.luo.spring.service.impl;
+package com.luo.spring.test.service.impl;
 
 import com.luo.spring.bean.LuoBeanNameAware;
 import com.luo.spring.component.LuoScope;
 import com.luo.spring.component.LuoComponent;
-import com.luo.spring.service.UserBaseService;
+import com.luo.spring.test.service.UserBaseService;
 
 @LuoComponent
-@LuoScope("prototype")
+@LuoScope("singleton")
 public class UserBaseServiceImpl implements UserBaseService, LuoBeanNameAware {
     @Override
     public String sout() {

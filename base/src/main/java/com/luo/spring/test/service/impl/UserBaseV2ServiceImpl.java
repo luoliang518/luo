@@ -1,16 +1,17 @@
-package com.luo.spring.service.impl;
+package com.luo.spring.test.service.impl;
 
 import com.luo.spring.bean.LuoBeanNameAware;
+import com.luo.spring.bean.LuoDisposableBean;
 import com.luo.spring.bean.LuoInitializingBean;
 import com.luo.spring.component.LuoAutowired;
 import com.luo.spring.component.LuoComponent;
 import com.luo.spring.component.LuoScope;
-import com.luo.spring.service.UserBaseService;
-import com.luo.spring.service.UserBaseV2Service;
+import com.luo.spring.test.service.UserBaseService;
+import com.luo.spring.test.service.UserBaseV2Service;
 
 @LuoComponent
 @LuoScope("singleton")
-public class UserBaseV2ServiceImpl implements UserBaseV2Service, LuoBeanNameAware, LuoInitializingBean {
+public class UserBaseV2ServiceImpl implements UserBaseV2Service, LuoBeanNameAware, LuoInitializingBean, LuoDisposableBean {
     @LuoAutowired
     private UserBaseService userBaseService;
 
@@ -26,6 +27,11 @@ public class UserBaseV2ServiceImpl implements UserBaseV2Service, LuoBeanNameAwar
     public void afterPropertiesSet() {
         // do something
         System.out.println("UserBaseV2ServiceImpl 初始化");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("UserBaseV2ServiceImpl 销毁");
     }
 
     @Override

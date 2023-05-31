@@ -2,7 +2,7 @@ package com.luo;
 
 import com.luo.spring.UserBeanConfig;
 import com.luo.spring.application.LuoApplicationContext;
-import com.luo.spring.service.impl.UserBaseV2ServiceImpl;
+import com.luo.spring.test.service.UserBaseService;
 
 public class LuoBaseApplication {
     public static void main(String[] args) throws ClassNotFoundException {
@@ -22,8 +22,29 @@ public class LuoBaseApplication {
 //
 //            System.out.println("预测房价：" + y_pred);
 
-        LuoApplicationContext luoApplicationContext = new LuoApplicationContext(UserBeanConfig.class);
-        UserBaseV2ServiceImpl userBaseV2ServiceImpl = (UserBaseV2ServiceImpl) luoApplicationContext.getBean("userBaseV2ServiceImpl");
-        System.out.println(userBaseV2ServiceImpl.sout());
+        LuoApplicationContext applicationContext = new LuoApplicationContext(UserBeanConfig.class);
+
+        System.out.println("=================beanNames=================");
+        for (String beanName : applicationContext.getBeanNames()) {
+            System.out.println(beanName);
+        }
+        System.out.println("===========================================");
+
+        // JDK 代理对象返回的是 com.sun.proxy.$Proxy5， 不能强转为实现，只能强转为接口
+        UserBaseService userService = (UserBaseService) applicationContext.getBean("userBaseServiceImpl");
+//        System.out.println("userService: " + userService.getClass().getName());
+        System.out.println(userService.sout());
+//        userService.toString();
+
+
+//        LuoApplicationContext luoApplicationContext = new LuoApplicationContext(UserBeanConfig.class);
+//        Object obj = luoApplicationContext.getBean("userBaseV2ServiceImpl");
+//        UserBaseV2Service userBaseV2ServiceImpl = (UserBaseV2Service) obj;
+//        System.out.println(userBaseV2ServiceImpl.toString());
+//        System.out.println(userBaseV2ServiceImpl.sout());
+//        luoApplicationContext.close();
+//        ClassLoader classLoader = LuoApplicationContext.class.getClassLoader();
+//        Class<?> aClass = classLoader.loadClass("com.luo.spring.aop.LuoAnnotationAwareAspectJAutoProxyCreator");
+//        System.out.println(aClass);
     }
 }

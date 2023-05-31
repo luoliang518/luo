@@ -1,26 +1,24 @@
 package com.luo.spring.application;
 
 
-import com.luo.spring.aop.LuoAnnotationAwareAspectJAutoProxyCreator;
-import com.luo.spring.bean.LuoBeanDefinition;
-import com.luo.spring.bean.LuoBeanNameAware;
-import com.luo.spring.bean.LuoBeanPostProcessor;
-import com.luo.spring.bean.LuoInitializingBean;
+import com.luo.spring.bean.*;
+import com.luo.spring.bean.impl.LuoAnnotationAwareAspectJAutoProxyCreator;
+import com.luo.spring.bean.impl.LuoDisposableBeanAdapter;
+import com.luo.spring.component.LuoAutowired;
 import com.luo.spring.component.LuoComponent;
 import com.luo.spring.component.LuoComponentScan;
-import com.luo.spring.component.LuoLazy;
 import com.luo.spring.component.LuoScope;
 import com.luo.spring.factory.LuoObjectFactory;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.*;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class LuoApplicationContext {
     private Class configClass;
@@ -56,6 +54,11 @@ public class LuoApplicationContext {
      */
     private final ThreadLocal<Object> prototypesCurrentlyInCreation = new ThreadLocal<>();
 
+    /**
+     * 用于存放一次性bean
+     */
+    private final Map<String, Object> disposableBeans = new LinkedHashMap<>();
+
 
     public LuoApplicationContext(Class<?> configClass) {
         this.configClass = configClass;
@@ -63,20 +66,58 @@ public class LuoApplicationContext {
         scanBeanDefinition(configClass);
         // 创建bean后置处理器 beanPostProcessor 放入beanPostProcessorList
         registerBeanPostProcessors();
+        preInstantiateSingletons();
     }
 
+    public void close() {
+        destroySingletons();
+    }
+    private void destroySingletons() {
+        synchronized (this.disposableBeans) {
+            Set<Map.Entry<String, Object>> entrySet = this.disposableBeans.entrySet();
+            Iterator<Map.Entry<String, Object>> it = entrySet.iterator();
+            while (it.hasNext()) {
+                Map.Entry<String, Object> entry = it.next();
+                String beanName = entry.getKey();
+                LuoDisposableBean bean = (LuoDisposableBean) entry.getValue();
+                try {
+                    bean.destroy();
+                } catch (Exception e) {
+                    System.out.println("Destruction of bean with name '" + beanName + "' threw an exception：" + e);
+                }
+                it.remove();
+            }
+        }
+        // Clear all cached singleton instances in this registry.
+        this.singletonObjects.clear();
+        this.earlySingletonObjects.clear();
+        this.singletonFactories.clear();
+    }
+
+    private void preInstantiateSingletons() {
+        // 将扫描到的单例 bean 创建出来放到单例池中
+        beanDefinitionMap.forEach((beanName, beanDefinition) -> {
+            if (beanDefinition.isSingleton()) {
+                getBean(beanName);
+            }
+        });
+    }
+
+    /**
+     * 创建bean后置处理器 beanPostProcessor 放入beanPostProcessorList
+     * Bean 后处理器属于单例，提前创建好了并放入容器，所以 Bean 后处理器并不会重复创建
+     */
     private void registerBeanPostProcessors() {
         // 将常用bean注册到bean定义池 如AOP的bean定义
         registerCommonBeanPostProcessor();
         // 将所有的beanPostProcessor放入beanPostProcessorList
-        beanDefinitionMap.forEach((beanName, luoBeanDefinition) -> {
-            if (LuoBeanPostProcessor.class.isAssignableFrom(luoBeanDefinition.getClazz())) {
-                // 获取到LuoBeanPostProcessor对象
-                LuoBeanPostProcessor luoBeanPostProcessor = (LuoBeanPostProcessor) getBean(beanName);
-                // 如果是bean后置处理器，就放入beanPostProcessorList
-                beanPostProcessorList.add(luoBeanPostProcessor);
-            }
-        });
+        this.beanDefinitionMap.entrySet()
+                .stream()
+                .filter((entry) -> LuoBeanPostProcessor.class.isAssignableFrom(entry.getValue().getClazz()))
+                .forEach((entry) -> {
+                    LuoBeanPostProcessor beanPostProcessor = (LuoBeanPostProcessor) getBean(entry.getKey());
+                    this.beanPostProcessorList.add(beanPostProcessor);
+                });
     }
 
     /**
@@ -132,11 +173,12 @@ public class LuoApplicationContext {
      * 获取单例bean
      *
      * @param beanName
-     * @param allowEarlyReference allowEarlyReference选项允许从早期引用缓存中获取引用，但并不意味着它可以一直设置为true。以下是一些原因：
-     *                            循环引用问题：如果存在循环引用的情况，设置allowEarlyReference为true可能导致循环引用链无法正确解析。这可能导致无限递归或栈溢出错误。
-     *                            初始化顺序问题：如果Bean之间存在复杂的依赖关系，并且它们的初始化顺序很重要，过早地从缓存中获取引用可能破坏正确的初始化顺序。这可能导致依赖关系未能正确建立，导致错误或不一致的状态。
-     *                            容器管理问题：Spring容器负责管理Bean的生命周期和初始化过程。通过允许早期引用，可能会绕过某些容器提供的初始化控制和依赖解析机制，破坏了容器的一致性和管理能力。
-     *                            性能问题：允许早期引用可能导致更多的查找和解析操作，这可能增加了系统的开销和复杂性，影响性能。
+     * @param allowEarlyReference
+     *  allowEarlyReference选项允许从早期引用缓存中获取引用，但并不意味着它可以一直设置为true。以下是一些原因：
+     *  循环引用问题：如果存在循环引用的情况，设置allowEarlyReference为true可能导致循环引用链无法正确解析。这可能导致无限递归或栈溢出错误。
+     *  初始化顺序问题：如果Bean之间存在复杂的依赖关系，并且它们的初始化顺序很重要，过早地从缓存中获取引用可能破坏正确的初始化顺序。这可能导致依赖关系未能正确建立，导致错误或不一致的状态。
+     *  容器管理问题：Spring容器负责管理Bean的生命周期和初始化过程。通过允许早期引用，可能会绕过某些容器提供的初始化控制和依赖解析机制，破坏了容器的一致性和管理能力。
+     *  性能问题：允许早期引用可能导致更多的查找和解析操作，这可能增加了系统的开销和复杂性，影响性能。
      * @return
      */
     private Object getSingleton(String beanName, boolean allowEarlyReference) {
@@ -182,54 +224,120 @@ public class LuoApplicationContext {
             // 若提早的代理就违背了Bean定义的生命周期。所以spring在一个三级缓存放置一个工厂，
             // 如果产生循环依赖 ，那么就会调用这个工厂提早的得到代理的对象
             if (luoBeanDefinition.isSingleton()) {
-                // 将对象放入二级缓存中
-                earlySingletonObjects.put(beanName, instance);
+                System.out.println("将"+beanName+"对象放入三级缓存中");
                 // 将对象放入三级缓存中
-                singletonFactories.put(beanName, new LuoObjectFactory<Object>() {
-                    @Override
-                    public Object getObject() throws RuntimeException {
-
-                        return null;
+                singletonFactories.put(beanName, () -> {
+                    Object exposedObject = instance;
+                    for (LuoBeanPostProcessor beanPostProcessor : LuoApplicationContext.this.beanPostProcessorList) {
+                        if (beanPostProcessor instanceof LuoSmartInstantiationAwareBeanPostProcessor) {
+                            exposedObject = ((LuoSmartInstantiationAwareBeanPostProcessor) beanPostProcessor)
+                                    .getEarlyBeanReference(exposedObject, beanName);
+                        }
                     }
+                    return exposedObject;
                 });
             }
-//            for (Field declaredField : clazz.getDeclaredFields()) {
-//                if (declaredField.isAnnotationPresent(LuoAutowired.class)) {
-//                    // 获取属性名
-//                    AtomicReference<String> fieldName = new AtomicReference<>(declaredField.getName());
-//                    // 获取属性类型
-//                    Class<?> type = declaredField.getType();
-//                    beanDefinitionMap.forEach((a, b) -> {
-//                        if (type.isAssignableFrom(b.getClazz())) {
-//                            fieldName.set(a);
-//                        }
-//                    });
-//                    // 获取依赖的Bean实例
-//                    Object bean = getBean(fieldName.get());
-//                    declaredField.setAccessible(true);
-//                    // 反射注入依赖
-//                    declaredField.set(instance, bean);
-//                }
-//            }
-//            return instance;
-            // aware回调
-            if (instance instanceof LuoBeanNameAware) {
-                ((LuoBeanNameAware) instance).setBeanName(beanName); // 设置Bean名称Aware
+            // 从二级缓存中移除
+            this.earlySingletonObjects.remove((beanName));
+            Object exposedObject = instance;
+            populateBean(beanName, luoBeanDefinition, instance);
+            exposedObject = initializeBean(beanName, luoBeanDefinition, exposedObject);
+            // 去二级缓存 earlySingletonObjects 中查看有没有当前 bean，
+            // 如果有，说明发生了循环依赖，返回缓存中的 a 对象（可能是代理对象也可能是原始对象，主要看有没有切点匹配到 bean）。
+            if (luoBeanDefinition.isSingleton()) {
+                Object earlySingletonReference = getSingleton(beanName, false);
+                if (earlySingletonReference != null) {
+                    exposedObject = earlySingletonReference;
+                }
             }
-            // BeanPostProcessor前置处理
-            beanPostProcessorList.forEach(beanPostProcessor -> beanPostProcessor.postProcessBeforeInitialization(instance, beanName));
-            // 初始化
-            if (instance instanceof LuoInitializingBean) {
-                ((LuoInitializingBean) instance).afterPropertiesSet();
-            }
-            // BeanPostProcessor后置处理
-            beanPostProcessorList.forEach(beanPostProcessor -> beanPostProcessor.postProcessAfterInitialization(instance, beanName));
-            return instance;
+
+            // 注册 disposable bean，注意注册的是原始对象，而不是代理对象
+            registerDisposableBeanIfNecessary(
+                    beanName, instance, luoBeanDefinition);
+            return exposedObject;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+    private void registerDisposableBeanIfNecessary(String beanName, Object instance, LuoBeanDefinition luoBeanDefinition) {
+        if (luoBeanDefinition.isSingleton() && LuoDisposableBeanAdapter.hasDestroyMethod(instance, luoBeanDefinition)) {
+            this.disposableBeans.put(beanName, new LuoDisposableBeanAdapter(instance, beanName, luoBeanDefinition));
+        }
+    }
+
+    private Object initializeBean(String beanName, LuoBeanDefinition luoBeanDefinition, Object instance) {
+        // aware回调
+        if (instance instanceof LuoBeanNameAware) {
+            ((LuoBeanNameAware) instance).setBeanName(beanName); // 设置Bean名称Aware
+        }
+        if (instance instanceof LuoApplicationContextAware){
+            ((LuoApplicationContextAware)instance).setLuoApplicationContext(this);
+        }
+        // BeanPostProcessor前置处理 解析@postConstruct执行初始化方法
+        for (LuoBeanPostProcessor luoBeanPostProcessor : beanPostProcessorList) {
+            instance = luoBeanPostProcessor.postProcessBeforeInitialization(instance, beanName);
+        }
+        // 初始化
+        if (instance instanceof LuoInitializingBean) {
+            ((LuoInitializingBean) instance).afterPropertiesSet();
+        }
+        // 执行@bean(initMethod = "init")指定的初始化方法
+        // BeanPostProcessor后置处理
+        for (LuoBeanPostProcessor luoBeanPostProcessor : beanPostProcessorList) {
+            instance = luoBeanPostProcessor.postProcessAfterInitialization(instance, beanName);
+        }
+        return instance;
+    }
+
+    /**
+     * 依赖注入阶段，执行 bean 后处理器的 postProcessProperties 方法
+     * @param beanName
+     * @param luoBeanDefinition
+     * @param instance
+     */
+    private void populateBean(String beanName, LuoBeanDefinition luoBeanDefinition, Object instance) throws InvocationTargetException, IllegalAccessException {
+        Class clazz = luoBeanDefinition.getClazz();
+        // 解析方法上的 Autowired
+        for (Method method : clazz.getMethods()) {
+            if (method.isAnnotationPresent(LuoAutowired.class)) {
+                // 编译时加上 -parameters 参数才能反射获取到参数名
+                // 或者编译时加上 -g 参数，使用 ASM 获取到参数名
+                String paramName = method.getParameters()[0].getName();
+                method.invoke(instance, getBean(paramName));
+            }
+        }
+        // 解析字段上的 Autowired
+        for (Field declaredField : clazz.getDeclaredFields()) {
+            if (declaredField.isAnnotationPresent(LuoAutowired.class)) {
+                // 获取属性名
+                AtomicReference<String> fieldName = new AtomicReference<>(declaredField.getName());
+                // 获取属性类型
+                Class<?> type = declaredField.getType();
+                beanDefinitionMap.forEach((a, b) -> {
+                    if (type.isAssignableFrom(b.getClazz())) {
+                        fieldName.set(a);
+                    }
+                });
+                // 获取依赖的Bean实例
+                Object bean = getBean(fieldName.get());
+                declaredField.setAccessible(true);
+                // 反射注入依赖
+                System.out.println("将"+beanName+"的"+fieldName+"属性注入");
+                declaredField.set(instance, bean);
+            }
+        }
+    }
+
+    /**
+     * 创建bean实例
+     * @param luoBeanDefinition
+     * @return
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     */
     private Object createBeanInstance(LuoBeanDefinition luoBeanDefinition) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Class<?> clazz = luoBeanDefinition.getClazz();
         // 优先使用无参构造
@@ -254,9 +362,10 @@ public class LuoApplicationContext {
             if (parameter.getType().equals(LuoObjectFactory.class)) {
                 // ObjectFactory 参数
                 arg = (LuoObjectFactory<Object>) () -> getBean(parameter.getName());
-            } else if (parameter.isAnnotationPresent(LuoLazy.class)) {
-                // 参数加了 @Lazy，生成代理
-                arg = buildLazyResolutionProxy(parameter.getName(), parameter.getType());
+                //todo
+//            } else if (parameter.isAnnotationPresent(LuoLazy.class)) {
+//                // 参数加了 @Lazy，生成代理
+//                arg = buildLazyResolutionProxy(parameter.getName(), parameter.getType());
             } else {
                 // 不是 ObjectFactory 也没加 @Lazy 的，直接从容器中拿
                 arg = getBean(parameter.getName());
@@ -266,7 +375,6 @@ public class LuoApplicationContext {
         return constructor.newInstance(args);
     }
 
-    // todo
     private Object buildLazyResolutionProxy(String name, Class<?> type) {
         return Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{type}, (proxy, method, args) -> {
             Object bean = getBean(name);
@@ -322,15 +430,6 @@ public class LuoApplicationContext {
                 // 表示为一个bean
                 .filter(clazz -> clazz.isAnnotationPresent(LuoComponent.class))
                 .forEach(clazz -> {
-                    // 判断是否实现了接口LuoBeanPostProcessor
-                    if (LuoBeanPostProcessor.class.isAssignableFrom(clazz)) {
-                        try {
-                            LuoBeanPostProcessor luoBeanPostProcessor = (LuoBeanPostProcessor) clazz.newInstance();
-                            beanPostProcessorList.add(luoBeanPostProcessor);
-                        } catch (InstantiationException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    }
                     LuoComponent declaredAnnotation = clazz.getDeclaredAnnotation(LuoComponent.class);
                     String beanName = declaredAnnotation.value();
                     if (beanDefinitionMap.containsKey(beanName)) {
@@ -388,16 +487,30 @@ public class LuoApplicationContext {
                 }
             }
         } else if (file.getName().endsWith(".class")) {
-            // 获取文件的绝对路径
-            Path filePath = file.toPath();
             // 计算文件相对于基础路径的相对路径
-            Path relativePath = basePath.relativize(filePath);
+            String relativePath = file.getAbsolutePath().substring(file.getAbsolutePath().indexOf("classes\\")+8);
             // 将文件相对路径转换为类名
-            String className = relativePath.toString().replace(File.separator, ".").replaceAll("\\.class$", "");
+            String className = relativePath.replace(File.separator, ".").replaceAll("\\.class$", "");
             // 添加到类名列表
             classNames.add(className);
         }
     }
 
+    public List<Class<?>> getAllBeanClass() {
+        return beanDefinitionMap.values()
+                .stream()
+                .map((Function<LuoBeanDefinition, Class<?>>) LuoBeanDefinition::getClazz)
+                .collect(Collectors.toList());
+    }
 
+    public ArrayList<String> getBeanNames() {
+        return new ArrayList<>(beanDefinitionMap.keySet());
+        /*Enumeration<String> keys = beanDefinitionMap.keys();
+        ArrayList<String> ret = new ArrayList<>();
+        while (keys.hasMoreElements()) {
+            String beanName = keys.nextElement();
+            ret.add(beanName);
+        }
+        return ret;*/
+    }
 }
