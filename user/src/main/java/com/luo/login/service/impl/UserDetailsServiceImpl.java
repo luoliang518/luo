@@ -1,10 +1,7 @@
 package com.luo.login.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.luo.login.mapper.UserMapper;
-import com.luo.login.mapper.UserRoleMapper;
+import com.luo.login.service.UserService;
 import com.luo.model.user.entity.UserDo;
 import com.luo.model.user.entity.UserRoleDo;
 import org.springframework.security.core.userdetails.User;
@@ -24,19 +21,11 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
-    private UserMapper userMapper;
-    @Resource
-    private UserRoleMapper userRoleMapper;
+    private UserService userService;
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
-        // 根据用户名获取用户 可传入账号或用户名
-        UserDo userDo =
-                userMapper.selectOne(new LambdaQueryWrapper<UserDo>()
-                        .eq(UserDo::getAccount, account));
-        String userRolesIds = userDo.getUserRolesIds();
-        JSONArray array = JSONArray.parseArray(userRolesIds);
-
-        List<UserRoleDo> userRoleDos = userRoleMapper.selectList(new LambdaQueryWrapper<UserRoleDo>().in(UserRoleDo::getRoleId, array));
+        UserDo userDo = userService.getUserByAccount(account);
+        List<UserRoleDo> userRoleDos = userDo.getUserRoleDos();
         String[] s = new String[userRoleDos.size()];
         for (int i = 0; i < userRoleDos.size(); i++) {
             s[i] = userRoleDos.get(i).getRoleName();

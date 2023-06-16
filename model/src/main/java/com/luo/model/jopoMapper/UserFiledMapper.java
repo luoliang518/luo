@@ -27,6 +27,12 @@ public interface UserFiledMapper {
             })
     UserDo userDto2Do(UserDto userDto);
 
+    @Mappings({
+//            @Mapping(source = "name", target = "studentName"),
+//            @Mapping(source = "age", target = "studentAge")
+    })
+    UserDto userDo2Dto(UserDo userDo);
+
     /**
      * userRoleDto->userRoleDo
      * @param userRoleDto
@@ -34,4 +40,7 @@ public interface UserFiledMapper {
      */
     @Mappings({})
     UserRoleDo userRoleDto2Do(UserRoleDto userRoleDto);
+
+    @Mappings({})
+    UserRoleDto userRoleDo2Dto(UserRoleDo userRoleDo);
 }

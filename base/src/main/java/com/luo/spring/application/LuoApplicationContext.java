@@ -171,7 +171,7 @@ public class LuoApplicationContext {
 
     /**
      * 获取单例bean
-     *
+     * 如果一个单例和一个多例bean组合使用 这种组合使用的常见情况是单例 bean 依赖某个原型 bean，并且在每次使用时都需要获取一个新的实例，以确保单例 bean 使用的是最新的多例实例。
      * @param beanName
      * @param allowEarlyReference
      *  allowEarlyReference选项允许从早期引用缓存中获取引用，但并不意味着它可以一直设置为true。以下是一些原因：

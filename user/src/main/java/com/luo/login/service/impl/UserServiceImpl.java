@@ -2,13 +2,16 @@ package com.luo.login.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.luo.common.enums.unifiedEnums.OperateUserEnumError;
 import com.luo.common.result.IntegrateException;
 import com.luo.login.mapper.UserMapper;
+import com.luo.login.mapper.UserRoleMapper;
 import com.luo.login.service.UserService;
 import com.luo.model.jopoMapper.UserFiledMapper;
 import com.luo.model.user.entity.UserDo;
 import com.luo.model.user.dto.UserDto;
+import com.luo.model.user.entity.UserRoleDo;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,19 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private UserRoleMapper userRoleMapper;
+
+    @Override
+    public UserDo getUserByAccount(String userAccount) {
+        UserDo userDo = userMapper.selectOne(new LambdaQueryWrapper<UserDo>().eq(UserDo::getAccount, userAccount));
+        String userRolesIds = userDo.getUserRolesIds();
+        JSONArray jsonArray = JSONArray.parseArray(userRolesIds);
+        List<UserRoleDo> userRoleDos = userRoleMapper.selectList(new LambdaQueryWrapper<UserRoleDo>().in(UserRoleDo::getRoleId, jsonArray));
+        userDo.setUserRoleDos(userRoleDos);
+        return userDo;
+    }
+
     @Override
     public void createUser(UserDto userDto) {
         UserDo userDo = UserFiledMapper.INSTANCE.userDto2Do(userDto);

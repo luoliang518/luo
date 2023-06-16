@@ -1,0 +1,27 @@
+创建线程的方式
+    1. 继承Thread类  本质为实现了Runnable接口
+    2. 实现Runnable接口 本质为实现了Runnable接口
+    3. 实现Callable接口 本质为实现了Runnable接口 配合FutureTask使用
+        a. Future   停止任务 cancel()方法
+                    获取任务执行结果 get()方法
+                    判断任务是否完成 isDone()方法
+    4. 使用线程池    本质为实现了Runnable接口
+        a. 线程池中 ExecutorService接口提供了两种提交任务给线程池的方法：submit()和execute()。它们之间的区别如下：
+                返回值类型：submit()方法返回一个Future对象，可以用于获取任务的执行结果或取消任务。而execute()方法没有返回值。
+                异常处理：submit()方法可以抛出ExecutionException和InterruptedException，用于处理任务执行过程中的异常。
+                        而execute()方法不会抛出异常，如果任务执行过程中发生异常，可以通过捕获线程的未捕获异常进行处理。
+                使用方式：submit()方法可以接受Runnable或Callable任务，并返回Future对象。
+                        您可以使用submit()提交Runnable任务，但无法直接获取任务的返回结果。而execute()方法只能接受Runnable任务，无法获取任务的返回结果。
+                通常情况下，如果您需要获取任务的返回结果或处理任务执行过程中的异常，建议使用submit()方法。如果只是简单地提交一个Runnable任务，并不关心任务的返回结果或异常处理，那么可以使用execute()方法。
+        b. 线程池中一般不允许用Executors创建线程池，因为Executors创建的线程池有可能会造成OOM
+                fixedThreadPool和singleThreadPool允许的请求队列长度为Integer.MAX_VALUE，可能会堆积大量的请求，从而导致OOM。
+                cachedThreadPool和scheduledThreadPool允许的创建线程数量为Integer.MAX_VALUE，可能会创建大量的线程，从而导致OOM。
+
+线程状态；
+    1. new 新建
+    2. runnable 就绪
+    3. running 运行（在Thread中的State内部类没有该枚举）
+    4. blocked 阻塞
+    5. time_waiting 限时等待
+    6. waiting 等待
+    7. terminated 终止

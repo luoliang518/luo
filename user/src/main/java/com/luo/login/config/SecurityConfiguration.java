@@ -1,10 +1,20 @@
 package com.luo.login.config;
 
+import com.luo.login.config.jwt.JwtAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.annotation.Resource;
+import java.util.Collections;
 
 /**
  * @author: luoliang
@@ -14,29 +24,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .oauth2Client()
-//                .clientRegistrationRepository(new InMemoryClientRegistrationRepository())
-//                .authorizedClientRepository(new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(new JdbcOAuth2AuthorizedClientService()))
-//                .authorizedClientService(new JdbcOAuth2AuthorizedClientService())
-//                .authorizationCodeGrant()
-//                .authorizationRequestRepository(this.authorizationRequestRepository())
-//                .authorizationRequestResolver(this.authorizationRequestResolver())
-//                .accessTokenResponseClient(this.accessTokenResponseClient());
+
+    @Resource
+    private UserDetailsService userDetailsService;
+
+    @Resource
+    private JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler;
+
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        // 配置用户认证逻辑
+//        auth.authenticationProvider(authenticationProvider());
 //    }
 //
-//    @Bean
-//    SecurityFilterChain oauth2SecurityFilterChain(HttpSecurity http) throws Exception {
-//        // 所有请求需要认证
-//        http.authorizeRequests((requests) -> requests.anyRequest().authenticated());
-//        // 开启 oauth2login
-//        http.oauth2Login(Customizer.withDefaults());
-//        // 声明为 oauth2 client
-//        http.oauth2Client();
-//        return http.build();
-//    }
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return new ProviderManager(Collections.singletonList(authenticationProvider()));
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
+        return authProvider;
+    }
 
     @Bean
     public SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {
@@ -60,7 +72,8 @@ public class SecurityConfiguration {
                 .loginPage("/router/toLogin")
                 .usernameParameter("username").passwordParameter("password")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/",true)
+//                .defaultSuccessUrl("/router/",true) //配置了successHandler就不需要这个了
+                .successHandler(jwtAuthenticationSuccessHandler)
                 .and()
                 .csrf().disable()
                 .logout().logoutUrl("/router/logout").logoutSuccessUrl("/")

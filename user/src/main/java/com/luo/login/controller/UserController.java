@@ -20,6 +20,13 @@ import javax.annotation.Resource;
 public class UserController {
     @Resource
     private UserService userService;
+
+    @ResponseBody
+    @PostMapping("/getToken")
+    public UnifiedServiceHandle<OperateUserEnumError> getToken(@RequestBody UserDto user){
+        userService.createUser(user);
+        return UnifiedServiceHandle.SUCCESS(OperateUserEnumError.CREATE_USER_SUCCESS);
+    }
     @ResponseBody
     @PostMapping("/createUser")
     public UnifiedServiceHandle<OperateUserEnumError> createUser(@RequestBody UserDto user){

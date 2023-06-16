@@ -24,7 +24,7 @@ public class UserDo implements Serializable {
      * 用户ID
      */
     @TableId(value = "user_id",type = IdType.AUTO)
-    private String userId;
+    private Long userId;
     /**
      * 用户账号 用于登录
      */
@@ -80,7 +80,7 @@ public class UserDo implements Serializable {
             return false;
         }
         UserDo userDo = (UserDo) o;
-        return userId.equals(userDo.userId) && account.equals(userDo.account) && username.equals(userDo.username);
+        return userId==(userDo.userId) && account.equals(userDo.account) && username.equals(userDo.username);
     }
 
     @Override

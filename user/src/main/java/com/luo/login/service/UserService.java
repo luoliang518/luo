@@ -1,6 +1,7 @@
 package com.luo.login.service;
 
 import com.luo.model.user.dto.UserDto;
+import com.luo.model.user.entity.UserDo;
 
 /**
  * @author: luoliang
@@ -13,4 +14,6 @@ public interface UserService {
      * @param user
      */
     void createUser(UserDto user);
+
+    UserDo getUserByAccount(String userAccount);
 }

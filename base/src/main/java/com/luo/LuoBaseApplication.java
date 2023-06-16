@@ -30,7 +30,6 @@ public class LuoBaseApplication {
         }
         System.out.println("===========================================");
 
-        // JDK 代理对象返回的是 com.sun.proxy.$Proxy5， 不能强转为实现，只能强转为接口
         UserBaseService userService = (UserBaseService) applicationContext.getBean("userBaseServiceImpl");
 //        System.out.println("userService: " + userService.getClass().getName());
         System.out.println(userService.sout());
