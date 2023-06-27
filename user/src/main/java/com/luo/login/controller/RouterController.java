@@ -1,7 +1,7 @@
 package com.luo.login.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.luo.common.enums.unifiedEnums.UnifiedServiceHandleEnumError;
+import com.luo.common.enums.unifiedEnums.UnifiedServiceHandleEnum;
 import com.luo.common.result.IntegrateException;
 import com.luo.common.utils.httpUtils.HttpUtil;
 import com.luo.common.utils.httpUtils.IpUtil;
@@ -109,7 +109,7 @@ public class RouterController {
         String state = request.getParameter("state");
         // 1. 判断redis中是否有key
         if (!Boolean.TRUE.equals(redisTemplate.hasKey(state))) {
-            IntegrateException.buildExternalEx(UnifiedServiceHandleEnumError.STATUS_REQUEST_TIMEOUT);
+            IntegrateException.buildExternalEx(UnifiedServiceHandleEnum.STATUS_REQUEST_TIMEOUT);
         }
         // 获取token
         // 设置请求头参数

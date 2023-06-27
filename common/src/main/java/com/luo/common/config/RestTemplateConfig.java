@@ -16,7 +16,7 @@ public class RestTemplateConfig {
 //        restTemplate.getMessageConverters().set(1,new StringHttpMessageConverter(StandardCharsets.UTF_8));
         // 设置请求头参数
 //        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add(UnifiedServiceHandleEnumError.AUTHOR_NAME.getValue(),UnifiedServiceHandleEnumError.AUTHOR_PHONE.getValue());
+//        httpHeaders.add(UnifiedServiceHandleEnum.AUTHOR_NAME.getValue(),UnifiedServiceHandleEnum.AUTHOR_PHONE.getValue());
 //        httpHeaders.setContentType(MediaType.parseMediaType(MediaType.APPLICATION_JSON_UTF8_VALUE));
         return restTemplate;
     }

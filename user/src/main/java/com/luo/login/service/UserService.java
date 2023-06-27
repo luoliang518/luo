@@ -16,4 +16,6 @@ public interface UserService {
     void createUser(UserDto user);
 
     UserDo getUserByAccount(String userAccount);
+
+    void checkUser(String userAccount, String password);
 }

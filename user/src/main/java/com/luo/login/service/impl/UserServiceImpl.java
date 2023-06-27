@@ -3,7 +3,7 @@ package com.luo.login.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.luo.common.enums.unifiedEnums.OperateUserEnumError;
+import com.luo.common.enums.unifiedEnums.OperateUserEnum;
 import com.luo.common.result.IntegrateException;
 import com.luo.login.mapper.UserMapper;
 import com.luo.login.mapper.UserRoleMapper;
@@ -51,7 +51,20 @@ public class UserServiceImpl implements UserService {
         userDo.setPassword(encoder.encode(userDo.getPassword()));
         int insert = userMapper.insert(userDo);
         if (insert<1){
-            IntegrateException.buildExternalEx(OperateUserEnumError.CREATE_USER_FAIL);
+            IntegrateException.buildExternalEx(OperateUserEnum.CREATE_USER_FAIL);
+        }
+    }
+
+    @Override
+    public void checkUser(String userAccount, String password) {
+        UserDo userDo = userMapper.selectOne(new LambdaQueryWrapper<UserDo>().eq(UserDo::getAccount, userAccount));
+        if (userDo==null){
+            IntegrateException.buildExternalEx(OperateUserEnum.USER_NOT_EXIST);
+        }
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        boolean matches = encoder.matches(password, userDo.getPassword());
+        if (!matches){
+            IntegrateException.buildExternalEx(OperateUserEnum.USER_PASSWORD_ERROR);
         }
     }
 }

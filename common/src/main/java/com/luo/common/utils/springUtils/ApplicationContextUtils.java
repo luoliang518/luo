@@ -1,6 +1,6 @@
 package com.luo.common.utils.springUtils;
 
-import com.luo.common.enums.unifiedEnums.UnifiedServiceHandleEnumError;
+import com.luo.common.enums.unifiedEnums.UnifiedServiceHandleEnum;
 import com.luo.common.result.IntegrateException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
@@ -36,7 +36,7 @@ public class ApplicationContextUtils {
         try {
             address=InetAddress.getLocalHost().getHostAddress()+":"+ environment.getProperty("server.port");
         }catch (Exception e) {
-            IntegrateException.buildExternalEx(UnifiedServiceHandleEnumError.GET_IP_ADDRESS_FAIL);
+            IntegrateException.buildExternalEx(UnifiedServiceHandleEnum.GET_IP_ADDRESS_FAIL);
         }
         return address;
     }

@@ -9,6 +9,7 @@ import org.springframework.test.context.testng.AbstractTransactionalTestNGSpring
 import org.springframework.web.client.RestTemplate;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import javax.annotation.Resource;
@@ -21,6 +22,12 @@ public class TestNg extends AbstractTransactionalTestNGSpringContextTests {
     @BeforeSuite
     protected void testBeforeSuite() {
         System.out.println("22222222");
+    }
+
+    @Test
+    @Parameters("username")
+    public void function8(String test1) {
+        System.out.println("name == " + test1);
     }
 
     @Test(enabled = false)

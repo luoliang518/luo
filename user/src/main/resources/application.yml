@@ -31,12 +31,4 @@ okta:
     issuer: https://dev-93007508.okta.com/oauth2/default
     client-id: 0oa8xgeqr2QdZ5iWu5d7
     client-secret: MUwHsCjjI6fdNnwd1ddMQHzPuV2HzpBCQJRhzKbn
-jwt:
-  # header 名称
-  header: Authorization
-  #token前缀
-  tokenPrefix: "Bearer "
-  # 加密密钥
-  secret: luoliang
-  # token有效时长
-  expireTime: 3600
+

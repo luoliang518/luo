@@ -1,14 +1,13 @@
 package com.luo.login.config.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.luo.common.utils.threadLocalUtils.CurrentThreadLocalContext;
+import com.luo.model.user.vo.UserVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -16,33 +15,32 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    @Autowired
     private JwtConfig jwtConfig;
-    @Autowired
-    private final AuthenticationManager authenticationManager;
-
-    private List<String> ignoreUrls = new ArrayList<>();
-
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+    private AuthenticationManager authenticationManager;
 
     private static final String IGNORE_URL_REGEX =
             ".*((pay/)|(/index)|(/index/.*)" +
                     "|(/login/.*)" +
                     "|(/test/.*)" +
                     "|(/)" +
+                    "|(/user/createUser)" +
+                    "|(/user/getToken)" +
                     "|(/router/.*)" +
                     "|(/resources/.*)" +
                     "|(/static/.*)" +
                     "|(health)|([.]((html)|(jsp)|(css)|(js)|(gif)|(png)|(ico))))$";
+
+    public JwtAuthenticationFilter(JwtConfig jwtConfig, AuthenticationManager authenticationManager) {
+        this.jwtConfig = jwtConfig;
+        this.authenticationManager = authenticationManager;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -54,32 +52,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null) {
             try {
                 // 在这里解析和验证 JWT token，并构建相应的认证对象
-                Authentication authentication = parseAndValidateToken(token);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(token, null);
                 // 将认证对象交给 AuthenticationManager 进行认证
                 Authentication authenticated = authenticationManager.authenticate(authentication);
                 // 将认证对象设置到 SecurityContext 中
                 SecurityContextHolder.getContext().setAuthentication(authenticated);
+                // 将用户信息存入本地线程
+                List<String> roles =  authenticated.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList());
+                CurrentThreadLocalContext.USER_THREAD_LOCAL_CONTEXT.set(new UserVo(authenticated.getPrincipal().toString(),roles,null));
             } catch (Exception e) {
+                log.info("验证失败",e);
                 // 处理验证失败的情况
                 SecurityContextHolder.clearContext();
             }
         }
         filterChain.doFilter(request, response);
-    }
-
-
-    private Authentication parseAndValidateToken(String token) {
-        // 解析 JWT token
-        DecodedJWT decode = JWT.decode(token.substring(7));
-        // 获取用户名
-        String username = decode.getClaim("name").asString();
-        // 获取用户角色
-        List<String> roles = decode.getClaim("roles").asList(String.class);
-        // 构建用户权限列表
-        List<SimpleGrantedAuthority> authorities = roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-        // 构建认证对象
-        return new UsernamePasswordAuthenticationToken(username, null, authorities);
     }
 }

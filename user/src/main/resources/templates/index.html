@@ -82,10 +82,29 @@
     </div>
 
 </div>
+<script>
+    let tokenCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('Authorization='));
+    let token;
+    if (tokenCookie) {
+        token = tokenCookie.split('=')[1];
+        alert(token);
+    } else {
+        console.log('Token cookie not found');
+    }
 
+    // 存储 token
+    localStorage.setItem('token', token);
+    // 获取 token
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
+        }
+    });
+</script>
 
 <script th:src="@{/luo/js/jquery-3.1.1.min.js}"></script>
 <script th:src="@{/luo/js/semantic.min.js}"></script>
-
 </body>
 </html>

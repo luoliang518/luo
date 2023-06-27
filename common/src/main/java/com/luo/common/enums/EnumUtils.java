@@ -26,7 +26,7 @@ import java.util.TreeSet;
  **/
 public class EnumUtils {
     private static final String RESOURCE_PATTERN = "/**/*.class";
-    private static final TypeFilter FILTER = new AssignableTypeFilter(ErrorBaseEnum.class);
+    private static final TypeFilter FILTER = new AssignableTypeFilter(BaseEnum.class);
     private static final ResourcePatternResolver RESOLVER =
             new PathMatchingResourcePatternResolver();
 

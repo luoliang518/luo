@@ -1,8 +1,8 @@
 package com.luo.common.enums.unifiedEnums;
 
-import com.luo.common.enums.ErrorBaseEnum;
+import com.luo.common.enums.BaseEnum;
 
-public enum UnifiedServiceHandleEnumError implements ErrorBaseEnum {
+public enum UnifiedServiceHandleEnum implements BaseEnum {
         AUTHOR_NAME(0, "罗亮"),
         AUTHOR_PHONE(1, "17357170942"),
         STATUS_SUCCESS(200, "服务器成功返回"),
@@ -44,7 +44,7 @@ public enum UnifiedServiceHandleEnumError implements ErrorBaseEnum {
         private Integer status;
         private String value;
 
-        private UnifiedServiceHandleEnumError(int status, String value) {
+        private UnifiedServiceHandleEnum(int status, String value) {
             this.status = status;
             this.value = value;
         }

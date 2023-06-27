@@ -1,6 +1,6 @@
 package com.luo.login.controller;
 
-import com.luo.common.enums.unifiedEnums.OperateUserEnumError;
+import com.luo.common.enums.unifiedEnums.OperateUserEnum;
 import com.luo.common.result.UnifiedServiceHandle;
 import com.luo.login.service.UserRoleService;
 import com.luo.model.user.dto.UserRoleDto;
@@ -21,8 +21,8 @@ public class UserRoleController {
     @Resource
     private UserRoleService userRoleService;
     @PostMapping("/createRole")
-    public UnifiedServiceHandle<OperateUserEnumError> createRole(UserRoleDto userRoleDto){
+    public UnifiedServiceHandle<OperateUserEnum> createRole(UserRoleDto userRoleDto){
         userRoleService.createRole(userRoleDto);
-        return UnifiedServiceHandle.SUCCESS(OperateUserEnumError.CREATE_ROLE_SUCCESS);
+        return UnifiedServiceHandle.SUCCESS(OperateUserEnum.CREATE_ROLE_SUCCESS);
     }
 }

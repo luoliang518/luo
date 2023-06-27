@@ -6,9 +6,11 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 @Component
 public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
@@ -19,8 +21,10 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
         String userAccount = authentication.getName();
         // 生成 Token
         String token = jwtConfig.generateToken(userAccount);
-        // 将 Token 添加到响应头中
-        response.addHeader("Authorization", "Bearer " + token);
+        // 将 Token 添加
+        Cookie authorization = new Cookie("Authorization", token);
+//        authorization.setHttpOnly(true);
+        response.addCookie(authorization);
         response.sendRedirect("/router/");
     }
 }

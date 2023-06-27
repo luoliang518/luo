@@ -1,6 +1,6 @@
 package com.luo.login.service.impl;
 
-import com.luo.common.enums.unifiedEnums.OperateUserEnumError;
+import com.luo.common.enums.unifiedEnums.OperateUserEnum;
 import com.luo.common.result.IntegrateException;
 import com.luo.login.mapper.UserRoleMapper;
 import com.luo.login.service.UserRoleService;
@@ -25,7 +25,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         UserRoleDo userRoleDo = UserFiledMapper.INSTANCE.userRoleDto2Do(userRoleDto);
         int insert = userRoleMapper.insert(userRoleDo);
         if (insert<1){
-            IntegrateException.buildExternalEx(OperateUserEnumError.CREATE_ROLE_FAIL);
+            IntegrateException.buildExternalEx(OperateUserEnum.CREATE_ROLE_FAIL);
         }
     }
 }
