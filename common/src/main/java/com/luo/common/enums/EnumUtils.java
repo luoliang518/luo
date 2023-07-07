@@ -105,15 +105,15 @@ public class EnumUtils {
         // 自定错误信息
         Map m = new HashMap();
         Set<String> clzzs =
-                getAllPkgClassExtendErrorEnum("cn.esign.ka.tools.integrate.common.errorEnum");
+                getAllPkgClassExtendErrorEnum("com.luo.common.enums.unifiedEnums");
         if (CollectionUtils.isEmpty(clzzs)) {
             return;
         }
         for (String clazz : clzzs) {
             Class<?> clz = Class.forName(clazz);
             Object[] objects = clz.getEnumConstants();
-            Method status = clz.getMethod("status");
-            Method value = clz.getMethod("value");
+            Method status = clz.getMethod("getStatus");
+            Method value = clz.getMethod("getValue");
             for (Object obj : objects) {
                 String status1 = status.invoke(obj).toString();
                 String value1 = value.invoke(obj).toString();

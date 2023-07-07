@@ -7,12 +7,12 @@ import javax.annotation.Resource;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-public class TestEngine implements DisposableBean {
+public class LuoEngine implements DisposableBean {
     @Resource
     private final ExecutorService executorService=new DefaultEventExecutor();
 
-    public Future submit(TestCallable testCallable){
-        return executorService.submit(testCallable);
+    public Future submit(LuoCallable luoCallable){
+        return executorService.submit(luoCallable);
     }
     @Override
     public void destroy() {

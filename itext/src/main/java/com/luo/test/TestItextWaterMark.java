@@ -1,23 +1,14 @@
 package com.luo.test;
 
-import com.itextpdf.io.font.PdfEncodings;
-import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.events.Event;
 import com.itextpdf.kernel.events.IEventHandler;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
-import com.itextpdf.kernel.pdf.extgstate.PdfExtGState;
-import com.itextpdf.layout.Canvas;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,28 +61,28 @@ public class TestItextWaterMark {
             int textWidth = metrics.stringWidth(label.getText());
 
             PdfFont pdfFont = null;
-            try {
-                // 将字体包拖到路径下
-                pdfFont = PdfFontFactory.createFont("E:/IdeaProject/esign_6.0/esign-signs/signs-service/src/main/resources/fonts/simsun.ttc" + ",0", PdfEncodings.IDENTITY_H,
-                        false);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            // 透明度
-            PdfExtGState gs = new PdfExtGState().setFillOpacity(0.4f);
-            PdfCanvas pdfCanvas = new PdfCanvas(page).setExtGState(gs);
-            //循环添加水印-posX表示横向起始位置，从左向右。posY表示纵向起始位置，从下到上。
-            for (float posX = 75f; posX < pageSize.getWidth(); posX = posX + textWidth * 3) {
-                for (float posY = 50f; posY < pageSize.getHeight(); posY = posY + textHeight * 4) {
-                    new Canvas(pdfCanvas, document, pageSize)
-                            .setFontColor(new DeviceRgb(255,105,180))   //颜色
-                            .setFontSize(15)                //字体大小
-                            .setFont(pdfFont)               //字体的格式   即导入的字体包
-                            //水印的内容（中英文都支持）    坐标（例如：250f, 250f）  当前页数     最后的值为倾斜度（19.5f）
-                            .showTextAligned(new Paragraph("罗亮123"),posX,posY, document.getPageNumber(page),
-                                    TextAlignment.CENTER, VerticalAlignment.MIDDLE, 19.5f);
-                }
-            }
+//            try {
+//                // 将字体包拖到路径下
+//                pdfFont = PdfFontFactory.createFont("E:/IdeaProject/esign_6.0/esign-signs/signs-service/src/main/resources/fonts/simsun.ttc" + ",0", PdfEncodings.IDENTITY_H,
+//                        false);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            // 透明度
+//            PdfExtGState gs = new PdfExtGState().setFillOpacity(0.4f);
+//            PdfCanvas pdfCanvas = new PdfCanvas(page).setExtGState(gs);
+//            //循环添加水印-posX表示横向起始位置，从左向右。posY表示纵向起始位置，从下到上。
+//            for (float posX = 75f; posX < pageSize.getWidth(); posX = posX + textWidth * 3) {
+//                for (float posY = 50f; posY < pageSize.getHeight(); posY = posY + textHeight * 4) {
+//                    new Canvas(pdfCanvas, document, pageSize)
+//                            .setFontColor(new DeviceRgb(255,105,180))   //颜色
+//                            .setFontSize(15)                //字体大小
+//                            .setFont(pdfFont)               //字体的格式   即导入的字体包
+//                            //水印的内容（中英文都支持）    坐标（例如：250f, 250f）  当前页数     最后的值为倾斜度（19.5f）
+//                            .showTextAligned(new Paragraph("罗亮123"),posX,posY, document.getPageNumber(page),
+//                                    TextAlignment.CENTER, VerticalAlignment.MIDDLE, 19.5f);
+//                }
+//            }
 
 
             //Canvas对象过期了，可以使用Document对象

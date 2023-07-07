@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
-public class TestFuture {
+public class LuoFuture {
     public static void main(String[] args) throws Exception {
         List<Future<String>> futures = new ArrayList<>();
-        TestCallable testCallable = new TestCallable();
-        TestEngine testEngine = new TestEngine();
-        futures.add(testEngine.submit(testCallable));
+        LuoCallable luoCallable = new LuoCallable();
+        LuoEngine luoEngine = new LuoEngine();
+        futures.add(luoEngine.submit(luoCallable));
     }
 }

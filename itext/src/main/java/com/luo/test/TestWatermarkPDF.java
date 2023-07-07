@@ -1,9 +1,6 @@
 package com.luo.test;
 
-import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.kernel.colors.ColorConstants;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.AffineTransform;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.*;
@@ -35,7 +32,7 @@ public class TestWatermarkPDF {
 
         double rotationInRads = Math.PI/3;
 
-        PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+//        PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
         float fontSize = 50;
 
         PdfDocument pdfDoc = new PdfDocument(new PdfReader(sourceFile), new PdfWriter(destinationPath));
@@ -77,7 +74,7 @@ public class TestWatermarkPDF {
             canvas.saveState()
                     .beginText().setColor(ColorConstants.GRAY, true).setExtGState(gs1)
                     .setTextMatrix(transformValues[0], transformValues[1], transformValues[2], transformValues[3], transformValues[4], transformValues[5])
-                    .setFontAndSize(font, fontSize)
+//                    .setFontAndSize(font, fontSize)
                     .showText("watermark text")
                     .endText()
                     .restoreState();
