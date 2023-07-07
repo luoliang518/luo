@@ -45,7 +45,7 @@ public class SqlBuild {
 
     public static void main(String[] args) {
         //实体类所在的package在磁盘上的绝对路径
-        String packageName = "D:/ideaProject/luo-demo/model/src/main/java/com/luo/model/user";
+        String packageName = "E:/IdeaProject/luo/model/src/main/java/com/luo/model/user/entity";
         //生成的sql文件名
         String sqlName = "userSql";
         //生成sql的文件夹
