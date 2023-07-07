@@ -23,26 +23,6 @@ public class SqlBuild {
      */
     public static Map<String, String> map = new HashMap<>();
 
-    static {
-        map.put("class java.lang.String", "varchar(255)");
-        map.put("class java.lang.Integer", "int");
-        map.put("class java.lang.Long", "integer unsigned");
-        map.put("class java.lang.byte[]", "blob");
-        map.put("class java.lang.Boolean", "bit");
-        map.put("class java.math.BigInteger", "bigint unsigned");
-        map.put("class java.lang.Float", "float");
-        map.put("class java.lang.Double", "double");
-        map.put("class java.sql.Date", "datetime");
-        map.put("class java.sql.Time", "time");
-        map.put("class java.sql.Timestamp", "datetime");
-        map.put("class java.util.Date", "datetime");
-        map.put("class java.time.LocalDateTime", "datetime");
-        map.put("class java.time.LocalDate", "date");
-        map.put("class java.time.LocalTime", "time");
-        map.put("class java.lang.Byte", "tinyint");
-        map.put("class java.math.BigDecimal", "decimal");
-    }
-
     public static void main(String[] args) {
         //实体类所在的package在磁盘上的绝对路径
         String packageName = "E:/IdeaProject/luo/model/src/main/java/com/luo/model/user/entity";
@@ -211,5 +191,25 @@ public class SqlBuild {
                 }
             }
         }
+    }
+
+    static {
+        map.put("class java.lang.String", "varchar(255)");
+        map.put("class java.lang.Integer", "int");
+        map.put("class java.lang.Long", "integer unsigned");
+        map.put("class java.lang.byte[]", "blob");
+        map.put("class java.lang.Boolean", "bit");
+        map.put("class java.math.BigInteger", "bigint unsigned");
+        map.put("class java.lang.Float", "float");
+        map.put("class java.lang.Double", "double");
+        map.put("class java.sql.Date", "datetime");
+        map.put("class java.sql.Time", "time");
+        map.put("class java.sql.Timestamp", "datetime");
+        map.put("class java.util.Date", "datetime");
+        map.put("class java.time.LocalDateTime", "datetime");
+        map.put("class java.time.LocalDate", "date");
+        map.put("class java.time.LocalTime", "time");
+        map.put("class java.lang.Byte", "tinyint");
+        map.put("class java.math.BigDecimal", "decimal");
     }
 }
