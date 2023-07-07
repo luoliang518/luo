@@ -43,6 +43,9 @@ public class JwtConfig {
             authorizationHeader = request.getParameter("Authorization");
             token = getToken(authorizationHeader);
         }
+        if (token == null) {
+            token = request.getParameter("token");
+        }
         return token;
     }
 

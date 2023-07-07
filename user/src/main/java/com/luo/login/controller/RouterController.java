@@ -7,6 +7,7 @@ import com.luo.common.utils.httpUtils.HttpUtil;
 import com.luo.common.utils.httpUtils.IpUtil;
 import com.luo.common.utils.httpUtils.SsoUtil;
 import com.luo.common.utils.springUtils.ApplicationContextUtils;
+import com.luo.login.config.jwt.JwtConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,6 +23,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +49,8 @@ public class RouterController {
     private String clientId;
     @Value("${okta.oauth2.client-secret}")
     private String clientSecret;
-
+    @Autowired
+    private JwtConfig jwtConfig;
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
     @Autowired
@@ -104,7 +108,7 @@ public class RouterController {
      */
     @ResponseBody
     @RequestMapping("/oktaCallback")
-    public String oktaCallback(HttpServletRequest request) {
+    public void oktaCallback(HttpServletRequest request, HttpServletResponse response) {
         String code = request.getParameter("code");
         String state = request.getParameter("state");
         // 1. 判断redis中是否有key
@@ -138,6 +142,13 @@ public class RouterController {
         httpEntity = new HttpEntity<>(bodyParameters, httpHeaders);
         ResponseEntity<JSONObject> exchange = restTemplate.exchange(baseUri + getUserUri, HttpMethod.GET, httpEntity, JSONObject.class);
         JSONObject body = exchange.getBody();
-        return body.getString("name");
+        String name = body.getString("name");
+        String token = jwtConfig.generateToken(name);
+        // 重定向到'/'地址，并附带token作为URL参数
+        try {
+            response.sendRedirect("/?token=" + URLEncoder.encode(token, "UTF-8"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

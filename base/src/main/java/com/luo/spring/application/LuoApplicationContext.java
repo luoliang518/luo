@@ -4,10 +4,7 @@ package com.luo.spring.application;
 import com.luo.spring.bean.*;
 import com.luo.spring.bean.impl.LuoAnnotationAwareAspectJAutoProxyCreator;
 import com.luo.spring.bean.impl.LuoDisposableBeanAdapter;
-import com.luo.spring.component.LuoAutowired;
-import com.luo.spring.component.LuoComponent;
-import com.luo.spring.component.LuoComponentScan;
-import com.luo.spring.component.LuoScope;
+import com.luo.spring.component.*;
 import com.luo.spring.factory.LuoObjectFactory;
 
 import java.io.File;
@@ -362,10 +359,9 @@ public class LuoApplicationContext {
             if (parameter.getType().equals(LuoObjectFactory.class)) {
                 // ObjectFactory 参数
                 arg = (LuoObjectFactory<Object>) () -> getBean(parameter.getName());
-                //todo
-//            } else if (parameter.isAnnotationPresent(LuoLazy.class)) {
-//                // 参数加了 @Lazy，生成代理
-//                arg = buildLazyResolutionProxy(parameter.getName(), parameter.getType());
+            } else if (parameter.isAnnotationPresent(LuoLazy.class)) {
+                // 参数加了 @Lazy，生成代理
+                arg = buildLazyResolutionProxy(parameter.getName(), parameter.getType());
             } else {
                 // 不是 ObjectFactory 也没加 @Lazy 的，直接从容器中拿
                 arg = getBean(parameter.getName());

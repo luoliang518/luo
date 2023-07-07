@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             ".*((pay/)|(/index)|(/index/.*)" +
                     "|(/login/.*)" +
                     "|(/test/.*)" +
-                    "|(/)" +
+//                    "|(/)" +
                     "|(/user/createUser)" +
                     "|(/user/getToken)" +
                     "|(/router/.*)" +
