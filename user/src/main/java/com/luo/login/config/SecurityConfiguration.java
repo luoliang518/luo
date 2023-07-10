@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -39,6 +40,8 @@ public class SecurityConfiguration {
     private JwtAuthenticationProvider jwtAuthenticationProvider;
     @Resource
     private JwtConfig jwtConfig;
+    @Resource
+    private LogoutSuccessHandler logoutSuccessHandler;
 //    @Resource
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 //        // 配置用户认证逻辑
@@ -101,7 +104,10 @@ public class SecurityConfiguration {
                 .successHandler(jwtAuthenticationSuccessHandler)
                 .and()
                 .csrf().disable()
-                .logout().logoutUrl("/router/logout").logoutSuccessUrl("/")
+                .logout()
+                .logoutSuccessHandler(logoutSuccessHandler)
+                .logoutUrl("/router/logout")
+//                .logoutSuccessUrl("/")
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
                 .and()

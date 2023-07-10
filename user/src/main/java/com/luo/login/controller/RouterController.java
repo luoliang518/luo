@@ -16,11 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -66,9 +66,13 @@ public class RouterController {
         return "views/login";
     }
     @ResponseBody
-    @PostMapping("/logout")
-    public String logout(){
-        return "success";
+    @GetMapping("/logout")
+    public void logout(ServletRequest request, HttpServletResponse response) {
+        try {
+            response.sendRedirect("https://localhost:518/");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @ResponseBody
