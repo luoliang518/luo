@@ -1,0 +1,14 @@
+server:
+  port: 519
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/luo
+      database: luo
+      username: luo
+      password: luo2000liang518
+      authentication-database: admin
+      auto-index-creation: true
+      connections-per-host: 20
+      threads-allowed-to-block-for-connection-multiplier: 5
+      max-wait-time: 120000

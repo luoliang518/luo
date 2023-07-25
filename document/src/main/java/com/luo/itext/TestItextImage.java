@@ -1,4 +1,4 @@
-package com.luo.test;
+package com.luo.itext;
 
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;

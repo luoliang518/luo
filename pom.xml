@@ -7,9 +7,9 @@
 		<module>user</module>
 		<module>common</module>
 		<module>model</module>
-        <module>itext</module>
-        <module>esaypoi</module>
+        <module>document</module>
         <module>utils</module>
+        <module>posting</module>
     </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
