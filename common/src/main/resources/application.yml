@@ -1,0 +1,31 @@
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3307/luo?useUnicode=true&characterEncoding=utf8&useSSL=false
+#    username: root
+#    password: 123456
+#  redis:
+#    password: 123456
+#    host: localhost
+#    port: 6379
+#    jedis:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        min-idle: 2
+#        max-wait: -1
+#  data:
+#    mongodb:
+#      uri: mongodb://localhost:27017/luo
+#      database: luo
+#      username: luo
+#      password: luo2000liang518
+#      authentication-database: admin
+#      auto-index-creation: true
+#      connections-per-host: 20
+#      threads-allowed-to-block-for-connection-multiplier: 5
+#      max-wait-time: 120000
+## 配置MyBatis日志
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

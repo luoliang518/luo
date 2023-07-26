@@ -5,7 +5,7 @@
     <test name="tableSizeFor">
         <parameter name="cap" value="100000" />
         <classes>
-            <class name="com.luo.login.test.leetCode.TestTableSizeFor">
+            <class name="com.luo.user.test.leetCode.TestTableSizeFor">
             </class>
         </classes>
     </test>

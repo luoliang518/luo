@@ -5,7 +5,7 @@
     <test name="Test" verbose="2">
         <parameter name="username" value="123" />
         <classes>
-            <class name="com.luo.login.test.TestNg"/>
+            <class name="com.luo.user.test.TestNg"/>
         </classes>
     </test>
 </suite>
