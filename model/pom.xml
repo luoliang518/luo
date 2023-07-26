@@ -40,10 +40,14 @@
             <scope>compile</scope>
         </dependency>
         <!-- MongoDB Java Driver 依赖 -->
+<!--        <dependency>-->
+<!--            <groupId>org.mongodb</groupId>-->
+<!--            <artifactId>mongodb-driver-sync</artifactId>-->
+<!--            <version>4.9.0</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.9.0</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
         <!-- 实体类映射-->
         <dependency>

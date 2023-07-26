@@ -15,7 +15,6 @@ import java.net.UnknownHostException;
 
 @SpringBootApplication(exclude = {})
 @ComponentScan("com.luo")
-@MapperScan("com.luo.posting.mapper")
 public class PostingApplication {
     private static Logger logger = LoggerFactory.getLogger(PostingApplication.class);
 

@@ -10,7 +10,6 @@ import static io.restassured.RestAssured.given;
 public class TestAssured {
     @Test
     public void getfunction1() throws Exception {
-
         //结构验证
         get("http://localhost:518/router/loginSuccess")
                 .prettyPeek();

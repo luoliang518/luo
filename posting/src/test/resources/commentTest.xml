@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!--parallel="classes" 类并行执行  parallel="methods" 方法并行执行-->
+<suite name="commentTest" parallel="classes" thread-count="3">
+    <test name="Test" verbose="2">
+        <classes>
+            <class name="com.luo.user.test.CommentTest"/>
+        </classes>
+    </test>
+</suite>
