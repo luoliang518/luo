@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
@@ -19,12 +20,13 @@ import java.net.UnknownHostException;
  * @DATE: 2023/1/18/018
  * @TIME: 16:34
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = {MongoAutoConfiguration.class})
 @ComponentScan("com.luo")
 @MapperScan("com.luo.user.mapper")
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class UserApplication {
     private static Logger logger = LoggerFactory.getLogger(UserApplication.class);
+
     public static void main(String[] args) throws UnknownHostException {
         ConfigurableApplicationContext application = SpringApplication.run(UserApplication.class, args);
         // 初始化ApplicationContextUtils

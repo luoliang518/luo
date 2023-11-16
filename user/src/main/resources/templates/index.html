@@ -24,6 +24,9 @@
                     <a class="item" th:href="@{/router/toLogin}">
                         <i class="address card icon"></i> 登录
                     </a>
+                    <a class="item" th:href="@{/router/oktaLogin}">
+                        <i class="address card icon"></i> OKTA登录
+                    </a>
                 </div>
                 <!--                如果登录：用户名，注销-->
                 <div sec:authorize="isAuthenticated()">

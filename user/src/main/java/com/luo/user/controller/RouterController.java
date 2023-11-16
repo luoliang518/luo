@@ -146,8 +146,8 @@ public class RouterController {
         httpEntity = new HttpEntity<>(bodyParameters, httpHeaders);
         ResponseEntity<JSONObject> exchange = restTemplate.exchange(baseUri + getUserUri, HttpMethod.GET, httpEntity, JSONObject.class);
         JSONObject body = exchange.getBody();
-        String name = body.getString("name");
-        String token = jwtConfig.generateToken(name);
+        String account = body.getString("email");
+        String token = jwtConfig.generateToken(account);
         // 重定向到'/'地址，并附带token作为URL参数
         try {
             response.sendRedirect("/?token=" + URLEncoder.encode(token, "UTF-8"));

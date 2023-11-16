@@ -11,3 +11,8 @@ spring:
         namespace: luo
         prefix: ${spring.application.name}
         server-addr: 127.0.0.1:8848
+        enabled: false
+        refresh-enabled: false
+      discovery:
+        enabled: false
+        register-enabled: false
