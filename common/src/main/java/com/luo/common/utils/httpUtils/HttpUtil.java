@@ -1,6 +1,7 @@
 package com.luo.common.utils.httpUtils;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 public class HttpUtil {

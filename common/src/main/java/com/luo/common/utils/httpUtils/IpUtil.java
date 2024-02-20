@@ -1,6 +1,7 @@
 package com.luo.common.utils.httpUtils;
 
-import javax.servlet.http.HttpServletRequest;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 public class IpUtil {
     public static String IP = "ip";

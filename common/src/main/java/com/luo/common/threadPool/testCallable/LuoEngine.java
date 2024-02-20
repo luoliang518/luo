@@ -1,9 +1,9 @@
 package com.luo.common.threadPool.testCallable;
 
 import io.netty.util.concurrent.DefaultEventExecutor;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.DisposableBean;
 
-import javax.annotation.Resource;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
