@@ -24,17 +24,14 @@ public class OneOnOneChat {
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(accept.getOutputStream()));
                 BufferedReader userReader = new BufferedReader(new InputStreamReader(System.in));
                 String msg = null;
-                while (true){
+                do {
                     msg = bufferedReader.readLine();
-                    System.out.println("msg:"+msg);
+                    System.out.println("msg:" + msg);
                     // 写入服务端要发送的消息
-                    bufferedWriter.write("Server:"+userReader.readLine()+"\n");
+                    bufferedWriter.write("Server:" + userReader.readLine() + "\n");
                     bufferedWriter.flush();
                     // 客户端发送exit代表退出
-                    if ("exit".equals(msg)){
-                        break;
-                    }
-                }
+                } while (!"exit".equals(msg));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
