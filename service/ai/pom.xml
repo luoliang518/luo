@@ -11,12 +11,6 @@
 
     <artifactId>ai</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>ai-domain</module>
-        <module>ai-application</module>
-        <module>ai-infrastructure</module>
-        <module>ai-interfaces</module>
-    </modules>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -28,11 +22,19 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-bom</artifactId>
-            <version>${spring-ai.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
+            <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

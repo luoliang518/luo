@@ -15,6 +15,7 @@
     <modules>
         <module>ai</module>
         <module>user</module>
+        <module>auth</module>
     </modules>
 
     <properties>

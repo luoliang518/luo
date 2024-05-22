@@ -5,11 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.luo</groupId>
-        <artifactId>ai</artifactId>
+        <artifactId>service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ai-application</artifactId>
+    <artifactId>auth</artifactId>
+    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -18,10 +19,5 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.luo</groupId>
-            <artifactId>ai-domain</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 </project>
