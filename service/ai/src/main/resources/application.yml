@@ -1,5 +1,5 @@
 server:
-  port: 518
+  port: 520
 spring:
   ai:
     openai:
