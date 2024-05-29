@@ -1,4 +1,4 @@
-package com.luo.auth.interfaces.controller;
+package com.luo.auth.tenant.interfaces.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/userAuth")
-public class UserAuthController {
+public class TenantAuthController {
 
 }
