@@ -4,13 +4,15 @@ spring:
   application:
     name: auth
   datasource:
-    url: jdbc:mysql://192.168.81.204:3306/school_info_luo
+#    url: jdbc:mysql://192.168.81.204:3306/school_info_luo
+    url: jdbc:mysql://192.168.44.128:3306/auth
     username: root
-    password: XYXX@07_27
-    driver-class-name: com.mysql.jdbc.Driver
+#    password: XYXX@07_27
+    password: 123456
+#    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       maximum-pool-size: 15
       minimum-idle: 5
       idle-timeout: 30000
-      jdbc-url: 192.168.81.204:3306/school_info_luo

@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @Author luoliang
  * @Date 2024/5/21
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication()
 public class AuthApplicationStart {
     public static void main(String[] args) {
         SpringApplication.run(AuthApplicationStart.class,args);

@@ -12,8 +12,8 @@
     <artifactId>service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>ai</module>
         <module>auth</module>
+        <module>ai</module>
     </modules>
 
     <properties>

@@ -1,4 +1,4 @@
-//package com.luo.auth.common.config;
+package com.luo.auth.common.config;//package com.luo.auth.common.config;
 //
 //
 //import org.springframework.context.annotation.Bean;
