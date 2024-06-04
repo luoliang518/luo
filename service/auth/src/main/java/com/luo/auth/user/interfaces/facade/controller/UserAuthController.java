@@ -1,4 +1,4 @@
-package com.luo.auth.user.interfaces.controller;
+package com.luo.auth.user.interfaces.facade.controller;
 
 import com.luo.common.result.Response;
 import com.luo.common.util.ResponseUtil;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/userAuth")
 public class UserAuthController {
     @GetMapping("/say")
-    public Response sayHello(){
+    public Response<String> sayHello(){
         return ResponseUtil.success("Hello");
     }
 }

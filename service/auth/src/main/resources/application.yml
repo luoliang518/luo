@@ -1,5 +1,5 @@
 server:
-  port: 519
+  port: 518
 spring:
   application:
     name: auth
