@@ -1,7 +1,7 @@
 package com.luo.auth.user.infrastructure.repository.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.luo.common.po.BasePO;
+import com.luo.common.base.po.BasePO;
 /**
 * @Description 用户实体类
 * @author luoliang

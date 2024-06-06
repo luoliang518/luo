@@ -7,10 +7,11 @@ CREATE TABLE user (
     email VARCHAR(255),
     phone VARCHAR(255),
     tenantId VARCHAR(255),
-    createUser VARCHAR(255),
-    updateUser VARCHAR(255),
-    createTime DATETIME,
-    updateTime DATETIME,
+    create_user VARCHAR(255),
+    update_user VARCHAR(255),
+    create_time DATETIME,
+    update_time DATETIME,
+    is_deleted tinyint,
     INDEX idx_tenantId (tenantId),
     INDEX idx_account (account)
 );
