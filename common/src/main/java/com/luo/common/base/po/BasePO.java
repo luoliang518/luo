@@ -1,11 +1,13 @@
 package com.luo.common.base.po;
 
 import com.luo.common.context.UserContext;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-/*
+/**
     所有PO都应当继承该类
  */
+@Data
 public class BasePO {
     // 唯一标识
     private Long id;

@@ -2,10 +2,18 @@ package com.luo.auth.user.infrastructure.repository.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.luo.common.base.po.BasePO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 /**
-* @Description 用户实体类
+*  用户实体类
 * @author luoliang
 */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("user.sql")
 public class UserPO extends BasePO {
     // 用户名
