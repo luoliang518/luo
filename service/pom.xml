@@ -23,6 +23,13 @@
     </properties>
 
     	<dependencies>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>1.4.1.Final</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.luo</groupId>
                 <artifactId>common</artifactId>

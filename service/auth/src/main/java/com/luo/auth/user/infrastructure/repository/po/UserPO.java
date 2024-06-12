@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 *  用户实体类
 * @author luoliang
 */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

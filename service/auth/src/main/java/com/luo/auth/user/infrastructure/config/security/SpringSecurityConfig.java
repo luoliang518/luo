@@ -1,4 +1,4 @@
-package com.luo.auth.user.infrastructure.config;
+package com.luo.auth.user.infrastructure.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
