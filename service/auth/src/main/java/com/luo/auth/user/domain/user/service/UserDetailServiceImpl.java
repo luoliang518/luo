@@ -28,6 +28,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
-        return UserSecurity.builder().user(userRepository.getUserByAccount(account)).build();
+        return new UserSecurity(userRepository.getUserByAccount(account));
     }
 }

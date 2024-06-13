@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("user.sql")
+@TableName("user")
 public class UserPO extends BasePO {
     // 用户名
     private String username;

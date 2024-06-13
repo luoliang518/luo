@@ -11,7 +11,7 @@ CREATE TABLE user (
     update_user VARCHAR(255),
     create_time DATETIME,
     update_time DATETIME,
-    is_deleted tinyint,
+    deleted tinyint,
     INDEX idx_tenantId (tenantId),
     INDEX idx_account (account)
 );

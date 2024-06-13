@@ -1,4 +1,4 @@
-package com.luo.auth.user.infrastructure.config.security;
+package com.luo.auth.common.config.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

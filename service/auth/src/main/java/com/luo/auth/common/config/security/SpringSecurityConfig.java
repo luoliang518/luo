@@ -1,4 +1,4 @@
-package com.luo.auth.user.infrastructure.config.security;
+package com.luo.auth.common.config.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

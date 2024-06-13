@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 
 @Getter
-@Builder
 public class UserSecurity extends User {
     private com.luo.auth.user.domain.user.entity.User user;
 
@@ -25,5 +24,4 @@ public class UserSecurity extends User {
     public UserSecurity(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
-
 }
