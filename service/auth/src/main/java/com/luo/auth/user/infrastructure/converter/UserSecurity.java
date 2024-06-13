@@ -1,18 +1,25 @@
 package com.luo.auth.user.infrastructure.converter;
 
-import com.luo.auth.user.infrastructure.repository.po.UserPO;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
-@Getter
-public class UserSecurity extends User {
-    private UserPO userPO;
 
-    public UserSecurity(UserPO userPO, Collection<? extends GrantedAuthority> authorities) {
-        super(userPO.getAccount(), userPO.getPassword(), authorities);
-        this.userPO = userPO;
+@Getter
+@Builder
+public class UserSecurity extends User {
+    private com.luo.auth.user.domain.user.entity.User user;
+
+    public UserSecurity(com.luo.auth.user.domain.user.entity.User user) {
+        super(user.getAccount(), user.getPassword(),
+                user.getRoleGroups().stream()
+                        .flatMap(roleGroup -> roleGroup.getRoles().stream())
+                        .flatMap(role -> role.getPermissions().stream())
+                        .map(PermissionSecurity::new)
+                        .toList());
+        this.user = user;
     }
 
     public UserSecurity(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {

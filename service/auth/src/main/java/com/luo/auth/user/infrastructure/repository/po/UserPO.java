@@ -2,10 +2,7 @@ package com.luo.auth.user.infrastructure.repository.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.luo.common.base.po.BasePO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
 *  用户实体类
@@ -13,6 +10,7 @@ import lombok.NoArgsConstructor;
 */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("user.sql")
