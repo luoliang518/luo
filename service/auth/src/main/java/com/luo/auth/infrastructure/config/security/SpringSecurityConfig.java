@@ -2,6 +2,7 @@ package com.luo.auth.infrastructure.config.security;
 
 import com.luo.auth.domain.user.repository.UserRepository;
 import com.luo.auth.infrastructure.user.converter.UserSecurity;
+import com.luo.auth.infrastructure.util.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +38,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @AllArgsConstructor
 @Configuration
 public class SpringSecurityConfig {
+    private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -84,6 +86,7 @@ public class SpringSecurityConfig {
                         httpSecurityCorsConfigurer ->
                                 httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource())
                 )
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil,userDetailsService()), UsernamePasswordAuthenticationFilter.class)
                 // 配置认证服务与加密规则
                 .addFilterBefore(
                         new UsernamePasswordAuthenticationFilter(),

@@ -3,6 +3,7 @@ package com.luo.auth.infrastructure.util;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
+import lombok.Data;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import java.security.cert.Certificate;
 import java.util.Date;
 
 @Component
+@Data
 public class JwtUtil {
 
     private PrivateKey privateKey;
