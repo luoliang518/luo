@@ -23,8 +23,8 @@ public class MyBatisPlusConfig {
         tenantInterceptor.setTenantLineHandler(customTenantHandler);
         interceptor.addInnerInterceptor(tenantInterceptor);
         // 数据权限插件
-        InnerInterceptor dataPermissionInterceptor = new DataPermissionInterceptor(new CustomDataPermissionHandler());
-        interceptor.addInnerInterceptor(dataPermissionInterceptor);
+//        InnerInterceptor dataPermissionInterceptor = new DataPermissionInterceptor(new CustomDataPermissionHandler());
+//        interceptor.addInnerInterceptor(dataPermissionInterceptor);
 
 
         /*------------------------数据规范插件------------------------*/

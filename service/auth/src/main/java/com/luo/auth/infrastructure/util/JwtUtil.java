@@ -1,5 +1,6 @@
 package com.luo.auth.infrastructure.util;
 
+import com.luo.auth.domain.userAggregate.entity.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
@@ -37,7 +38,7 @@ public class JwtUtil {
             publicKey = cert.getPublicKey();
 
 //            System.out.println("Private Key: " + privateKey);
-            System.out.println("Public Key: " + publicKey);
+//            System.out.println("Public Key: " + publicKey);
 
         } catch (Exception e) {
             // Log the error
@@ -46,11 +47,16 @@ public class JwtUtil {
         }
     }
 
-    public String generateToken(String username) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(user.getAccount())
+                .claim("userId",user.getUserId())
+                .claim("userName",user.getUsername())
+                .claim("account",user.getAccount())
+                .claim("email",user.getEmail())
+                .claim("phone",user.getPhone())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 3600 * 1000)) // 1 hour expiration
+                .setExpiration(user.getToken().getExpires())
                 .signWith(privateKey, SignatureAlgorithm.RS256)
                 .compact();
     }

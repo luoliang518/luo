@@ -1,6 +1,8 @@
 package com.luo.auth.application.user.service;
 
+import com.luo.auth.application.user.dto.command.UserRegistrationCommand;
 import com.luo.auth.application.user.dto.query.UserQuery;
+import com.luo.auth.application.user.dto.vo.UserCodeVo;
 import com.luo.auth.application.user.dto.vo.UserVO;
 
 /**
@@ -10,4 +12,6 @@ import com.luo.auth.application.user.dto.vo.UserVO;
  */
 public interface UserAppService {
     UserVO userLogin(UserQuery userQuery);
+
+    UserCodeVo sendCode(UserRegistrationCommand userRegistrationCommand);
 }

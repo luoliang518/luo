@@ -1,17 +1,20 @@
-CREATE TABLE user (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(255),
-    account VARCHAR(255) UNIQUE,
-    password VARCHAR(255),
-    avatar VARCHAR(255),
-    email VARCHAR(255),
-    phone VARCHAR(255),
-    tenantId VARCHAR(255),
-    create_user VARCHAR(255),
-    update_user VARCHAR(255),
-    create_time DATETIME,
-    update_time DATETIME,
-    deleted tinyint,
-    INDEX idx_tenantId (tenantId),
-    INDEX idx_account (account)
-);
+CREATE TABLE `user` (
+                        `id` bigint NOT NULL AUTO_INCREMENT,
+                        `username` varchar(255) DEFAULT NULL,
+                        `account` varchar(255) DEFAULT NULL,
+                        `password` varchar(255) DEFAULT NULL,
+                        `avatar` varchar(255) DEFAULT NULL,
+                        `email` varchar(255) DEFAULT NULL,
+                        `phone` varchar(255) DEFAULT NULL,
+                        `tenant_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                        `create_user` varchar(255) DEFAULT NULL,
+                        `update_user` varchar(255) DEFAULT NULL,
+                        `create_time` datetime DEFAULT NULL,
+                        `update_time` datetime DEFAULT NULL,
+                        `deleted` tinyint DEFAULT NULL,
+                        PRIMARY KEY (`id`),
+                        UNIQUE KEY `account` (`account`),
+                        KEY `idx_tenantId` (`tenant_id`),
+                        KEY `idx_account` (`account`),
+                        KEY `idx_deleted` (`deleted`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

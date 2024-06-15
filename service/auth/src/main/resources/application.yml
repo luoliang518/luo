@@ -10,7 +10,8 @@ spring:
     url: jdbc:mysql://192.168.44.128:3306/auth
     username: root
 #    password: XYXX@07_27
-    password: 123456
+#    password: 123456
+    password: ENC(+ebtSM6yz+aQfLNzwoE9Aw==)
 #    driver-class-name: com.mysql.jdbc.Driver
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
@@ -18,6 +19,19 @@ spring:
       maximum-pool-size: 15
       minimum-idle: 5
       idle-timeout: 30000
+  mail:
+    host: smtp.163.com
+    username: 17357170942@163.com
+    password: ENC(deUsGzF+LIiTpsLJmloHZec/wf3dLq+UP0v0+xU1O7c=)  # 这里填入你的Gmail应用专用密码
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+jasypt:
+  encryptor:
+    password:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -44,3 +58,6 @@ mybatis-plus:
       # 数据库配置
       id-type: assign_id
     banner: false
+logging:
+  level:
+    org.springframework.security: DEBUG

@@ -1,5 +1,6 @@
 package com.luo.auth;
 
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +17,8 @@ import java.net.UnknownHostException;
  * @Date 2024/5/21
  */
 @Slf4j
-@SpringBootApplication()
+@SpringBootApplication
+@EnableEncryptableProperties
 public class AuthApplicationStart {
     public static void main(String[] args) throws UnknownHostException {
         ConfigurableApplicationContext application = SpringApplication.run(AuthApplicationStart.class, args);
