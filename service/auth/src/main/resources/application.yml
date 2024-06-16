@@ -19,6 +19,10 @@ spring:
       maximum-pool-size: 15
       minimum-idle: 5
       idle-timeout: 30000
+  data:
+    redis:
+      host: 192.168.44.128
+      port: 6379
   mail:
     host: smtp.163.com
     username: 17357170942@163.com

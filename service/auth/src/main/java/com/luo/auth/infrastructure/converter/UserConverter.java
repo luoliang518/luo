@@ -10,9 +10,10 @@ import org.mapstruct.Mapper;
  */
 @Mapper(componentModel = "spring")
 public interface UserConverter {
-//    @Mapping(source = "id", target = "userId")
-//    @Mapping(target = "tenants", ignore = true)
-//    @Mapping(target = "roleGroups", ignore = true)
-//    @Mapping(target = "token", ignore = true)
+    //    @Mapping(source = "id", target = "userId")
+    //    @Mapping(target = "tenants", ignore = true)
+    //    @Mapping(target = "roleGroups", ignore = true)
+    //    @Mapping(target = "token", ignore = true)
     User userPoToUser(UserPO userPO);
+    UserPO userToUserPo(User user);
 }

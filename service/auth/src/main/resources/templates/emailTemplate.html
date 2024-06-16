@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${subject}">邮件标题</title>
+    <style>
+        body {
+            background-color: #1b2838;
+            color: #c7d5e0;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header img {
+            width: 64px;
+            height: 64px;
+        }
+        .content {
+            background-color: #2a475e;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .content h1 {
+            color: #5c9ae6;
+            font-size: 24px;
+        }
+        .content p {
+            margin: 10px 0;
+        }
+        .code-box {
+            background-color: #171a21;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .code-box p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .inline-text {
+            color: #FFFFFF;
+            display: inline; /* 使文本与验证码在同一行 */
+        }
+        .code {
+            font-size: 64px;
+            color: #5c9ae6;
+            display: inline; /* 使文本与说明文字在同一行 */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <h1 th:text="${username}">用户名</h1>
+        <p class="inline-text">欢迎访问 LuoAuth。此处是您帐户访问所需的令牌验证码：</p>
+        <div class="code-box">
+<!--            <p>请求来自</p>-->
+<!--            <p th:text="${location}">位置</p>-->
+            <p class="inline-text">您的验证码为：</p> <!-- 使用 inline-text 类 -->
+            <p class="code" th:text="${verificationCode}">验证码</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
