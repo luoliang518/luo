@@ -9,8 +9,8 @@ import com.luo.auth.domain.userAggregate.service.UserServiceImpl;
 import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.application.user.dto.query.UserQuery;
 import com.luo.auth.application.user.dto.vo.UserVO;
-import com.luo.auth.domain.utilAggergate.entity.VerificationCode;
-import com.luo.auth.domain.utilAggergate.service.EmailSenderService;
+import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
+import com.luo.auth.domain.messageAggergate.service.EmailSenderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +40,7 @@ public class UserAppServiceImpl implements UserAppService {
     public void userRegistration(UserRegistrationCommand userRegistrationCommand) {
         // 校验验证码
         emailSenderService.verifyVerificationCode(
-                userAssembler.assembleVerificationCode(userRegistrationCommand)
+                userAssembler.assembleVerificationCode(userRegistrationCommand.getVerificationCodeCommand())
         );
         // 保存用户
         userService.userRegistration(userAssembler.assembleUser(userRegistrationCommand));

@@ -4,22 +4,14 @@ import com.luo.auth.application.user.dto.command.UserRegistrationCommand;
 import com.luo.auth.application.user.dto.command.VerificationCodeCommand;
 import com.luo.auth.application.user.dto.vo.UserCodeVo;
 import com.luo.auth.domain.userAggregate.entity.User;
-import com.luo.auth.domain.utilAggergate.entity.VerificationCode;
+import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserAssembler {
     public VerificationCode assembleVerificationCode(VerificationCodeCommand verificationCodeCommand){
-        return VerificationCode.builder()
-                .build()
-                .setEmailMessage(verificationCodeCommand.getEmail())
-                .setPhoneMessage(verificationCodeCommand.getPhoneNumber());
-    }
-    public VerificationCode assembleVerificationCode(UserRegistrationCommand userRegistrationCommand){
-        return VerificationCode.builder()
-                .build()
-                .setEmailMessage(userRegistrationCommand.getEmail())
-                .setPhoneMessage(userRegistrationCommand.getPhoneNumber());
+        return new VerificationCode(verificationCodeCommand.getPhoneNumber(),
+                verificationCodeCommand.getEmail());
     }
     public UserCodeVo assembleUserCodeVo(VerificationCode verificationCode) {
         return UserCodeVo.builder()
@@ -32,8 +24,8 @@ public class UserAssembler {
         return User.builder()
                 .account(userRegistrationCommand.getAccount())
                 .username(userRegistrationCommand.getUsername())
-                .email(userRegistrationCommand.getEmail())
-                .phone(userRegistrationCommand.getPhoneNumber())
+                .email(userRegistrationCommand.getVerificationCodeCommand().getEmail())
+                .phone(userRegistrationCommand.getVerificationCodeCommand().getPhoneNumber())
                 .password(userRegistrationCommand.getPassword())
                 .build();
     }

@@ -20,7 +20,8 @@ public class AuthenticationAcl {
     private final AuthenticationManager authenticationManager;
     public User authUser(UserQuery userQuery) {
         // 校验用户
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userQuery.getAccount(), userQuery.getPassword());
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                userQuery.getAccount(), userQuery.getPassword());
         // 调用自定义用户校验方法
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         assert authenticate==null:"该账号密码错误";

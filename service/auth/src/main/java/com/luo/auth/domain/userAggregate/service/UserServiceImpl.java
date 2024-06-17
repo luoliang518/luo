@@ -4,7 +4,7 @@ import com.luo.auth.application.user.dto.query.UserQuery;
 import com.luo.auth.domain.userAggregate.acl.AuthenticationAcl;
 import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.domain.userAggregate.repository.UserRepository;
-import com.luo.auth.domain.utilAggergate.entity.Token;
+import com.luo.auth.domain.userAggregate.entity.Token;
 import com.luo.auth.infrastructure.converter.UserConverter;
 import com.luo.auth.infrastructure.util.JwtUtil;
 import com.luo.common.exception.ServiceException;
@@ -18,7 +18,11 @@ public class UserServiceImpl {
     private final AuthenticationAcl authenticationAcl;
     private final JwtUtil jwtUtil;
     private final UserConverter userConverter;
-
+    public void userRegistration(User user) {
+        user.checkUserInfo();
+        user.encodePassword();
+        userRepository.save(userConverter.userToUserPo(user));
+    }
     public User authUser(UserQuery userQuery) {
         User userByAccount = userRepository.getUserByAccount(userQuery.getAccount());
         if (userByAccount == null) {
@@ -29,11 +33,4 @@ public class UserServiceImpl {
         user.setToken(Token.builder().token(token).build());
         return user;
     }
-
-    public void userRegistration(User user) {
-        user.checkUserInfo();
-        user.encodePassword();
-        userRepository.save(userConverter.userToUserPo(user));
-    }
-
 }

@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: org
+  application:
+    name: auth
+  datasource:
+    url: jdbc:mysql://192.168.44.128:3306/auth
+    username: root
+    password: ENC(+ebtSM6yz+aQfLNzwoE9Aw==)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 5
+      idle-timeout: 30000
+  data:
+    redis:
+      host: 192.168.44.128
+      port: 6379

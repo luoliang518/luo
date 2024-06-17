@@ -1,10 +1,12 @@
-package com.luo.auth.domain.utilAggergate.entity;
+package com.luo.auth.domain.messageAggergate.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
+@NoArgsConstructor
 public class PhoneMessage implements Serializable {
     private String phone;
 

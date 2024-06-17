@@ -7,7 +7,5 @@ public class UserRegistrationCommand {
     private String username;
     private String account;
     private String password;
-    private String phoneNumber;
-    private String email;
-    private String code;
+    private VerificationCodeCommand verificationCodeCommand;
 }

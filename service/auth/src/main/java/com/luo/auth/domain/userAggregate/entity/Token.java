@@ -1,5 +1,6 @@
-package com.luo.auth.domain.utilAggergate.entity;
+package com.luo.auth.domain.userAggregate.entity;
 
+import com.luo.common.constant.TokenConstant;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,5 +11,5 @@ import java.util.Date;
 public class Token {
     private String token;
     private String refreshToken;
-    private Date expires;
+    private Long expires ;
 }

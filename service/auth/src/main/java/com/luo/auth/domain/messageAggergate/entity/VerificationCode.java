@@ -1,39 +1,42 @@
-package com.luo.auth.domain.utilAggergate.entity;
+package com.luo.auth.domain.messageAggergate.entity;
 
-import lombok.Builder;
+import com.luo.common.constant.VerificationCodeConstant;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.security.SecureRandom;
 
 @Getter
-@Builder
+@NoArgsConstructor
 public class VerificationCode implements Serializable {
-    private static final String CHARACTERS = "0123456789";
-    private static final int CODE_LENGTH = 6;
+
 
     private String account;
     private String username;
     private PhoneMessage phoneMessage;
     private EmailMessage emailMessage;
     private String code;
-    private Long expiration = 600L;
+    private Long expiration = VerificationCodeConstant.VERIFICATION_CODE_SURVIVAL_TIME;
+
+    public VerificationCode(String phone,String email) {
+        setPhoneMessage(phone);
+        setEmailMessage(email);
+    }
 
     public void setVerificationCode() {
-        StringBuilder code = new StringBuilder(CODE_LENGTH);
-        for (int i = 0; i < CODE_LENGTH; i++) {
-            code.append(CHARACTERS.charAt(new SecureRandom().nextInt(CHARACTERS.length())));
+        StringBuilder code = new StringBuilder(VerificationCodeConstant.CODE_LENGTH);
+        for (int i = 0; i < VerificationCodeConstant.CODE_LENGTH; i++) {
+            code.append(VerificationCodeConstant.CHARACTERS.charAt(new SecureRandom().nextInt(VerificationCodeConstant.CHARACTERS.length())));
         }
         this.code=code.toString();
     }
 
-    public VerificationCode setEmailMessage(String email) {
+    public void setEmailMessage(String email) {
         this.emailMessage = new EmailMessage(email);
-        return this;
     }
-    public VerificationCode setPhoneMessage(String phoneNumber) {
+    public void setPhoneMessage(String phoneNumber) {
         this.phoneMessage = new PhoneMessage(phoneNumber);
-        return this;
     }
 
     public VerificationCode setExpiration(Long expiration) {

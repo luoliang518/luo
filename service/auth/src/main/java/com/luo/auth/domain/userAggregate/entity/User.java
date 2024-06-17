@@ -1,15 +1,18 @@
 package com.luo.auth.domain.userAggregate.entity;
 
 import com.luo.auth.domain.tenantAggregate.entity.Tenant;
-import com.luo.auth.domain.utilAggergate.entity.Token;
 import com.luo.auth.infrastructure.converter.PermissionSecurity;
+import com.luo.common.constant.TokenConstant;
 import com.luo.common.exception.ServiceException;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author luoliang
@@ -36,12 +39,21 @@ public class User {
     private List<RoleGroup> roleGroups;
     // token
     private Token token;
+    private Date tokenDueTime;
+    public Date getTokenDueTime() {
+        long currentTime = new Date().getTime();
+        long expirationTime = (this.token == null) ? TokenConstant.TOKEN_SURVIVAL_TIME : this.token.getExpires();
+        this.tokenDueTime = new Date(currentTime + expirationTime);
+        return this.tokenDueTime;
+    }
 
     /**
-     * 获取权限列表
+     * 获取权限列表 为空返回空列表
      */
     public List<Permission> getPermissionList() {
-        return this.getRoleGroups().stream()
+        return Optional.ofNullable(this.getRoleGroups())
+                .stream()
+                .flatMap(List::stream)
                 .flatMap(roleGroup -> roleGroup.getRoles().stream())
                 .flatMap(role -> role.getPermissions().stream())
                 .toList();
@@ -52,6 +64,7 @@ public class User {
      */
     public List<PermissionSecurity> getPermissionSecurityList() {
         return this.getPermissionList().stream()
+                .filter(Objects::nonNull)
                 .map(PermissionSecurity::new)
                 .toList();
     }
@@ -59,21 +72,24 @@ public class User {
      * 校验用户信息
      */
     public void checkUserInfo() {
-        if (this.account!=null && !"[a-zA-Z0-9]+".matches(this.account)){
-            throw new ServiceException("请输入大小写字母及数字作为用户名");
+        if (this.account != null &&
+                !this.account.matches("[a-zA-Z0-9]+")) {
+            throw new ServiceException("请输入大小写字母或数字作为账号");
         }
-        if (this.password!=null && !"[a-zA-Z0-9]+".matches(this.password)){
+        if (this.password!=null &&
+                !this.password.matches("[a-zA-Z0-9]+")){
             throw new ServiceException("请输入大小写字母及数字作为密码");
         }
-        if (this.username!=null && !"[a-zA-Z0-9\u4e00-\u9fa5]+".matches(this.username)){
+        if (this.username!=null &&
+                !this.username.matches("[a-zA-Z0-9\u4e00-\u9fa5]+")){
             throw new ServiceException("请输入中文字符、大小写字母或数字作为用户名");
         }
-        if (this.email!=null &&
-                !"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,6}$".matches(this.email)){
+        if (this.email != null &&
+                !this.email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
             throw new ServiceException("请输入正确邮箱");
         }
         if (this.phone!=null &&
-                !"^1[3-9]\\d{9}$".matches(this.phone)){
+                !this.phone.matches("^1[3-9]\\d{9}$")){
             throw new ServiceException("请输入正确手机号");
         }
     }

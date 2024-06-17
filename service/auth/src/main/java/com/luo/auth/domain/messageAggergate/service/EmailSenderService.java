@@ -1,6 +1,6 @@
-package com.luo.auth.domain.utilAggergate.service;
+package com.luo.auth.domain.messageAggergate.service;
 
-import com.luo.auth.domain.utilAggergate.entity.VerificationCode;
+import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
 import com.luo.auth.infrastructure.config.code.EmailConfig;
 import com.luo.common.enums.CacheKeyEnum;
 import com.luo.common.exception.ServiceException;
@@ -53,7 +53,7 @@ public class EmailSenderService {
         verificationCode.getEmailMessage().setMessage(subject,content);
         log.info(verificationCode.toString());
         // 发送短信
-        sendEmailCode(verificationCode);
+//        sendEmailCode(verificationCode);
         return verificationCode;
     }
 

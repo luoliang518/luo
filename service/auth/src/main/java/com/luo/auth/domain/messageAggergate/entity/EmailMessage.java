@@ -1,12 +1,14 @@
-package com.luo.auth.domain.utilAggergate.entity;
+package com.luo.auth.domain.messageAggergate.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class EmailMessage implements Serializable {
     private String email;
     private String subject;
