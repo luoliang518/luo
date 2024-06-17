@@ -8,4 +8,6 @@ import lombok.*;
 @Data
 @TableName("role")
 public class RolePO extends BasePO {
+    private Long roleGroupId;
+    private String roleName;
 }

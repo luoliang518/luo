@@ -1,6 +1,7 @@
 package com.luo.auth.application.user.service.impl;
 
 import com.luo.auth.application.user.assembler.UserAssembler;
+import com.luo.auth.application.user.dto.command.RoleGroupCommand;
 import com.luo.auth.application.user.dto.command.UserRegistrationCommand;
 import com.luo.auth.application.user.dto.command.VerificationCodeCommand;
 import com.luo.auth.application.user.dto.vo.UserCodeVo;
@@ -52,4 +53,8 @@ public class UserAppServiceImpl implements UserAppService {
         return new UserVO(user);
     }
 
+    @Override
+    public void addOrEditRoleGroup(RoleGroupCommand roleGroupCommand) {
+
+    }
 }

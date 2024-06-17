@@ -1,5 +1,6 @@
 package com.luo.auth.application.user.service;
 
+import com.luo.auth.application.user.dto.command.RoleGroupCommand;
 import com.luo.auth.application.user.dto.command.UserRegistrationCommand;
 import com.luo.auth.application.user.dto.command.VerificationCodeCommand;
 import com.luo.auth.application.user.dto.query.UserQuery;
@@ -18,4 +19,5 @@ public interface UserAppService {
 
     UserVO userLogin(UserQuery userQuery);
 
+    void addOrEditRoleGroup(RoleGroupCommand roleGroupCommand);
 }

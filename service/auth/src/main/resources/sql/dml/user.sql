@@ -1,0 +1,1 @@
+INSERT INTO `auth`.`user` (`id`, `username`, `account`, `password`, `avatar`, `email`, `phone`, `tenant_id`, `create_user`, `update_user`, `create_time`, `update_time`, `deleted`) VALUES (1, '罗亮', 'luoliang', '$2a$10$uqcmirAa1Ks3UVeUpkl5oufehxYiz98vD/aFhC8bVcwjb8La7pT9W', NULL, '1822375984@qq.com', '17357170942', NULL, NULL, NULL, NULL, NULL, 0);

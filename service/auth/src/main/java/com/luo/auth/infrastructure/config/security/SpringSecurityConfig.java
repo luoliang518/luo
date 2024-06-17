@@ -1,7 +1,5 @@
 package com.luo.auth.infrastructure.config.security;
 
-import com.luo.auth.domain.userAggregate.repository.UserRepository;
-import com.luo.auth.infrastructure.converter.UserSecurity;
 import com.luo.auth.infrastructure.util.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -34,14 +33,10 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SpringSecurityConfig {
     private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
+    private final UserDetailsService userDetailsService;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return account -> new UserSecurity(userRepository.getUserByAccount(account));
     }
     /**
      * 获取到认证管理器
@@ -50,7 +45,7 @@ public class SpringSecurityConfig {
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder
-                .userDetailsService(userDetailsService())
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
@@ -77,7 +72,7 @@ public class SpringSecurityConfig {
                 // cors security 解决方案
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())
                 )
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil,userDetailsService()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtil,userDetailsService), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

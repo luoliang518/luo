@@ -1,23 +1,22 @@
 package com.luo.auth.domain.userAggregate.service;
 
-import com.luo.auth.infrastructure.converter.UserSecurity;
+import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.domain.userAggregate.repository.UserRepository;
+import com.luo.auth.infrastructure.converter.UserSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-/**
- * @Description
- * @Author luoliang
- * @Date 2024/6/13
- */
-//@Service
+@Service
 @AllArgsConstructor
-public class UserDetailServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
-        return new UserSecurity(userRepository.getUserByAccount(account));
+        User user = userRepository.getUserByAccount(account);
+        // 查询权限列表 todo
+        return new UserSecurity(user);
     }
 }

@@ -8,4 +8,5 @@ import lombok.*;
 @Data
 @TableName("role_group")
 public class RoleGroupPO extends BasePO {
+    private String roleGroupName;
 }

@@ -1,8 +1,4 @@
 spring:
-  profiles:
-    active: org
-  application:
-    name: auth
   datasource:
     url: jdbc:mysql://192.168.44.128:3306/auth
     username: root

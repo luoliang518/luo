@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 public class BasePO {
     // 唯一标识
     private Long id;
+    // 租户唯一标识
+    private Long tenantId;
     // 创建人
     private Long createUser;
     // 更新人

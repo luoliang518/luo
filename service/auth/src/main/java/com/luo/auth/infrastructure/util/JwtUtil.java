@@ -1,7 +1,6 @@
 package com.luo.auth.infrastructure.util;
 
 import com.luo.auth.domain.userAggregate.entity.User;
-import com.luo.auth.infrastructure.config.security.JasyptConfig;
 import com.luo.common.exception.ServiceException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,16 +11,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.cert.Certificate;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Date;
@@ -40,15 +35,13 @@ public class JwtUtil {
     @PostConstruct
     public void init() {
         try {
-            // Load keystore
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
             InputStream inputStream = new ClassPathResource("pk/luo_keystore.p12").getInputStream();
             keyStore.load(inputStream, pass.toCharArray());
             // 从秘钥库生成私钥
             privateKey = (PrivateKey) keyStore.getKey(author, pass.toCharArray());
-            // 从秘钥库生成公钥
-//            Certificate cert = keyStore.getCertificate(author);
-//            publicKey = cert.getPublicKey();
+
+
             // 读取公钥文件
             InputStream publicKeyStream = getClass().getClassLoader().getResourceAsStream("pk/luo_public_key.pem");
             if (publicKeyStream == null) {
@@ -83,7 +76,12 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token) {
-        Jwts.parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token);
+        try {
+            Jwts.parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token);
+        }catch (Exception e) {
+            log.error("令牌校验失败", e);
+            return false;
+        }
         return true;
     }
 }
