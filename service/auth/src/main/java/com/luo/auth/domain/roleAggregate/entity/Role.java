@@ -1,5 +1,6 @@
-package com.luo.auth.domain.userAggregate.entity;
+package com.luo.auth.domain.roleAggregate.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -10,8 +11,10 @@ import java.util.List;
  * @Date 2024/6/13
  */
 @Data
+@Builder
 public class Role {
     private Long roleId;
+    private String roleName;
     private List<Permission> permissions;
     /**
      * 保存权限列表

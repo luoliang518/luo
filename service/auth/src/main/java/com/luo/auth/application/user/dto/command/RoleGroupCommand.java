@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class RoleGroupCommand {
-    private String roleGroupId;
+    private Long roleGroupId;
     private String roleGroupName;
-    private List<String> roleIds;
+    private List<Long> roleIds;
 }

@@ -2,7 +2,7 @@ package com.luo.auth.domain.userAggregate.acl;
 
 import com.luo.auth.application.user.dto.query.UserQuery;
 import com.luo.auth.domain.userAggregate.entity.User;
-import com.luo.auth.infrastructure.converter.UserSecurity;
+import com.luo.auth.infrastructure.config.security.UserSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

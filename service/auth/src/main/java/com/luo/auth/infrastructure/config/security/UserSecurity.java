@@ -1,4 +1,4 @@
-package com.luo.auth.infrastructure.converter;
+package com.luo.auth.infrastructure.config.security;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

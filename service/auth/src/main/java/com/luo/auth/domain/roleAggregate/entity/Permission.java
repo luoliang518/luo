@@ -1,4 +1,4 @@
-package com.luo.auth.domain.userAggregate.entity;
+package com.luo.auth.domain.roleAggregate.entity;
 
 import lombok.Data;
 

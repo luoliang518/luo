@@ -1,17 +1,16 @@
 package com.luo.auth.application.user.service.impl;
 
 import com.luo.auth.application.user.assembler.UserAssembler;
-import com.luo.auth.application.user.dto.command.RoleGroupCommand;
 import com.luo.auth.application.user.dto.command.UserRegistrationCommand;
 import com.luo.auth.application.user.dto.command.VerificationCodeCommand;
-import com.luo.auth.application.user.dto.vo.UserCodeVo;
-import com.luo.auth.application.user.service.UserAppService;
-import com.luo.auth.domain.userAggregate.service.UserServiceImpl;
-import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.application.user.dto.query.UserQuery;
+import com.luo.auth.application.user.dto.vo.UserCodeVo;
 import com.luo.auth.application.user.dto.vo.UserVO;
+import com.luo.auth.application.user.service.UserAppService;
 import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
 import com.luo.auth.domain.messageAggergate.service.EmailSenderService;
+import com.luo.auth.domain.userAggregate.entity.User;
+import com.luo.auth.domain.userAggregate.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,10 +50,5 @@ public class UserAppServiceImpl implements UserAppService {
     public UserVO userLogin(UserQuery userQuery) {
         User user = userService.authUser(userQuery);
         return new UserVO(user);
-    }
-
-    @Override
-    public void addOrEditRoleGroup(RoleGroupCommand roleGroupCommand) {
-
     }
 }

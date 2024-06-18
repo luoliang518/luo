@@ -1,4 +1,4 @@
-package com.luo.auth.domain.userAggregate.repository.impl;
+package com.luo.auth.infrastructure.repository.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
