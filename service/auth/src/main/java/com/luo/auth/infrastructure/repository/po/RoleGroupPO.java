@@ -7,6 +7,9 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("role_group")
+@Builder
 public class RoleGroupPO extends BasePO {
+    private String roelGroupCode;
     private String roleGroupName;
+    private String roleIds;
 }

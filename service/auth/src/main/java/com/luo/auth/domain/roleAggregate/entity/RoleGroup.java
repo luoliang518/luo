@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class RoleGroup {
     private Long roleGroupId;
+    private String roelGroupCode;
     private String roleGroupName;
     private List<Role> roles;
     /**

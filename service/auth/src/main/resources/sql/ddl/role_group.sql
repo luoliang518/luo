@@ -6,5 +6,6 @@ CREATE TABLE role_group_po (
     create_time TIMESTAMP,
     update_time TIMESTAMP,
     deleted TINYINT,
-    role_group_name VARCHAR(255)
+    role_group_name VARCHAR(255),
+    role_ids VARCHAR(255)
 );

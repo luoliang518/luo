@@ -1,6 +1,7 @@
 package com.luo.common.base.po;
 
 import com.luo.common.context.user.UserContextHolder;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
