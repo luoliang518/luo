@@ -47,4 +47,12 @@ public class UserAuthController {
     public Response<UserVO> userLogin(@RequestBody UserQuery userQuery){
         return ResponseUtil.success(UserAppService.userLogin(userQuery));
     }
+    /**
+     * 用户选择租户
+     */
+    @PostMapping("/choiceTenant")
+    public Response<?> choiceTenant(@RequestBody Long tenantId){
+        UserAppService.choiceTenant(tenantId);
+        return ResponseUtil.success();
+    }
 }

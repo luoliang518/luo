@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class BasePO {
     // 唯一标识
     private Long id;
-    // 租户唯一标识
+    // 租户唯一标识 建表需增加索引
     private Long tenantId;
     // 创建人
     private Long createUser;
@@ -22,27 +22,6 @@ public class BasePO {
     private LocalDateTime createTime;
     // 更新时间
     private LocalDateTime updateTime;
-    // 逻辑删除
+    // 逻辑删除 建表需增加索引
     private byte deleted;
-    public BasePO createPO() {
-        this.createUser = UserContextHolder.get().getUserId();
-        this.updateUser = UserContextHolder.get().getUserId();
-        this.createTime = LocalDateTime.now();
-        this.updateTime = LocalDateTime.now();
-        this.deleted = 0;
-        return this;
-    }
-
-    public BasePO updatePO() {
-        this.updateUser = UserContextHolder.get().getUserId();
-        this.updateTime = LocalDateTime.now();
-        this.deleted = 0;
-        return this;
-    }
-    public BasePO deletedPO() {
-        this.updateUser = UserContextHolder.get().getUserId();
-        this.updateTime = LocalDateTime.now();
-        this.deleted = 1;
-        return this;
-    }
 }

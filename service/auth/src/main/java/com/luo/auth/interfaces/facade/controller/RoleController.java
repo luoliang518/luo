@@ -20,6 +20,9 @@ public class RoleController {
         roleAppService.addOrEditRoleGroup(roleGroupCommand);
         return ResponseUtil.success();
     }
+    /**
+     * 获取角色组列表
+     */
     @GetMapping("/getRoleGroupList")
     public Response<List<RoleGroupVO>> getRoleGroupList(){
         return ResponseUtil.success(roleAppService.getRoleGroupList());

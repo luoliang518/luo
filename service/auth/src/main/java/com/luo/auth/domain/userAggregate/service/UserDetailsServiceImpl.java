@@ -2,7 +2,7 @@ package com.luo.auth.domain.userAggregate.service;
 
 import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.domain.userAggregate.repository.UserRepository;
-import com.luo.auth.infrastructure.config.security.UserSecurity;
+import com.luo.auth.infrastructure.config.security.dto.UserSecurity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

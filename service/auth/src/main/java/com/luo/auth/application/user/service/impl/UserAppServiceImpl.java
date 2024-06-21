@@ -51,4 +51,9 @@ public class UserAppServiceImpl implements UserAppService {
         User user = userService.authUser(userQuery);
         return new UserVO(user);
     }
+
+    @Override
+    public void choiceTenant(Long tenantId) {
+        userService.choiceTenant(tenantId);
+    }
 }

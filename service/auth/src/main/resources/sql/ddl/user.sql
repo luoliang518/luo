@@ -1,20 +1,17 @@
-CREATE TABLE `user` (
-                        `id` BIGINT NOT NULL AUTO_INCREMENT,
-                        `username` VARCHAR(255) DEFAULT NULL,
-                        `account` VARCHAR(255) DEFAULT NULL,
-                        `password` VARCHAR(255) DEFAULT NULL,
-                        `avatar` VARCHAR(255) DEFAULT NULL,
-                        `email` VARCHAR(255) DEFAULT NULL,
-                        `phone` VARCHAR(255) DEFAULT NULL,
-                        `tenant_id` VARCHAR(255) DEFAULT NULL,
-                        `create_user` VARCHAR(255) DEFAULT NULL,
-                        `update_user` VARCHAR(255) DEFAULT NULL,
-                        `create_time` DATETIME DEFAULT NULL,
-                        `update_time` DATETIME DEFAULT NULL,
-                        `deleted` TINYINT DEFAULT NULL,
-                        PRIMARY KEY (`id`),
-                        UNIQUE KEY `account` (`account`),
-                        KEY `idx_tenantId` (`tenant_id`),
-                        KEY `idx_account` (`account`),
-                        KEY `idx_deleted` (`deleted`) USING BTREE
-) ENGINE=INNODB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4
+CREATE TABLE user (
+                      id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '唯一标识',
+                      tenant_id BIGINT NOT NULL COMMENT '租户唯一标识 建表需增加索引',
+                      create_user BIGINT COMMENT '创建人',
+                      update_user BIGINT COMMENT '更新人',
+                      create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                      update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                      deleted TINYINT DEFAULT 0 COMMENT '逻辑删除 建表需增加索引',
+                      username VARCHAR(255) COMMENT '用户名',
+                      account VARCHAR(255) UNIQUE COMMENT '账号，唯一索引',
+                      password VARCHAR(255) COMMENT '密码',
+                      avatar VARCHAR(255) COMMENT '头像',
+                      email VARCHAR(255) COMMENT '邮箱',
+                      phone VARCHAR(50) COMMENT '手机号',
+                      INDEX idx_tenant_id (tenant_id),
+                      INDEX idx_deleted (deleted)
+) COMMENT '用户表';

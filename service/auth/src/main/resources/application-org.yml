@@ -6,11 +6,14 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      maximum-pool-size: 15
-      minimum-idle: 5
-      idle-timeout: 30000
+      maximum-pool-size: 5
+      minimum-idle: 3
+      idle-timeout: 10000
+      max-lifetime: 30000
   data:
     redis:
       host: 192.168.81.205
       port: 36379
       password: XYXX@07_27
+      connection-minimum-idle-size: 8
+      connection-pool-size: 8

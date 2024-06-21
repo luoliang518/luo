@@ -1,4 +1,4 @@
-package com.luo.auth.infrastructure.config.security;
+package com.luo.auth.infrastructure.config.security.dto;
 
 import com.luo.auth.domain.roleAggregate.entity.Permission;
 import lombok.AllArgsConstructor;

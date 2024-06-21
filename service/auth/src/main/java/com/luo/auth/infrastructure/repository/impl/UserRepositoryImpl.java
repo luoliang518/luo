@@ -14,13 +14,11 @@ import org.springframework.util.Assert;
 @Repository
 @AllArgsConstructor
 public class UserRepositoryImpl extends ServiceImpl<UserMapper,UserPO> implements UserRepository {
-    private final UserMapper userMapper;
     private final UserConverter userConverter;
     @Override
     public User getUserByAccount(String account) {
         Assert.notNull(account,"用户账号不能为空");
-        UserPO userPO = userMapper.selectOne(Wrappers.<UserPO>lambdaQuery()
-                .eq(UserPO::getAccount, account));
+        UserPO userPO = getOne(lambdaQuery().eq(UserPO::getAccount, account));
         return switch (userPO) {
             case UserPO po -> userConverter.userPoToUser(po);
             case null -> null; // 或者根据需要抛出异常

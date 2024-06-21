@@ -5,7 +5,9 @@ import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Table;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomDataPermissionHandler implements MultiDataPermissionHandler {
     @Override
     public Expression getSqlSegment(Table table, Expression where, String mappedStatementId) {

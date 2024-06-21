@@ -18,4 +18,5 @@ public interface UserAppService {
 
     UserVO userLogin(UserQuery userQuery);
 
+    void choiceTenant(Long tenantId);
 }

@@ -2,8 +2,7 @@ package com.luo.auth.domain.userAggregate.entity;
 
 import com.luo.auth.domain.roleAggregate.entity.Permission;
 import com.luo.auth.domain.roleAggregate.entity.RoleGroup;
-import com.luo.auth.domain.tenantAggregate.entity.Tenant;
-import com.luo.auth.infrastructure.config.security.PermissionSecurity;
+import com.luo.auth.infrastructure.config.security.dto.PermissionSecurity;
 import com.luo.common.constant.TokenConstant;
 import com.luo.common.exception.ServiceException;
 import lombok.Builder;
@@ -35,6 +34,8 @@ public class User {
     private String email;
     // 手机号
     private String phone;
+    // 当前所属租户
+    private Tenant currentTenant;
     // 租户
     private List<Tenant> tenants;
     // 角色

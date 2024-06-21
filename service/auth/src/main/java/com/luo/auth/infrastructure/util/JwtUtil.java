@@ -57,7 +57,7 @@ public class JwtUtil {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             publicKey = keyFactory.generatePublic(keySpec);
         } catch (Exception e) {
-            log.error("读取密钥库/公钥出错",e);
+            throw new ServiceException("读取密钥库/公钥出错",e);
         }
     }
 
@@ -69,6 +69,7 @@ public class JwtUtil {
                 .claim("account",user.getAccount())
                 .claim("email",user.getEmail())
                 .claim("phone",user.getPhone())
+                .claim("tenantId",user.getCurrentTenant().getTenantId())
                 .setIssuedAt(new Date())
                 .setExpiration(user.getTokenDueTime())
                 .signWith(privateKey, SignatureAlgorithm.RS256)
