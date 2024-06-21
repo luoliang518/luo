@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * @Author luoliang
  * @Date 2024/6/14
  */
-
+@Data
 public class Tenant {
     private String tenantId;
     private String tenantName;
