@@ -9,8 +9,9 @@ import com.luo.auth.application.user.dto.vo.UserVO;
 import com.luo.auth.application.user.service.UserAppService;
 import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
 import com.luo.auth.domain.messageAggergate.service.EmailSenderService;
-import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.domain.userAggregate.service.UserServiceImpl;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,9 +48,8 @@ public class UserAppServiceImpl implements UserAppService {
     }
 
     @Override
-    public UserVO userLogin(UserQuery userQuery) {
-        User user = userService.authUser(userQuery);
-        return new UserVO(user);
+    public UserVO userLogin(UserQuery userQuery, HttpServletRequest request) {
+        return userAssembler.assembleUserVO(userService.authUser(userAssembler.assembleUser(userQuery),request));
     }
 
     @Override

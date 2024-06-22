@@ -42,6 +42,7 @@ public class User {
     private List<RoleGroup> roleGroups;
     // token
     private Token token;
+    // token过期时间
     private Date tokenDueTime;
     public Date getTokenDueTime() {
         long currentTime = new Date().getTime();
@@ -49,7 +50,11 @@ public class User {
         this.tokenDueTime = new Date(currentTime + expirationTime);
         return this.tokenDueTime;
     }
-
+    public Date getTokenSurvivalTime() {
+        long deathTime = tokenDueTime.getTime();
+        long currentTime = new Date().getTime();
+        return new Date(deathTime - currentTime);
+    }
     /**
      * 获取权限列表 为空返回空列表
      */

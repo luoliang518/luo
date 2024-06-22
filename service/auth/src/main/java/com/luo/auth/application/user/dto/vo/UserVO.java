@@ -1,8 +1,10 @@
 package com.luo.auth.application.user.dto.vo;
 
 import com.luo.auth.domain.userAggregate.entity.Token;
-import com.luo.auth.domain.userAggregate.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -12,16 +14,13 @@ import java.util.List;
  * @Date 2024/6/14
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserVO {
     private Long userId;
     private String account;
-    private String userName;
+    private String username;
     private Token token;
-    private List<UserTenantVo> userTenantVos;
-    public UserVO(User user) {
-        this.userId = user.getUserId();
-        this.account = user.getAccount();
-        this.userName = user.getUsername();
-        this.token = user.getToken();
-    }
+    private List<TenantVo> tenantVos;
 }

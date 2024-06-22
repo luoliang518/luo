@@ -8,6 +8,7 @@ import com.luo.auth.application.user.dto.vo.UserVO;
 import com.luo.auth.application.user.service.UserAppService;
 import com.luo.common.result.Response;
 import com.luo.common.util.ResponseUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 /**
@@ -44,8 +45,8 @@ public class UserAuthController {
      * 用户账号密码登录
      */
     @PostMapping("/userLogin")
-    public Response<UserVO> userLogin(@RequestBody UserQuery userQuery){
-        return ResponseUtil.success(UserAppService.userLogin(userQuery));
+    public Response<UserVO> userLogin(@RequestBody UserQuery userQuery, HttpServletRequest request){
+        return ResponseUtil.success(UserAppService.userLogin(userQuery,request));
     }
     /**
      * 用户选择租户

@@ -2,6 +2,8 @@ package com.luo.auth.infrastructure.util;
 
 import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.common.exception.ServiceException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
@@ -76,13 +78,11 @@ public class JwtUtil {
                 .compact();
     }
 
-    public boolean validateToken(String token) {
+    public Jws<Claims> tokenAnalysis(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token);
+            return Jwts.parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token);
         }catch (Exception e) {
-            log.error("令牌校验失败", e);
-            return false;
+            throw new ServiceException("令牌解析失败", e);
         }
-        return true;
     }
 }

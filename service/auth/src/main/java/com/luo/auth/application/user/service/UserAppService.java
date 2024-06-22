@@ -5,6 +5,7 @@ import com.luo.auth.application.user.dto.command.VerificationCodeCommand;
 import com.luo.auth.application.user.dto.query.UserQuery;
 import com.luo.auth.application.user.dto.vo.UserCodeVo;
 import com.luo.auth.application.user.dto.vo.UserVO;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @Description
@@ -16,7 +17,7 @@ public interface UserAppService {
 
     void userRegistration(UserRegistrationCommand userRegistrationCommand);
 
-    UserVO userLogin(UserQuery userQuery);
+    UserVO userLogin(UserQuery userQuery, HttpServletRequest request);
 
     void choiceTenant(Long tenantId);
 }
