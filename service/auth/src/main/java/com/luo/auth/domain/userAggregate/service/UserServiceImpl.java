@@ -49,7 +49,13 @@ public class UserServiceImpl {
         user = getUser(user, request);
         // 防止并发生成多个token
         RLock lock = redisson.getLock(CacheKeyEnum.GenerateToken.create(user.getAccount()));
-        lock.lock(60, TimeUnit.SECONDS);
+        try {
+            if (!lock.tryLock(0,60, TimeUnit.SECONDS)) {
+                return user;
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         // 分配token
         String token = jwtUtil.generateToken(user);
         user.setToken(Token.builder().token(token).expires(TokenConstant.TOKEN_SURVIVAL_TIME).build());

@@ -1,11 +1,10 @@
 package com.luo.auth.infrastructure.config.mybatis;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
+import com.luo.common.context.tenant.TenantContextHolder;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
-import net.sf.jsqlparser.expression.StringValue;
 import org.springframework.stereotype.Component;
-import com.luo.common.context.tenant.TenantContextHolder;
 @Component
 public class CustomTenantHandler implements TenantLineHandler {
 
@@ -20,6 +19,6 @@ public class CustomTenantHandler implements TenantLineHandler {
     @Override
     public boolean ignoreTable(String tableName) {
         // 根据需要返回是否忽略该表
-        return tableName.equals("user");
+        return tableName.equals("user")||tableName.equals("tenant");
     }
 }

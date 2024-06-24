@@ -1,4 +1,4 @@
-CREATE TABLE tenant_user_po (
+CREATE TABLE tenant_user(
                                 id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '唯一标识',
                                 tenant_id BIGINT NOT NULL COMMENT '租户唯一标识 建表需增加索引',
                                 create_user BIGINT COMMENT '创建人',

@@ -1,5 +1,6 @@
 package com.luo.auth.infrastructure.repository.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.domain.userAggregate.repository.UserRepository;
@@ -17,7 +18,7 @@ public class UserRepositoryImpl extends ServiceImpl<UserMapper,UserPO> implement
     @Override
     public User getUserByAccount(String account) {
         Assert.notNull(account,"用户账号不能为空");
-        UserPO userPO = getOne(lambdaQuery().eq(UserPO::getAccount, account));
+        UserPO userPO = getOne(Wrappers.<UserPO>lambdaQuery().eq(UserPO::getAccount, account));
         // todo 查询权限
         return switch (userPO) {
             case UserPO po -> userConverter.userPoToUser(po);

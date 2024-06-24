@@ -49,6 +49,3 @@ mybatis-plus:
       # 数据库配置
       id-type: assign_id
     banner: false
-logging:
-  level:
-    org.springframework.security: DEBUG
