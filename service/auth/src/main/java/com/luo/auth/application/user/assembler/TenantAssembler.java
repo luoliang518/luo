@@ -9,9 +9,13 @@ import java.util.List;
 @Component
 public class TenantAssembler {
     public List<TenantVo> assembleTenantVo(List<Tenant> tenants) {
-        return tenants.stream().map(tenant -> TenantVo.builder()
-                .tenantId(tenant.getTenantId())
-                .tenantName(tenant.getTenantName())
-                .build()).toList();
+        return switch (tenants) {
+            case null -> null;
+            case List<Tenant> ignored -> tenants.stream().map(tenant -> TenantVo.builder()
+                    .tenantId(tenant.getTenantId())
+                    .tenantName(tenant.getTenantName())
+                    .build()).toList();
+        };
+
     }
 }

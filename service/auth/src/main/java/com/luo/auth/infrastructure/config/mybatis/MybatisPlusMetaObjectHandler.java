@@ -1,7 +1,6 @@
 package com.luo.auth.infrastructure.config.mybatis;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.luo.common.base.po.BasePO;
 import com.luo.common.context.tenant.TenantContext;
 import com.luo.common.context.tenant.TenantContextHolder;
 import com.luo.common.context.user.UserContext;

@@ -1,7 +1,8 @@
 package com.luo.auth.infrastructure.repository.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.luo.common.base.po.BasePO;
+import com.luo.common.base.BasePO;
+import com.luo.common.enums.CertStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,5 +22,5 @@ public class TenantPO extends BasePO {
     private String cert;
     private String certIssueDate;
     private String certExpiryDate;
-    private String certStatus;
+    private CertStatus certStatus;
 }

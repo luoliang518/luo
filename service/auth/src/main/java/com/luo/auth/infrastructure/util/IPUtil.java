@@ -48,6 +48,7 @@ public class IPUtil {
         if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
             ip = request.getRemoteAddr();
         }
+        ip = ip.replace(":", ".");
         return ip;
     }
 

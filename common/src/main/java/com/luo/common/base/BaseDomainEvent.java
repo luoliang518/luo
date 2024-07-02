@@ -1,4 +1,4 @@
-package com.luo.common.base.event;
+package com.luo.common.base;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

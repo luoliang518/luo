@@ -45,6 +45,7 @@ public class UserAssembler {
                 .userId(user.getUserId())
                 .account(user.getAccount())
                 .username(user.getUsername())
+                .token(user.getToken())
                 .tenantVos(
                         tenantAssembler.assembleTenantVo(user.getTenants())
                 )

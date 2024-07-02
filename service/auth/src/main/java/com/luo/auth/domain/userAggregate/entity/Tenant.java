@@ -1,8 +1,6 @@
 package com.luo.auth.domain.userAggregate.entity;
 
-import com.luo.common.base.po.BasePO;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @Description

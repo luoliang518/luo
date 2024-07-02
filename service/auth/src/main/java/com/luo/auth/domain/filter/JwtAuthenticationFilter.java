@@ -45,7 +45,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain chain)
             throws ServletException, IOException {
         // 判断接口是否需要放行
-        releaseRequest(request, response, chain);
+        if(isPathAllowed(request.getServletPath())){
+            chain.doFilter(request, response);
+            return;
+        }
         // 获取用户信息
         User user = initUser(request);
         // 存入auth信息上下文
@@ -80,12 +83,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throw new ServiceException("登录信息已过期，请重新登录");
         }
         return user;
-    }
-
-    private void releaseRequest(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if(isPathAllowed(request.getServletPath())){
-            chain.doFilter(request, response);
-        }
     }
 
     private boolean isPathAllowed(String requestPath) {

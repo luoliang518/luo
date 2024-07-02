@@ -2,7 +2,10 @@ package com.luo.auth.application.user.dto.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @Description
@@ -10,9 +13,10 @@ import lombok.NoArgsConstructor;
  * @Date 2024/6/14
  */
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TenantVo {
+public class TenantVo implements Serializable {
     private String tenantId;
     private String tenantName;
 }
