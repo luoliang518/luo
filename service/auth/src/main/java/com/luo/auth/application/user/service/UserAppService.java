@@ -19,5 +19,4 @@ public interface UserAppService {
 
     UserVO userLogin(UserQuery userQuery, HttpServletRequest request);
 
-    void choiceTenant(Long tenantId);
 }

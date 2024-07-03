@@ -17,6 +17,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TenantVo implements Serializable {
-    private String tenantId;
+    private Long tenantId;
     private String tenantName;
 }

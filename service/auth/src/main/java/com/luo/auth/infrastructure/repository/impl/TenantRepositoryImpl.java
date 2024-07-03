@@ -2,7 +2,7 @@ package com.luo.auth.infrastructure.repository.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.luo.auth.domain.userAggregate.repository.TenantRepository;
+import com.luo.auth.domain.tenantAggregate.respository.TenantRepository;
 import com.luo.auth.infrastructure.repository.mapper.TenantMapper;
 import com.luo.auth.infrastructure.repository.mapper.TenantUserMapper;
 import com.luo.auth.infrastructure.repository.po.TenantPO;

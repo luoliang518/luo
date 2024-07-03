@@ -13,20 +13,19 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class RoleServiceImpl {
+public class RoleService {
     private final RoleGroupRepository roleGroupRepository;
     private final RoleGroupConverter roleGroupConverter;
+
     public void addOrEditRoleGroup(RoleGroup roleGroup) {
         RoleGroupPO roleGroupPO = null;
-            roleGroupPO = roleGroupConverter.roleGroupToRoleGroupPO(roleGroup);
-
-
+        roleGroupPO = roleGroupConverter.roleGroupToRoleGroupPO(roleGroup);
         // 校验是否已存在同名角色组
-        if (roleGroupPO.getId()!=null) {
+        if (roleGroupPO.getId() != null) {
             roleGroupRepository.getOneOpt(
                             Wrappers.lambdaQuery(roleGroupPO)
                                     .eq(RoleGroupPO::getRoleGroupName, roleGroupPO.getRoleGroupName()))
-                    .ifPresent(one->{
+                    .ifPresent(one -> {
                         throw new ServiceException("已存在同名角色组");
                     });
         }

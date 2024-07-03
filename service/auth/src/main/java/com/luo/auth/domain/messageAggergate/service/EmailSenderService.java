@@ -1,29 +1,26 @@
 package com.luo.auth.domain.messageAggergate.service;
 
 import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
+import com.luo.auth.infrastructure.acl.CacheAcl;
 import com.luo.auth.infrastructure.config.code.EmailConfig;
-import com.luo.common.enums.CacheKeyEnum;
 import com.luo.common.exception.ServiceException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RedissonClient;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
-import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 @AllArgsConstructor
 public class EmailSenderService {
     private EmailConfig emailConfig;
     private final JavaMailSender mailSender;
-    private final RedissonClient redisson;
+    private final CacheAcl cacheAcl;
     private final TemplateEngine templateEngine;
 
     private void sendEmail(String to, String subject, String content) throws MessagingException {
@@ -37,17 +34,13 @@ public class EmailSenderService {
 
     public VerificationCode sendVerificationCode(VerificationCode verificationCode) {
         // 判断是否已发送过验证码
-        long keepLive = redisson.getBucket(CacheKeyEnum.SendEmailCode.create(verificationCode.getEmailMessage().getEmail()))
-                .remainTimeToLive();
+        long keepLive = cacheAcl.getEmailKeepLive(verificationCode);
         if (keepLive>0){
-            return ((VerificationCode) redisson.getBucket(CacheKeyEnum.SendEmailCode.create(verificationCode.getEmailMessage().getEmail()))
-                    .get()).setExpiration(keepLive/1000);
+            return cacheAcl.getEmailCode(verificationCode).setExpiration(keepLive/1000);
         }
         verificationCode.setVerificationCode();
         // 记录缓存
-        redisson.getBucket(CacheKeyEnum.SendEmailCode.create(verificationCode.getEmailMessage().getEmail()))
-                .set(verificationCode,verificationCode.getExpiration(), TimeUnit.SECONDS);
-
+        cacheAcl.saveEmailCode(verificationCode);
         String subject = "LuoAuth Your verification code";
         String content = verificationCode.getCode();
         verificationCode.getEmailMessage().setMessage(subject,content);
@@ -77,6 +70,8 @@ public class EmailSenderService {
         mailSender.send(mimeMessage);
     }
 
-    public void verifyVerificationCode(VerificationCode verificationCode) {
+    public boolean verifyVerificationCode(VerificationCode verificationCode) {
+        VerificationCode verificationCodeCache = cacheAcl.getEmailCode(verificationCode).setExpiration(verificationCode.getExpiration());
+        return verificationCodeCache.getCode().equals(verificationCode.getCode());
     }
 }

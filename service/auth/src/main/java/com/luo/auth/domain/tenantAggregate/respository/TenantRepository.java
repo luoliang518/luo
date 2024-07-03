@@ -1,9 +1,7 @@
-package com.luo.auth.domain.userAggregate.repository;
+package com.luo.auth.domain.tenantAggregate.respository;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luo.auth.infrastructure.repository.po.TenantPO;
-import com.luo.auth.infrastructure.repository.po.TenantUserPO;
-import com.luo.auth.infrastructure.repository.po.UserPO;
 
 import java.util.List;
 

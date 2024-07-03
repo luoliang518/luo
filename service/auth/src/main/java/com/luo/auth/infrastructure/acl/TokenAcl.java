@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class TokenAcl {
     private final JwtUtil jwtUtil;
-    private final UserDetailsService userDetailsService;
 
     public void initAuthentication(HttpServletRequest request,User user) {
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -32,5 +30,13 @@ public class TokenAcl {
 
     public Jws<Claims> getTokenFromRequest(String requestTokenHeader) {
         return jwtUtil.tokenAnalysis(requestTokenHeader.substring(7));
+    }
+
+    public String generateToken(User user) {
+        return jwtUtil.generateToken(user);
+    }
+
+    public Jws<Claims> tokenAnalysis(String tokenHeader) {
+        return jwtUtil.tokenAnalysis(tokenHeader);
     }
 }

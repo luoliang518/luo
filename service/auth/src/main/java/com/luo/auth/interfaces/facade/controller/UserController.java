@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/userAuth")
-public class UserAuthController {
+public class UserController {
     private final UserAppService UserAppService;
     /**
      * 项目正常测试接口
@@ -48,12 +48,5 @@ public class UserAuthController {
     public Response<UserVO> userLogin(@RequestBody UserQuery userQuery, HttpServletRequest request){
         return ResponseUtil.success(UserAppService.userLogin(userQuery,request));
     }
-    /**
-     * 用户选择租户
-     */
-    @PostMapping("/choiceTenant")
-    public Response<?> choiceTenant(@RequestBody Long tenantId){
-        UserAppService.choiceTenant(tenantId);
-        return ResponseUtil.success();
-    }
+
 }

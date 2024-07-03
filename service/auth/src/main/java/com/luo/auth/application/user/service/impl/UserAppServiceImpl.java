@@ -9,11 +9,15 @@ import com.luo.auth.application.user.dto.vo.UserVO;
 import com.luo.auth.application.user.service.UserAppService;
 import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
 import com.luo.auth.domain.messageAggergate.service.EmailSenderService;
-import com.luo.auth.domain.userAggregate.service.UserServiceImpl;
-import jakarta.servlet.ServletRequest;
+import com.luo.auth.domain.tenantAggregate.service.TenantService;
+import com.luo.auth.domain.userAggregate.entity.User;
+import com.luo.auth.domain.userAggregate.service.UserService;
+import com.luo.common.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @Description
@@ -23,7 +27,8 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class UserAppServiceImpl implements UserAppService {
-    private final UserServiceImpl userService;
+    private final UserService userService;
+    private final TenantService tenantService;
     private final EmailSenderService emailSenderService;
     private final UserAssembler userAssembler;
 
@@ -39,21 +44,24 @@ public class UserAppServiceImpl implements UserAppService {
 
     @Override
     public void userRegistration(UserRegistrationCommand userRegistrationCommand) {
-        // 校验验证码
-        emailSenderService.verifyVerificationCode(
-                userAssembler.assembleVerificationCode(userRegistrationCommand.getVerificationCodeCommand())
-        );
-        // 保存用户
-        userService.userRegistration(userAssembler.assembleUser(userRegistrationCommand));
+        Optional.of(userRegistrationCommand)
+                // 将用户注册命令映射为验证码命令
+                .map(cmd -> userAssembler.assembleVerificationCode(cmd.getVerificationCodeCommand()))
+                // 过滤掉验证失败的情况
+                .filter(emailSenderService::verifyVerificationCode)
+                // 如果验证成功，进行用户注册
+                .map(cmd -> {
+                    userService.userRegistration(userAssembler.assembleUser(userRegistrationCommand));
+                    return cmd;
+                })
+                // 如果没有通过过滤，则抛出异常
+                .orElseThrow(() -> new ServiceException("验证码错误"));
     }
 
     @Override
     public UserVO userLogin(UserQuery userQuery, HttpServletRequest request) {
-        return userAssembler.assembleUserVO(userService.authUser(userAssembler.assembleUser(userQuery),request));
-    }
-
-    @Override
-    public void choiceTenant(Long tenantId) {
-        userService.choiceTenant(tenantId);
+        User user = userService.authUser(userAssembler.assembleUser(userQuery), request);
+        tenantService.authTenant(user);
+        return userAssembler.assembleUserVO(user);
     }
 }

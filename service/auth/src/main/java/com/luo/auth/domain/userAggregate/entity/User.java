@@ -5,8 +5,10 @@ import com.luo.auth.domain.roleAggregate.entity.RoleGroup;
 import com.luo.auth.infrastructure.config.security.dto.PermissionSecurity;
 import com.luo.common.constant.TokenConstant;
 import com.luo.common.exception.ServiceException;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +22,8 @@ import java.util.Optional;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     private Long userId;
     // 用户名
@@ -122,5 +126,17 @@ public class User {
         if (!roleGroupList.isEmpty()) {
             this.roleGroups = roleGroupList;
         }
+    }
+
+    public void setTokenStr(Token build) {
+
+    }
+
+    public User setDefSurvivalToken(String token) {
+        this.setToken(Token.builder()
+                .token(token)
+                .expires(TokenConstant.TOKEN_SURVIVAL_TIME)
+                .build());
+        return this;
     }
 }

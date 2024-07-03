@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
-public class AuthenticationAcl {
+public class AuthAcl {
 
     private final AuthenticationManager authenticationManager;
     public User authUser(User user) {

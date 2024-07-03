@@ -72,6 +72,7 @@ public class JwtUtil {
                 .claim("email",user.getEmail())
                 .claim("phone",user.getPhone())
                 .claim("tenantId",user.getCurrentTenant()==null?null:user.getCurrentTenant().getTenantId())
+                .claim("tenantName",user.getCurrentTenant()==null?null:user.getCurrentTenant().getTenantName())
                 .setIssuedAt(new Date())
                 .setExpiration(user.getTokenDueTime())
                 .signWith(privateKey, SignatureAlgorithm.RS256)
