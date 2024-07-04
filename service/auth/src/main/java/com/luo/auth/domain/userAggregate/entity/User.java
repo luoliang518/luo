@@ -132,11 +132,10 @@ public class User {
 
     }
 
-    public User setDefSurvivalToken(String token) {
-        this.setToken(Token.builder()
+    public void setDefSurvivalToken(String token) {
+        this.token = Token.builder()
                 .token(token)
                 .expires(TokenConstant.TOKEN_SURVIVAL_TIME)
-                .build());
-        return this;
+                .build();
     }
 }

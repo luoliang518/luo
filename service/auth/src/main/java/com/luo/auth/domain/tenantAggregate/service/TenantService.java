@@ -33,14 +33,22 @@ public class TenantService {
         String token = tokenAcl.generateToken(user);
         user.setDefSurvivalToken(token);
         // 存入缓存
-        cacheAcl.saveUserTokenCache(request, user, token);
+        cacheAcl.saveUserTokenCache(request, user);
         return user;
     }
 
-    public void authTenant(User user) {
-        // 构建返回的租户列表
-        List<TenantPO> list = tenantRepository.getTenantListByUserId(user.getUserId());
-        List<Tenant> tenants = tenantConverter.tenantPOsToTenants(list);
-        user.setTenants(tenants);
+    public User authTenant(User user, HttpServletRequest request) {
+        User cacheUser = cacheAcl.getUserInfo(user.getAccount(), request);
+        if (cacheUser!=null&&cacheUser.getTenants()!=null&&!cacheUser.getTenants().isEmpty()){
+            return cacheUser;
+        }else {
+            // 构建返回的租户列表
+            List<TenantPO> list = tenantRepository.getTenantListByUserId(user.getUserId());
+            List<Tenant> tenants = tenantConverter.tenantPOsToTenants(list);
+            user.setTenants(tenants);
+            // 存入缓存
+            cacheAcl.saveUserTokenCache(request, user);
+            return user;
+        }
     }
 }

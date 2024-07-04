@@ -60,8 +60,9 @@ public class UserAppServiceImpl implements UserAppService {
 
     @Override
     public UserVO userLogin(UserQuery userQuery, HttpServletRequest request) {
+        // 认证用户
         User user = userService.authUser(userAssembler.assembleUser(userQuery), request);
-        tenantService.authTenant(user);
-        return userAssembler.assembleUserVO(user);
+        // 认证用户所在租户
+        return userAssembler.assembleUserVO(tenantService.authTenant(user,request));
     }
 }

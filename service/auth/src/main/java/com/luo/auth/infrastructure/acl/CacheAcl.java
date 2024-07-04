@@ -42,11 +42,11 @@ public class CacheAcl {
     }
 
 
-    public void saveUserTokenCache(HttpServletRequest request, User user, String token) {
+    public void saveUserTokenCache(HttpServletRequest request, User user) {
         // 存入缓存
         redisson.getBucket(CacheKeyEnum.User.create(user.getAccount(), IPUtil.getIPAddress(request),
                         CacheKeyEnum.UserToken.create()))
-                .set(token, user.getToken().getExpires(), TimeUnit.SECONDS);
+                .set(user.getToken().getToken(), user.getToken().getExpires(), TimeUnit.SECONDS);
         redisson.getBucket(CacheKeyEnum.User.create(user.getAccount(), IPUtil.getIPAddress(request),
                         CacheKeyEnum.UserInfo.create()))
                 .set(user, user.getToken().getExpires(), TimeUnit.SECONDS);

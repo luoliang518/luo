@@ -39,8 +39,6 @@ public class UserService {
             // 分配token
             String token = tokenAcl.generateToken(finalUser);
             finalUser.setDefSurvivalToken(token);
-            // 存入缓存
-            cacheAcl.saveUserTokenCache(request, finalUser, token);
             return finalUser;
         });
     }
