@@ -1,11 +1,9 @@
 package com.luo.auth.domain.filter;
 
 import com.luo.auth.domain.userAggregate.entity.User;
-import com.luo.auth.domain.userAggregate.service.UserService;
 import com.luo.auth.infrastructure.acl.TokenAcl;
 import com.luo.auth.infrastructure.util.IPUtil;
 import com.luo.auth.infrastructure.util.RequestUtil;
-import com.luo.common.constant.TokenConstant;
 import com.luo.common.context.user.UserContext;
 import com.luo.common.context.user.UserContextHolder;
 import com.luo.common.enums.CacheKeyEnum;
@@ -17,7 +15,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
+import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -32,13 +32,15 @@ import java.util.Set;
  */
 @Component
 @AllArgsConstructor
+@Slf4j
+@Order(1)
 public class UserFilter extends OncePerRequestFilter {
     private static final Set<String> ALLOWED_PATHS = new HashSet<>(Arrays.asList(
-            "/userAuth/**"
+            "/user/**"
     ));
     private final TokenAcl tokenAcl;
     private final RedissonClient redisson;
-    private final UserService userService;
+//    private final UserService userService;
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -52,19 +54,20 @@ public class UserFilter extends OncePerRequestFilter {
         }
         // 获取用户信息
         User user = initUser(request);
-        // 存入auth信息上下文
-        tokenAcl.initAuthentication(request, user);
         // 存入本地线程上下文
         UserContextHolder.set(UserContext.builder()
                 .userId(user.getUserId())
                 .account(user.getAccount())
                 .username(user.getUsername())
                 .build());
-        // 判断是否需要令牌续命
-        if (TokenConstant.TOKEN_REFRESH_TIME > user.getTokenSurvivalTime().getTime()){
-            User newUser = userService.authUser(user, request);
-            response.setHeader("Authorization", "Bearer "+newUser.getToken().getToken());
-        }
+        // 存入auth信息上下文
+        tokenAcl.initAuthentication(request, user);
+        // 判断是否需要令牌续命 todo 解耦
+        // 判断是否已经异步生成token 已生成则直接放入请求头 未生成则异步生成后放入缓存
+//        if (TokenConstant.TOKEN_REFRESH_TIME > user.getTokenSurvivalTime().getTime()){
+//            User newUser = userService.authUser(user, request);
+//            response.setHeader("Authorization", "Bearer "+newUser.getToken().getToken());
+//        }
         chain.doFilter(request, response);
     }
 

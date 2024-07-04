@@ -6,16 +6,20 @@ import com.luo.common.result.Response;
 import com.luo.common.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/role")
+@RequestMapping("/tenant")
 public class TenantController {
     private final TenantAppService tenantAppService;
+    /**
+     * 项目正常测试接口
+     */
+    @GetMapping("/say")
+    public Response<String> sayHello(){
+        return ResponseUtil.success("Hello");
+    }
     /**
      * 用户选择租户
      */

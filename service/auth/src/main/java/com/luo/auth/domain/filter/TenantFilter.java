@@ -16,7 +16,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
+import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -31,9 +33,12 @@ import java.util.Set;
  */
 @Component
 @AllArgsConstructor
+@Slf4j
+@Order(2)
 public class TenantFilter extends OncePerRequestFilter {
     private static final Set<String> ALLOWED_PATHS = new HashSet<>(Arrays.asList(
-            "/userAuth/**"
+            "/user/**",
+            "/tenant/**"
     ));
     private final TokenAcl tokenAcl;
     private final RedissonClient redisson;
@@ -70,7 +75,7 @@ public class TenantFilter extends OncePerRequestFilter {
         // 使用redis优化
         User user = (User)redisson.getBucket(CacheKeyEnum.User.create(
                 jwt.getBody().getSubject(), IPUtil.getIPAddress(request),
-                CacheKeyEnum.UserToken.create())
+                CacheKeyEnum.UserInfo.create())
         ).get();
         if (user == null) {
             throw new ServiceException("登录信息已过期，请重新登录");

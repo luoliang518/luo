@@ -1,6 +1,7 @@
 package com.luo.auth.infrastructure.util;
 
 import com.luo.auth.domain.userAggregate.entity.User;
+import com.luo.common.constant.TokenConstant;
 import com.luo.common.exception.ServiceException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -74,7 +75,8 @@ public class JwtUtil {
                 .claim("tenantId",user.getCurrentTenant()==null?null:user.getCurrentTenant().getTenantId())
                 .claim("tenantName",user.getCurrentTenant()==null?null:user.getCurrentTenant().getTenantName())
                 .setIssuedAt(new Date())
-                .setExpiration(user.getTokenDueTime())
+//                .setExpiration(user.getTokenDueTime())
+                .setExpiration(new Date(new Date().getTime() + TokenConstant.TOKEN_SURVIVAL_TIME))
                 .signWith(privateKey, SignatureAlgorithm.RS256)
                 .compact();
     }

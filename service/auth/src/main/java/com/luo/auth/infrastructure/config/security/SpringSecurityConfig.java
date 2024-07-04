@@ -1,5 +1,8 @@
 package com.luo.auth.infrastructure.config.security;
 
+import com.luo.auth.domain.filter.TenantFilter;
+import com.luo.auth.domain.filter.UserFilter;
+import com.luo.auth.domain.userAggregate.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +12,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -30,7 +33,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @AllArgsConstructor
 @Configuration
 public class SpringSecurityConfig {
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final UserFilter userFilter;
+    private final TenantFilter tenantFilter;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -42,7 +47,7 @@ public class SpringSecurityConfig {
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
+                .userDetailsService(userDetailsServiceImpl)
                 .passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
@@ -56,7 +61,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 // 指定某些接口不需要通过验证即可访问。登录接口肯定是不需要认证的
-                                .requestMatchers("/userAuth/**").permitAll()
+                                .requestMatchers("/user/**").permitAll()
                                 // 静态资源，可匿名访问
 //                                .requestMatchers( "/", "/*.html", "/*/*.html", "/*/*.css", "/*/*.js").permitAll()
 //                                .requestMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**","/doc.html").permitAll()
@@ -64,11 +69,11 @@ public class SpringSecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 // 基于 token，不需要 session
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // cors security 解决方案
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())
-                )
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .addFilterBefore(userFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(tenantFilter, UserFilter.class)
                 .build();
     }
 

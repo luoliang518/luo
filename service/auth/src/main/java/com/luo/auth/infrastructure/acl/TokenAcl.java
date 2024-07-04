@@ -20,9 +20,8 @@ public class TokenAcl {
     public void initAuthentication(HttpServletRequest request,User user) {
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             UserSecurity userSecurity = new UserSecurity(user);
-//            UserDetails userDetails = this.userDetailsService.loadUserByUsername(account);
             var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    userSecurity, null, userSecurity.getAuthorities());
+                    userSecurity, null, null);
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }
