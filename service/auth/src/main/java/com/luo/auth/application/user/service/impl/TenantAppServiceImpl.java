@@ -1,5 +1,7 @@
 package com.luo.auth.application.user.service.impl;
 
+import com.luo.auth.application.user.assembler.UserAssembler;
+import com.luo.auth.application.user.dto.vo.UserVO;
 import com.luo.auth.application.user.service.TenantAppService;
 import com.luo.auth.domain.tenantAggregate.service.TenantService;
 import com.luo.auth.domain.userAggregate.entity.User;
@@ -11,8 +13,9 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class TenantAppServiceImpl implements TenantAppService {
     private final TenantService tenantService;
+    private final UserAssembler userAssembler;
     @Override
-    public User choiceTenant(Long tenantId, HttpServletRequest request) {
-        return tenantService.choiceTenant(tenantId,request);
+    public UserVO choiceTenant(Long tenantId, HttpServletRequest request) {
+        return userAssembler.assembleUserVO(tenantService.choiceTenant(tenantId,request));
     }
 }

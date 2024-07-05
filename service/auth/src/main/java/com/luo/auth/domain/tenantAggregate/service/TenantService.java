@@ -24,7 +24,7 @@ public class TenantService {
     private final CacheAcl cacheAcl;
     public User choiceTenant(Long tenantId, HttpServletRequest request) {
         UserContext userContext = UserContextHolder.get();
-        User user = cacheAcl.getUserInfo(userContext.getAccount(),request) ;
+        User user = cacheAcl.getUserInfo(userContext.getAccount(),request);
         String tenantName = tenantRepository.getById(tenantId).getTenantName();
         user.setCurrentTenant(Tenant.builder()
                 .tenantId(tenantId)
@@ -40,7 +40,7 @@ public class TenantService {
     public User authTenant(User user, HttpServletRequest request) {
         User cacheUser = cacheAcl.getUserInfo(user.getAccount(), request);
         if (cacheUser!=null&&cacheUser.getTenants()!=null&&!cacheUser.getTenants().isEmpty()){
-            return cacheUser;
+            user.setTenants(cacheUser.getTenants());
         }else {
             // 构建返回的租户列表
             List<TenantPO> list = tenantRepository.getTenantListByUserId(user.getUserId());
@@ -48,7 +48,7 @@ public class TenantService {
             user.setTenants(tenants);
             // 存入缓存
             cacheAcl.saveUserTokenCache(request, user);
-            return user;
         }
+        return user;
     }
 }

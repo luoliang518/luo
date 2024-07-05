@@ -15,5 +15,5 @@ spring:
       host: 192.168.81.205
       port: 36379
       password: XYXX@07_27
-      connection-minimum-idle-size: 8
-      connection-pool-size: 8
+      connection-minimum-idle-size: 0
+      connection-pool-size: 4

@@ -53,10 +53,15 @@ public class CacheAcl {
     }
 
     public User getUserInfo(String account, HttpServletRequest request) {
-        return (User) redisson.getBucket(CacheKeyEnum.User.create(
-                account, IPUtil.getIPAddress(request),
-                CacheKeyEnum.UserInfo.create())
-        ).get();
+        try {
+            return (User) redisson.getBucket(CacheKeyEnum.User.create(
+                    account, IPUtil.getIPAddress(request),
+                    CacheKeyEnum.UserInfo.create())
+            ).get();
+        }catch (Exception e){
+            return null;
+        }
+
     }
 
     public long getEmailKeepLive(VerificationCode verificationCode) {

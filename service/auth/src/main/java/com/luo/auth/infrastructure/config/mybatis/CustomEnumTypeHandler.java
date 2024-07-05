@@ -8,11 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class GenericEnumTypeHandler<E extends Enum<E> & BaseEnum<?>> extends BaseTypeHandler<E> {
+public class CustomEnumTypeHandler<E extends Enum<E> & BaseEnum<?>> extends BaseTypeHandler<E> {
 
     private final Class<E> type;
 
-    public GenericEnumTypeHandler(Class<E> type) {
+    public CustomEnumTypeHandler(Class<E> type) {
         if (type == null) {
             throw new IllegalArgumentException("Type 参数不能为 null");
         }

@@ -19,6 +19,8 @@ public class TenantRepositoryImpl extends ServiceImpl<TenantMapper, TenantPO> im
     @Override
     public List<TenantPO> getTenantListByUserId(Long userId) {
         List<TenantUserPO> tenantUserPOS = tenantUserMapper.selectList(Wrappers.<TenantUserPO>lambdaQuery().eq(TenantUserPO::getUserId, userId));
-        return list(Wrappers.<TenantPO>lambdaQuery().in(TenantPO::getId, tenantUserPOS.stream().map(TenantUserPO::getId).toList()));
+        List<TenantPO> list = list(Wrappers.<TenantPO>lambdaQuery().in(TenantPO::getId, tenantUserPOS.stream().map(TenantUserPO::getId).toList()));
+        list.forEach(tenantPO -> tenantPO.setCert(null));
+        return list;
     }
 }

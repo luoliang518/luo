@@ -29,7 +29,7 @@ mybatis-plus:
 #    开启自动驼峰命名规则
     map-underscore-to-camel-case: true
 #    默认枚举处理类
-    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    default-enum-type-handler: com.luo.auth.infrastructure.config.mybatis.CustomEnumTypeHandler
 #    MyBatis 自动映射策略
     auto-mapping-behavior: full
 #    MyBatis 自动映射时未知列或未知属性处理策略

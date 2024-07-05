@@ -1,0 +1,1 @@
+insert into `tenant_user` (`id`, `tenant_id`, `create_user`, `update_user`, `create_time`, `update_time`, `deleted`, `tenant_name`, `user_id`, `user_name`) values('1','1','1','1','2024-07-03 14:23:10','2024-07-03 14:23:10','0','默认租户','1','罗亮');

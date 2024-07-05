@@ -44,7 +44,6 @@ public class JwtUtil {
             // 从秘钥库生成私钥
             privateKey = (PrivateKey) keyStore.getKey(author, pass.toCharArray());
 
-
             // 读取公钥文件
             InputStream publicKeyStream = getClass().getClassLoader().getResourceAsStream("pk/luo_public_key.pem");
             if (publicKeyStream == null) {

@@ -1,71 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <!-- 定义应用名称 -->
     <property name="logback.appname" value="auth" />
-    <!-- 定义控制台输出的日志格式 -->
+
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>
-                ${CONSOLE_LOG_PATTERN}
-            </pattern>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-    <!-- 定义文件输出的日志格式，存储在项目下的./logs文件夹中，文件名使用logback.appname属性 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>./logs/${logback.appname}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- 日志文件按日期和大小滚动 -->
             <fileNamePattern>./logs/${logback.appname}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxFileSize>100MB</maxFileSize> <!-- 每个日志文件最大100MB -->
-            <totalSizeCap>1GB</totalSizeCap> <!-- 所有日志文件总大小上限1GB -->
-            <maxHistory>30</maxHistory> <!-- 保留30天的日志 -->
+            <maxFileSize>100MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
-
-    <!-- 设置默认的日志级别为INFO，输出到控制台和文件 -->
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </root>
 
-    <!-- Spring Boot 日志配置 -->
-    <logger name="org.springframework.boot" level="ERROR" additivity="false">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
-    </logger>
+<!--    <logger name="org.springframework.boot" level="ERROR" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--        <appender-ref ref="FILE" />-->
+<!--    </logger>-->
 
-    <!-- Spring 日志配置 -->
     <logger name="org.springframework" level="ERROR" additivity="false">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </logger>
 
-    <!-- Spring Security 日志配置 -->
     <logger name="org.springframework.security" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </logger>
-    <logger name="org.mybatis.spring.mapper.ClassPathMapperScanner" level="INFO" additivity="true" includeLocation="true">
-    </logger>
-    <logger name="com.baomidou.mybatisplus.extension.spring" level="INFO" additivity="true" includeLocation="true">
-    </logger>
-    <logger name="net.sf.ehcache.Cache" level="INFO" additivity="true" includeLocation="true">
-    </logger>
-    <logger name="org.mybatis.spring.SqlSessionUtils" level="INFO" additivity="true" includeLocation="true">
-    </logger>
-    <logger name="org.mybatis.spring.transaction" level="INFO" additivity="true" includeLocation="true">
-    </logger>
-    <logger name="com.baomidou.mybatisplus.core.MybatisConfiguration" level="INFO">
-    </logger>
-    <!--mybatis日志输出至logback-->
-    <logger name="MybatisSql2Logback" level="DEBUG">
-        <appender-ref ref="DEBUG_FILE"/>
+
+<!--    <logger name="com.baomidou.mybatisplus" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--        <appender-ref ref="FILE" />-->
+<!--    </logger>-->
+
+<!--    <logger name="com.app.mapper" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--        <appender-ref ref="FILE" />-->
+<!--    </logger>-->
+
+    <logger name="com.zaxxer.hikari" level="ERROR" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
     </logger>
 </configuration>

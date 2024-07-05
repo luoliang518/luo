@@ -26,13 +26,9 @@ import org.springframework.util.StringUtils;
 @Configuration
 @ConfigurationProperties("spring.data.redis")
 public class RedissonConfig {
-
     private String host;
-
     private String password;
-
     private String port;
-
     private String timeout = "10s";
     private int connectionPoolSize = 32;
     private int connectionMinimumIdleSize=0;
@@ -57,10 +53,10 @@ public class RedissonConfig {
         config.setCodec(codec);
         SingleServerConfig serverConfig = config.useSingleServer()
                 .setAddress(ADDRESS_PREFIX + this.host + ":" + port)
-//                .setTimeout(Integer.parseInt(this.timeout.replace("s",""))*1000)
-//                .setPingConnectionInterval(pingConnectionInterval)
-//                .setConnectionPoolSize(this.connectionPoolSize)
-//                .setConnectionMinimumIdleSize(this.connectionMinimumIdleSize)
+                .setTimeout(Integer.parseInt(this.timeout.replace("s",""))*1000)
+                .setPingConnectionInterval(pingConnectionInterval)
+                .setConnectionPoolSize(this.connectionPoolSize)
+                .setConnectionMinimumIdleSize(this.connectionMinimumIdleSize)
                 ;
         if(StringUtils.hasLength(this.password)) {
             serverConfig.setPassword(this.password);
