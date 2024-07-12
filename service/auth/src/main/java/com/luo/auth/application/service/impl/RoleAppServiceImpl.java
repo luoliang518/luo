@@ -1,9 +1,9 @@
-package com.luo.auth.application.user.service.impl;
+package com.luo.auth.application.service.impl;
 
-import com.luo.auth.application.user.assembler.RoleAssembler;
-import com.luo.auth.application.user.dto.command.RoleGroupCommand;
-import com.luo.auth.application.user.dto.vo.RoleGroupVO;
-import com.luo.auth.application.user.service.RoleAppService;
+import com.luo.auth.application.assembler.RoleAssembler;
+import com.luo.auth.application.dto.command.RoleGroupCommand;
+import com.luo.auth.application.service.RoleAppService;
+import com.luo.auth.application.dto.vo.RoleGroupVO;
 import com.luo.auth.domain.roleAggregate.entity.RoleGroup;
 import com.luo.auth.domain.roleAggregate.service.RoleService;
 import lombok.AllArgsConstructor;

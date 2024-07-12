@@ -1,4 +1,4 @@
-package com.luo.auth.application.user.dto.query;
+package com.luo.auth.application.dto.query;
 
 import lombok.Data;
 

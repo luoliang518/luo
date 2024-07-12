@@ -1,6 +1,6 @@
-package com.luo.auth.application.user.assembler;
+package com.luo.auth.application.assembler;
 
-import com.luo.auth.application.user.dto.vo.TenantVo;
+import com.luo.auth.application.dto.vo.TenantVo;
 import com.luo.auth.domain.userAggregate.entity.Tenant;
 import org.springframework.stereotype.Component;
 

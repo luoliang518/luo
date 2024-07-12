@@ -1,7 +1,7 @@
-package com.luo.auth.application.user.assembler;
+package com.luo.auth.application.assembler;
 
-import com.luo.auth.application.user.dto.command.RoleGroupCommand;
-import com.luo.auth.application.user.dto.vo.RoleGroupVO;
+import com.luo.auth.application.dto.command.RoleGroupCommand;
+import com.luo.auth.application.dto.vo.RoleGroupVO;
 import com.luo.auth.domain.roleAggregate.entity.Role;
 import com.luo.auth.domain.roleAggregate.entity.RoleGroup;
 import org.springframework.stereotype.Component;

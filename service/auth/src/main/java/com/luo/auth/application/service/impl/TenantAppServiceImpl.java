@@ -1,10 +1,9 @@
-package com.luo.auth.application.user.service.impl;
+package com.luo.auth.application.service.impl;
 
-import com.luo.auth.application.user.assembler.UserAssembler;
-import com.luo.auth.application.user.dto.vo.UserVO;
-import com.luo.auth.application.user.service.TenantAppService;
+import com.luo.auth.application.assembler.UserAssembler;
+import com.luo.auth.application.dto.vo.UserVO;
+import com.luo.auth.application.service.TenantAppService;
 import com.luo.auth.domain.tenantAggregate.service.TenantService;
-import com.luo.auth.domain.userAggregate.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

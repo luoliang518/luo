@@ -1,4 +1,4 @@
-package com.luo.auth.application.user.dto.command;
+package com.luo.auth.application.dto.command;
 
 import lombok.Data;
 

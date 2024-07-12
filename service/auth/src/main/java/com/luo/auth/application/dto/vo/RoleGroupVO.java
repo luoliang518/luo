@@ -1,4 +1,4 @@
-package com.luo.auth.application.user.dto.vo;
+package com.luo.auth.application.dto.vo;
 
 import com.luo.auth.domain.roleAggregate.entity.Role;
 import lombok.AllArgsConstructor;

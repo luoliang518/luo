@@ -1,8 +1,7 @@
 package com.luo.auth.interfaces.facade.controller;
 
-import com.luo.auth.application.user.dto.vo.UserVO;
-import com.luo.auth.application.user.service.TenantAppService;
-import com.luo.auth.domain.userAggregate.entity.User;
+import com.luo.auth.application.dto.vo.UserVO;
+import com.luo.auth.application.service.TenantAppService;
 import com.luo.common.result.Response;
 import com.luo.common.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;

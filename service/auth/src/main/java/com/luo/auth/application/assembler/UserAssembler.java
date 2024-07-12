@@ -1,10 +1,10 @@
-package com.luo.auth.application.user.assembler;
+package com.luo.auth.application.assembler;
 
-import com.luo.auth.application.user.dto.command.UserRegistrationCommand;
-import com.luo.auth.application.user.dto.command.VerificationCodeCommand;
-import com.luo.auth.application.user.dto.query.UserQuery;
-import com.luo.auth.application.user.dto.vo.UserCodeVo;
-import com.luo.auth.application.user.dto.vo.UserVO;
+import com.luo.auth.application.dto.command.VerificationCodeCommand;
+import com.luo.auth.application.dto.command.UserRegistrationCommand;
+import com.luo.auth.application.dto.query.UserQuery;
+import com.luo.auth.application.dto.vo.UserCodeVo;
+import com.luo.auth.application.dto.vo.UserVO;
 import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
 import com.luo.auth.domain.userAggregate.entity.User;
 import lombok.AllArgsConstructor;
