@@ -6,7 +6,6 @@ CREATE TABLE permission (
                             create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                             update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                             deleted TINYINT DEFAULT 0 COMMENT '逻辑删除 建表需增加索引',
-                            role_id BIGINT NOT NULL COMMENT '角色ID',
                             permission_par_id BIGINT COMMENT '权限父ID',
                             permission_level VARCHAR(50) COMMENT '权限级别',
                             permission_code VARCHAR(255) COMMENT '权限代码',

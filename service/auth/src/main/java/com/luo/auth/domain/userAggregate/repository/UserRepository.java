@@ -2,7 +2,6 @@ package com.luo.auth.domain.userAggregate.repository;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.luo.auth.domain.userAggregate.entity.User;
-import com.luo.auth.infrastructure.repository.mapper.UserMapper;
 import com.luo.auth.infrastructure.repository.po.UserPO;
 
 /**
@@ -12,4 +11,10 @@ import com.luo.auth.infrastructure.repository.po.UserPO;
  */
 public interface UserRepository extends IService<UserPO> {
     User getUserByAccount(String account);
+
+    User getUserRoleGroup(User user);
+
+    User getUserRole(User user);
+
+    User getUserPermission(User user);
 }

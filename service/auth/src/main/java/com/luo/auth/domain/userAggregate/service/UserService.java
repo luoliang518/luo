@@ -42,7 +42,14 @@ public class UserService {
             return finalUser;
         });
     }
-
+    public User initUserRole(User user, HttpServletRequest request) {
+        user = userRepository.getUserRoleGroup(user);
+        user = userRepository.getUserRole(user);
+        user = userRepository.getUserPermission(user);
+        // 存入缓存
+        cacheAcl.saveUserTokenCache(request, user);
+        return user;
+    }
     private User getUser(User user, HttpServletRequest request) {
         // 判断请求头是否拥有token
         switch (RequestUtil.getTokenHeader(request)) {

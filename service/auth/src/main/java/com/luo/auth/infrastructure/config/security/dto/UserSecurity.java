@@ -1,16 +1,16 @@
 package com.luo.auth.infrastructure.config.security.dto;
 
+import com.luo.auth.domain.userAggregate.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
 @Getter
-public class UserSecurity extends User {
-    private com.luo.auth.domain.userAggregate.entity.User user;
+public class UserSecurity extends org.springframework.security.core.userdetails.User {
+    private User user;
 
-    public UserSecurity(com.luo.auth.domain.userAggregate.entity.User user) {
+    public UserSecurity(User user) {
         super(user.getAccount(), user.getPassword(),user.getPermissionSecurityList());
         this.user = user;
     }

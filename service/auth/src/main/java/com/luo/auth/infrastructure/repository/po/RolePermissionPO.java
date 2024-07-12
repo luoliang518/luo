@@ -8,11 +8,10 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@TableName("permission")
-public class PermissionPO extends BasePO {
-    private Long permissionParId;
-    private PermissionLevelEnum permissionLevel;
-    private String permissionCode;
+@TableName("role_permission")
+public class RolePermissionPO extends BasePO {
+    private Long roleId;
+    private String roleName;
+    private Long permissionId;
     private String permissionName;
-    private String permissionDesc;
 }

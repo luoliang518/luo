@@ -21,7 +21,7 @@ public class TokenAcl {
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             UserSecurity userSecurity = new UserSecurity(user);
             var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    userSecurity, null, null);
+                    userSecurity, null, userSecurity.getAuthorities());
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }

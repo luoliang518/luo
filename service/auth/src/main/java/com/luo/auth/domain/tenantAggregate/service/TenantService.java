@@ -7,6 +7,8 @@ import com.luo.auth.infrastructure.acl.CacheAcl;
 import com.luo.auth.infrastructure.acl.TokenAcl;
 import com.luo.auth.infrastructure.converter.TenantConverter;
 import com.luo.auth.infrastructure.repository.po.TenantPO;
+import com.luo.common.context.tenant.TenantContext;
+import com.luo.common.context.tenant.TenantContextHolder;
 import com.luo.common.context.user.UserContext;
 import com.luo.common.context.user.UserContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,8 +25,8 @@ public class TenantService {
     private final TokenAcl tokenAcl;
     private final CacheAcl cacheAcl;
     public User choiceTenant(Long tenantId, HttpServletRequest request) {
-        UserContext userContext = UserContextHolder.get();
-        User user = cacheAcl.getUserInfo(userContext.getAccount(),request);
+        // 获取用户信息
+        User user = cacheAcl.getUserInfo(UserContextHolder.get().getAccount(),request);
         String tenantName = tenantRepository.getById(tenantId).getTenantName();
         user.setCurrentTenant(Tenant.builder()
                 .tenantId(tenantId)
@@ -32,8 +34,8 @@ public class TenantService {
         // 分配token
         String token = tokenAcl.generateToken(user);
         user.setDefSurvivalToken(token);
-        // 存入缓存
-        cacheAcl.saveUserTokenCache(request, user);
+        // 设置本地线程租户信息
+        TenantContextHolder.set(TenantContext.builder().tenantId(tenantId).tenantName(tenantName).build());
         return user;
     }
 

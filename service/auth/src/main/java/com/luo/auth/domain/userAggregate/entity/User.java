@@ -119,19 +119,6 @@ public class User {
         }
     }
 
-    /**
-     * 保存用户角色组
-     */
-    public void saveRoleGroup(List<RoleGroup> roleGroupList) {
-        if (!roleGroupList.isEmpty()) {
-            this.roleGroups = roleGroupList;
-        }
-    }
-
-    public void setTokenStr(Token build) {
-
-    }
-
     public void setDefSurvivalToken(String token) {
         this.token = Token.builder()
                 .token(token)
