@@ -28,17 +28,17 @@
         <appender-ref ref="FILE"/>
     </root>
 
-<!--    <logger name="org.springframework.boot" level="ERROR" additivity="false">-->
-<!--        <appender-ref ref="CONSOLE" />-->
-<!--        <appender-ref ref="FILE" />-->
-<!--    </logger>-->
+    <logger name="org.springframework.boot" level="ERROR" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </logger>
 
     <logger name="org.springframework" level="ERROR" additivity="false">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </logger>
 
-    <logger name="org.springframework.security" level="DEBUG" additivity="false">
+    <logger name="org.springframework.security" level="ERROR" additivity="false">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </logger>
