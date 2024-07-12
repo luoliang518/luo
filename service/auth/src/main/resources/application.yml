@@ -1,13 +1,10 @@
-auth:
-  author: luoliang
-  password:
 server:
   port: 518
   servlet:
     context-path: /auth
 spring:
   profiles:
-    active: org
+    active: org,pwd
   application:
     name: auth
   mail:
