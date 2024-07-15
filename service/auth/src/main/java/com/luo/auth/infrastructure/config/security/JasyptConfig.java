@@ -8,12 +8,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class JasyptConfig {
-    @Value("${jasypt.encryptor.password}")
+    @Value("${auth.password}")
     private String password;
     @Bean("jasyptStringEncryptor")
     public StringEncryptor stringEncryptor() {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-        encryptor.setPassword(password); // 加密密钥
+        // 加密密钥
+        encryptor.setPassword(password);
         encryptor.setAlgorithm("PBEWithMD5AndDES");
         return encryptor;
     }

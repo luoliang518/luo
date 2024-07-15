@@ -7,6 +7,7 @@ import com.luo.auth.infrastructure.acl.CacheAcl;
 import com.luo.auth.infrastructure.acl.TokenAcl;
 import com.luo.auth.infrastructure.converter.TenantConverter;
 import com.luo.auth.infrastructure.repository.po.TenantPO;
+import com.luo.auth.infrastructure.util.IPUtil;
 import com.luo.common.context.tenant.TenantContext;
 import com.luo.common.context.tenant.TenantContextHolder;
 import com.luo.common.context.user.UserContext;
@@ -26,7 +27,7 @@ public class TenantService {
     private final CacheAcl cacheAcl;
     public User choiceTenant(Long tenantId, HttpServletRequest request) {
         // 获取用户信息
-        User user = cacheAcl.getUserInfo(UserContextHolder.get().getAccount(),request);
+        User user = cacheAcl.getUserInfo(UserContextHolder.get().getAccount(), IPUtil.getIPAddress(request));
         String tenantName = tenantRepository.getById(tenantId).getTenantName();
         user.setCurrentTenant(Tenant.builder()
                 .tenantId(tenantId)
@@ -40,7 +41,7 @@ public class TenantService {
     }
 
     public User authTenant(User user, HttpServletRequest request) {
-        User cacheUser = cacheAcl.getUserInfo(user.getAccount(), request);
+        User cacheUser = cacheAcl.getUserInfo(user.getAccount(), IPUtil.getIPAddress(request));
         if (cacheUser!=null&&cacheUser.getTenants()!=null&&!cacheUser.getTenants().isEmpty()){
             user.setTenants(cacheUser.getTenants());
         }else {

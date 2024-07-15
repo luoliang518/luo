@@ -26,6 +26,7 @@ import org.springframework.util.StringUtils;
 @Configuration
 @ConfigurationProperties("spring.data.redis")
 public class RedissonConfig {
+    private int database;
     private String host;
     private String password;
     private String port;
@@ -52,6 +53,7 @@ public class RedissonConfig {
         JsonJacksonCodec codec = new JsonJacksonCodec(objectMapper);
         config.setCodec(codec);
         SingleServerConfig serverConfig = config.useSingleServer()
+                .setDatabase(database)
                 .setAddress(ADDRESS_PREFIX + this.host + ":" + port)
                 .setTimeout(Integer.parseInt(this.timeout.replace("s",""))*1000)
                 .setPingConnectionInterval(pingConnectionInterval)

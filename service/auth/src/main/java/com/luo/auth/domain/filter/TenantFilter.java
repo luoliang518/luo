@@ -2,6 +2,7 @@ package com.luo.auth.domain.filter;
 
 import com.luo.auth.domain.userAggregate.entity.Tenant;
 import com.luo.auth.domain.userAggregate.entity.User;
+import com.luo.auth.infrastructure.acl.CacheAcl;
 import com.luo.auth.infrastructure.acl.TokenAcl;
 import com.luo.auth.infrastructure.util.IPUtil;
 import com.luo.auth.infrastructure.util.RequestUtil;
@@ -41,7 +42,7 @@ public class TenantFilter extends OncePerRequestFilter {
             "/tenant/**"
     ));
     private final TokenAcl tokenAcl;
-    private final RedissonClient redisson;
+    private final CacheAcl cacheAcl;
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -53,7 +54,12 @@ public class TenantFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             return;
         }
-        Tenant tenant = initTenant(request);
+        // 从请求头 获取token信息
+        String tokenHeader = RequestUtil.getTokenHeader(request);
+        // 获取ip信息
+        String ipAddress = IPUtil.getIPAddress(request);
+        // 获取租户信息
+        Tenant tenant = initTenant(tokenHeader, ipAddress);
         if (tenant != null) {
             TenantContextHolder.set(TenantContext.builder()
                     .tenantId(tenant.getTenantId())
@@ -65,18 +71,13 @@ public class TenantFilter extends OncePerRequestFilter {
         }
 
     }
-    private Tenant initTenant(HttpServletRequest request) {
-        // 从请求头 获取token信息
-        String tokenHeader = RequestUtil.getTokenHeader(request);
+    private Tenant initTenant(String tokenHeader, String ipAddress) {
         if (tokenHeader == null) {
             throw new ServiceException("用户信息错误或不存在，请重新登录！");
         }
         Jws<Claims> jwt = tokenAcl.getTokenFromRequest(tokenHeader);
-        // 使用redis优化
-        User user = (User)redisson.getBucket(CacheKeyEnum.User.create(
-                jwt.getBody().getSubject(), IPUtil.getIPAddress(request),
-                CacheKeyEnum.UserInfo.create())
-        ).get();
+        // 使用redis查询
+        User user = cacheAcl.getUserInfo(jwt.getBody().getSubject(), ipAddress);
         if (user == null) {
             throw new ServiceException("登录信息已过期，请重新登录");
         }

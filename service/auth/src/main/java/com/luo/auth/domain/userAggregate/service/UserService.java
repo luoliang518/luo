@@ -6,6 +6,7 @@ import com.luo.auth.infrastructure.acl.AuthAcl;
 import com.luo.auth.infrastructure.acl.CacheAcl;
 import com.luo.auth.infrastructure.acl.TokenAcl;
 import com.luo.auth.infrastructure.converter.UserConverter;
+import com.luo.auth.infrastructure.util.IPUtil;
 import com.luo.auth.infrastructure.util.RequestUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -35,7 +36,7 @@ public class UserService {
         user = getUser(user, request);
         User finalUser = user;
         // 防止并发生成多个token
-        return Optional.ofNullable(cacheAcl.getUserLock(request, user)).orElseGet(() -> {
+        return Optional.ofNullable(cacheAcl.getUserLock(IPUtil.getIPAddress(request), user)).orElseGet(() -> {
             // 分配token
             String token = tokenAcl.generateToken(finalUser);
             finalUser.setDefSurvivalToken(token);
@@ -57,7 +58,7 @@ public class UserService {
                 // 校验令牌
                 Jws<Claims> jwt = tokenAcl.tokenAnalysis(tokenHeader);
                 // 使用redis优化
-                return  cacheAcl.getUserInfo(jwt.getBody().getSubject(),request);
+                return  cacheAcl.getUserInfo(jwt.getBody().getSubject(), IPUtil.getIPAddress(request));
             }
             case null ->{
                 // 第一次登录获取用户信息

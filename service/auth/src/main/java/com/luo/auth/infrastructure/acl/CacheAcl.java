@@ -18,16 +18,16 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class CacheAcl {
     private final RedissonClient redisson;
-
+    /*---------------------------------------------token---------------------------------------------*/
     /**
      * 防止并发生成多个token的锁
      */
-    public User getUserLock(HttpServletRequest request, User user) {
+    public User getUserLock(String ipAddress, User user) {
         RLock lock = redisson.getLock(CacheKeyEnum.GenerateToken.create(user.getAccount()));
         try {
             if (!lock.tryLock(0, 60, TimeUnit.SECONDS)) {
-                RBucket<User> bucket = redisson.getBucket(CacheKeyEnum.User.create(
-                        user.getAccount(), IPUtil.getIPAddress(request),
+                RBucket<User> bucket = redisson.getBucket(CacheKeyEnum.UserLogin.create(
+                        user.getAccount(), ipAddress,
                         CacheKeyEnum.UserInfo.create())
                 );
                 if (bucket.isExists()) {
@@ -44,26 +44,35 @@ public class CacheAcl {
 
     public void saveUserTokenCache(HttpServletRequest request, User user) {
         // 存入缓存
-        redisson.getBucket(CacheKeyEnum.User.create(user.getAccount(), IPUtil.getIPAddress(request),
+        redisson.getBucket(CacheKeyEnum.UserLogin.create(user.getAccount(), IPUtil.getIPAddress(request),
                         CacheKeyEnum.UserToken.create()))
                 .set(user.getToken().getToken(), user.getToken().getExpires(), TimeUnit.SECONDS);
-        redisson.getBucket(CacheKeyEnum.User.create(user.getAccount(), IPUtil.getIPAddress(request),
+        redisson.getBucket(CacheKeyEnum.UserLogin.create(user.getAccount(), IPUtil.getIPAddress(request),
                         CacheKeyEnum.UserInfo.create()))
                 .set(user, user.getToken().getExpires(), TimeUnit.SECONDS);
     }
 
-    public User getUserInfo(String account, HttpServletRequest request) {
+    public User getUserInfo(String account, String ipAddress) {
         try {
-            return (User) redisson.getBucket(CacheKeyEnum.User.create(
-                    account, IPUtil.getIPAddress(request),
+            return (User) redisson.getBucket(CacheKeyEnum.UserLogin.create(
+                    account, ipAddress,
                     CacheKeyEnum.UserInfo.create())
             ).get();
         }catch (Exception e){
             return null;
         }
-
     }
-
+    public String getNewToken(String account, String ipAddress) {
+        try {
+            return (String) redisson.getBucket(CacheKeyEnum.UserLogin.create(
+                    account, ipAddress,
+                    CacheKeyEnum.UserNewToken.create())
+            ).getAndDelete();
+        }catch (Exception e){
+            return null;
+        }
+    }
+    /*---------------------------------------------email---------------------------------------------*/
     public long getEmailKeepLive(VerificationCode verificationCode) {
         return redisson.getBucket(CacheKeyEnum.SendEmailCode.create(verificationCode.getEmailMessage().getEmail()))
                 .remainTimeToLive();
@@ -78,4 +87,6 @@ public class CacheAcl {
         redisson.getBucket(CacheKeyEnum.SendEmailCode.create(verificationCode.getEmailMessage().getEmail()))
                 .set(verificationCode,verificationCode.getExpiration(), TimeUnit.SECONDS);
     }
+
+
 }

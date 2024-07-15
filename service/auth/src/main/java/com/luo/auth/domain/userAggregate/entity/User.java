@@ -44,13 +44,16 @@ public class User {
     private List<Tenant> tenants;
     // 角色
     private List<RoleGroup> roleGroups;
+    // ip
+    private String ip;
     // token
     private Token token;
     // token过期时间
     private Date tokenDueTime;
     public Date getTokenDueTime() {
         long currentTime = new Date().getTime();
-        long expirationTime = (this.token == null) ? TokenConstant.TOKEN_SURVIVAL_TIME : this.token.getExpires();
+//        long expirationTime = (this.token == null) ? TokenConstant.TOKEN_SURVIVAL_TIME : this.token.getExpires();
+        long expirationTime = TokenConstant.TOKEN_REFRESH_TIME;
         this.tokenDueTime = new Date(currentTime + expirationTime);
         return this.tokenDueTime;
     }

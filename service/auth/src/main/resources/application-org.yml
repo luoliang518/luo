@@ -17,3 +17,4 @@ spring:
       password: XYXX@07_27
       connection-minimum-idle-size: 0
       connection-pool-size: 4
+      database: 1

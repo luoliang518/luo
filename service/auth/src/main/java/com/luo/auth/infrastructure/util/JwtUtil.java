@@ -74,8 +74,7 @@ public class JwtUtil {
                 .claim("tenantId",user.getCurrentTenant()==null?null:user.getCurrentTenant().getTenantId())
                 .claim("tenantName",user.getCurrentTenant()==null?null:user.getCurrentTenant().getTenantName())
                 .setIssuedAt(new Date())
-//                .setExpiration(user.getTokenDueTime())
-                .setExpiration(new Date(new Date().getTime() + TokenConstant.TOKEN_SURVIVAL_TIME))
+                .setExpiration(user.getTokenDueTime())
                 .signWith(privateKey, SignatureAlgorithm.RS256)
                 .compact();
     }
