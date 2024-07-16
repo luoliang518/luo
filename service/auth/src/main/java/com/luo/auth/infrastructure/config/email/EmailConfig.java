@@ -1,4 +1,4 @@
-package com.luo.auth.infrastructure.config.code;
+package com.luo.auth.infrastructure.config.email;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

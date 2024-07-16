@@ -75,6 +75,7 @@ public class UserFilter extends OncePerRequestFilter {
                 response.setHeader("Authorization", "Bearer "+user.getToken().getToken());
             } else {
                 event.publishEvent(new RefreshTokenEvent(this, tokenHeader, ip));
+                log.info("1111111");
             }
         }
         chain.doFilter(request, response);

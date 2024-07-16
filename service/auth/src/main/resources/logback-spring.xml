@@ -28,20 +28,20 @@
         <appender-ref ref="FILE"/>
     </root>
 
-    <logger name="org.springframework.boot" level="ERROR" additivity="false">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
-    </logger>
+<!--    <logger name="org.springframework.boot" level="ERROR" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--        <appender-ref ref="FILE" />-->
+<!--    </logger>-->
 
-    <logger name="org.springframework" level="ERROR" additivity="false">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
-    </logger>
+<!--    <logger name="org.springframework" level="ERROR" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--        <appender-ref ref="FILE" />-->
+<!--    </logger>-->
 
-    <logger name="org.springframework.security" level="ERROR" additivity="false">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
-    </logger>
+<!--    <logger name="org.springframework.security" level="ERROR" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--        <appender-ref ref="FILE" />-->
+<!--    </logger>-->
 
 <!--    <logger name="com.baomidou.mybatisplus" level="DEBUG" additivity="false">-->
 <!--        <appender-ref ref="CONSOLE" />-->
@@ -53,8 +53,8 @@
 <!--        <appender-ref ref="FILE" />-->
 <!--    </logger>-->
 
-    <logger name="com.zaxxer.hikari" level="ERROR" additivity="false">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
-    </logger>
+<!--    <logger name="com.zaxxer.hikari" level="ERROR" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--        <appender-ref ref="FILE" />-->
+<!--    </logger>-->
 </configuration>
