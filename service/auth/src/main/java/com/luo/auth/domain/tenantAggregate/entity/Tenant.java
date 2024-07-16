@@ -1,4 +1,4 @@
-package com.luo.auth.domain.userAggregate.entity;
+package com.luo.auth.domain.tenantAggregate.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

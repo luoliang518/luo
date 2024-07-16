@@ -1,4 +1,4 @@
-package com.luo.auth.domain.messageAggergate.entity;
+package com.luo.auth.domain.messageAggergate.valueObject;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

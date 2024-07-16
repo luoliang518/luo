@@ -8,14 +8,13 @@ import org.springframework.context.ApplicationEvent;
  * @Author luoliang
  * @Date 2024/7/15
  */
-public class TokenEvent extends ApplicationEvent {
+@Getter
+public class RefreshTokenEvent extends ApplicationEvent {
     private final String token;
-    public TokenEvent(Object source, String token) {
+    private final String ip;
+    public RefreshTokenEvent(Object source, String token, String ip) {
         super(source);
         this.token = token;
-    }
-
-    public String getToken() {
-        return token;
+        this.ip = ip;
     }
 }

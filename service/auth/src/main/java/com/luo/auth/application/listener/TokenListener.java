@@ -1,7 +1,9 @@
 package com.luo.auth.application.listener;
 
-import com.luo.auth.domain.event.TokenEvent;
+import com.luo.auth.domain.event.RefreshTokenEvent;
+import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.domain.userAggregate.service.UserService;
+import com.luo.auth.domain.userAggregate.valueObject.Token;
 import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -16,9 +18,12 @@ import org.springframework.stereotype.Component;
 public class TokenListener {
     private final UserService userService;
     @EventListener
-    public void handleCustomEvent(TokenEvent event) {
-        // 放入缓存新token处 如果新token已经有值，则移入token再赋予新token值
+    public void createNewToken(RefreshTokenEvent event) {
+
         System.out.println("Received event - " + event.getToken());
-//        userService.authUser()
+        User user = userService.authUser(User.builder()
+                .token(new Token().setToken(event.getToken().substring(7)))
+                .ip(event.getIp()).build());
+
     }
 }

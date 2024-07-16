@@ -1,6 +1,6 @@
 package com.luo.auth.domain.messageAggergate.service;
 
-import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
+import com.luo.auth.domain.messageAggergate.valueObject.VerificationCode;
 import com.luo.auth.infrastructure.acl.CacheAcl;
 import com.luo.auth.infrastructure.config.code.EmailConfig;
 import com.luo.common.exception.ServiceException;

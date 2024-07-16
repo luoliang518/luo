@@ -1,9 +1,7 @@
 package com.luo.auth.infrastructure.converter;
 
-import com.luo.auth.domain.userAggregate.entity.Tenant;
-import com.luo.auth.domain.userAggregate.entity.User;
+import com.luo.auth.domain.tenantAggregate.entity.Tenant;
 import com.luo.auth.infrastructure.repository.po.TenantPO;
-import com.luo.auth.infrastructure.repository.po.UserPO;
 import org.mapstruct.Mapper;
 
 import java.util.List;

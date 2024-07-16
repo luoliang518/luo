@@ -43,7 +43,6 @@ public class JwtUtil {
             keyStore.load(inputStream, pass.toCharArray());
             // 从秘钥库生成私钥
             privateKey = (PrivateKey) keyStore.getKey(author, pass.toCharArray());
-
             // 读取公钥文件
             InputStream publicKeyStream = getClass().getClassLoader().getResourceAsStream("pk/luo_public_key.pem");
             if (publicKeyStream == null) {
@@ -71,10 +70,11 @@ public class JwtUtil {
                 .claim("account",user.getAccount())
                 .claim("email",user.getEmail())
                 .claim("phone",user.getPhone())
+                .claim("ip",user.getIp())
                 .claim("tenantId",user.getCurrentTenant()==null?null:user.getCurrentTenant().getTenantId())
                 .claim("tenantName",user.getCurrentTenant()==null?null:user.getCurrentTenant().getTenantName())
                 .setIssuedAt(new Date())
-                .setExpiration(user.getTokenDueTime())
+                .setExpiration(user.getToken().getTokenExpirationTime())
                 .signWith(privateKey, SignatureAlgorithm.RS256)
                 .compact();
     }

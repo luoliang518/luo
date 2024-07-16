@@ -1,6 +1,6 @@
 package com.luo.auth.application.dto.vo;
 
-import com.luo.auth.domain.userAggregate.entity.Token;
+import com.luo.auth.domain.userAggregate.valueObject.Token;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

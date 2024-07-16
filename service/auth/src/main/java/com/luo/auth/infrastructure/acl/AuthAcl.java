@@ -27,6 +27,8 @@ public class AuthAcl {
         if (!authenticate.isAuthenticated()) {
             throw new ServiceException("账号或密码错误");
         }
-        return ((UserSecurity) authenticate.getPrincipal()).getUser();
+        User authUser = ((UserSecurity) authenticate.getPrincipal()).getUser();
+        authUser.setIp(user.getIp());
+        return authUser;
     }
 }

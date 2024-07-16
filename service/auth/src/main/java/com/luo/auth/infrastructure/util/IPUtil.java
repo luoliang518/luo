@@ -13,78 +13,78 @@ import java.net.UnknownHostException;
  */
 public class IPUtil {
     public static String IP = "ip";
-    public static String getIPAddress(HttpServletRequest request) {
+    public static String getip(HttpServletRequest request) {
         String ip = null;
 
         //X-Forwarded-For：Squid 服务代理
-        String ipAddresses = request.getHeader("X-Forwarded-For");
+        String ipes = request.getHeader("X-Forwarded-For");
 
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
+        if (ipes == null || ipes.isEmpty() || "unknown".equalsIgnoreCase(ipes)) {
             //Proxy-Client-IP：apache 服务代理
-            ipAddresses = request.getHeader("Proxy-Client-IP");
+            ipes = request.getHeader("Proxy-Client-IP");
         }
 
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
+        if (ipes == null || ipes.isEmpty() || "unknown".equalsIgnoreCase(ipes)) {
             //WL-Proxy-Client-IP：weblogic 服务代理
-            ipAddresses = request.getHeader("WL-Proxy-Client-IP");
+            ipes = request.getHeader("WL-Proxy-Client-IP");
         }
 
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
+        if (ipes == null || ipes.isEmpty() || "unknown".equalsIgnoreCase(ipes)) {
             //HTTP_CLIENT_IP：有些代理服务器
-            ipAddresses = request.getHeader("HTTP_CLIENT_IP");
+            ipes = request.getHeader("HTTP_CLIENT_IP");
         }
 
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
+        if (ipes == null || ipes.isEmpty() || "unknown".equalsIgnoreCase(ipes)) {
             //X-Real-IP：nginx服务代理
-            ipAddresses = request.getHeader("X-Real-IP");
+            ipes = request.getHeader("X-Real-IP");
         }
 
         //有些网络通过多层代理，那么获取到的ip就会有多个，一般都是通过逗号（,）分割开来，并且第一个ip为客户端的真实IP
-        if (ipAddresses != null && !ipAddresses.isEmpty()) {
-            ip = ipAddresses.split(",")[0];
+        if (ipes != null && !ipes.isEmpty()) {
+            ip = ipes.split(",")[0];
         }
 
         //还是不能获取到，最后再通过request.getRemoteAddr();获取
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ipes)) {
             ip = request.getRemoteAddr();
         }
         ip = ip.replace(":", ".");
         return ip;
     }
 
-    public static String getIPAddress(ServerHttpRequest serverHttpRequest) {
+    public static String getip(ServerHttpRequest serverHttpRequest) {
         String ip = null;
 
         // 获取 X-Forwarded-For 头信息
-        String ipAddresses = serverHttpRequest.getHeaders().getFirst("X-Forwarded-For");
+        String ipes = serverHttpRequest.getHeaders().getFirst("X-Forwarded-For");
 
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
+        if (ipes == null || ipes.isEmpty() || "unknown".equalsIgnoreCase(ipes)) {
             // 获取 Proxy-Client-IP 头信息
-            ipAddresses = serverHttpRequest.getHeaders().getFirst("Proxy-Client-IP");
+            ipes = serverHttpRequest.getHeaders().getFirst("Proxy-Client-IP");
         }
 
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
+        if (ipes == null || ipes.isEmpty() || "unknown".equalsIgnoreCase(ipes)) {
             // 获取 WL-Proxy-Client-IP 头信息
-            ipAddresses = serverHttpRequest.getHeaders().getFirst("WL-Proxy-Client-IP");
+            ipes = serverHttpRequest.getHeaders().getFirst("WL-Proxy-Client-IP");
         }
 
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
+        if (ipes == null || ipes.isEmpty() || "unknown".equalsIgnoreCase(ipes)) {
             // 获取 HTTP_CLIENT_IP 头信息
-            ipAddresses = serverHttpRequest.getHeaders().getFirst("HTTP_CLIENT_IP");
+            ipes = serverHttpRequest.getHeaders().getFirst("HTTP_CLIENT_IP");
         }
 
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
+        if (ipes == null || ipes.isEmpty() || "unknown".equalsIgnoreCase(ipes)) {
             // 获取 X-Real-IP 头信息
-            ipAddresses = serverHttpRequest.getHeaders().getFirst("X-Real-IP");
+            ipes = serverHttpRequest.getHeaders().getFirst("X-Real-IP");
         }
 
         // 有些网络通过多层代理，那么获取到的ip就会有多个，一般都是通过逗号（,）分割开来，并且第一个ip为客户端的真实IP
-        if (ipAddresses != null && !ipAddresses.isEmpty()) {
-            ip = ipAddresses.split(",")[0].trim();
+        if (ipes != null && !ipes.isEmpty()) {
+            ip = ipes.split(",")[0].trim();
         }
 
         // 如果无法获取，最后再通过getRemoteAddress()获取
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ipes)) {
             ip = serverHttpRequest.getRemoteAddress().getAddress().getHostAddress();
         }
 

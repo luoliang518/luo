@@ -14,7 +14,6 @@ public enum CacheKeyEnum implements BaseEnum<String> {
     User("USER",  "存入用户登录信息 前缀"),
     UserInfo("USER_INFO", "存入用户登录时信息"),
     UserToken("USER_TOKEN", "存入用户登录时令牌"),
-    UserNewToken("USER_NEW_TOKEN",  "存入用户令牌续命令牌"),
     UserLogin(CacheKeyEnum.User.create("USER_LOGIN"),"用户登录信息 USER_LOGIN:USER_TOKEN:account:ip:token/user"),
 
     SendEmailCode(CacheKeyEnum.User.create("SEND_EMAIL_CODE"),"用户注册/登录邮箱验证码 USER_LOGIN:SEND_CODE:email"),

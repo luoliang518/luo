@@ -7,11 +7,13 @@ import com.luo.auth.application.dto.vo.UserCodeVo;
 import com.luo.auth.application.service.UserAppService;
 import com.luo.auth.application.dto.query.UserQuery;
 import com.luo.auth.application.dto.vo.UserVO;
-import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
+import com.luo.auth.domain.messageAggergate.valueObject.VerificationCode;
 import com.luo.auth.domain.messageAggergate.service.EmailSenderService;
 import com.luo.auth.domain.tenantAggregate.service.TenantService;
 import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.domain.userAggregate.service.UserService;
+import com.luo.auth.infrastructure.util.IPUtil;
+import com.luo.auth.infrastructure.util.RequestUtil;
 import com.luo.common.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -60,9 +62,13 @@ public class UserAppServiceImpl implements UserAppService {
 
     @Override
     public UserVO userLogin(UserQuery userQuery, HttpServletRequest request) {
+        // 获取ip
+        String ip = IPUtil.getip(request);
+        // 尝试获取token
+        String tokenHeader = RequestUtil.getTokenHeader(request);
         // 认证用户
-        User user = userService.authUser(userAssembler.assembleUser(userQuery), request);
-        // 认证用户所在租户
-        return userAssembler.assembleUserVO(tenantService.authTenant(user,request));
+        User user = userService.authUser(userAssembler.assembleUser(userQuery,ip,tokenHeader));
+        // 认证用户所在租户 并且存入缓存
+        return userAssembler.assembleUserVO(tenantService.authTenant(user));
     }
 }

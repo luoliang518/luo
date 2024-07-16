@@ -5,7 +5,8 @@ import com.luo.auth.application.dto.command.UserRegistrationCommand;
 import com.luo.auth.application.dto.query.UserQuery;
 import com.luo.auth.application.dto.vo.UserCodeVo;
 import com.luo.auth.application.dto.vo.UserVO;
-import com.luo.auth.domain.messageAggergate.entity.VerificationCode;
+import com.luo.auth.domain.messageAggergate.valueObject.VerificationCode;
+import com.luo.auth.domain.userAggregate.valueObject.Token;
 import com.luo.auth.domain.userAggregate.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -34,10 +35,12 @@ public class UserAssembler {
                 .password(userRegistrationCommand.getPassword())
                 .build();
     }
-    public User assembleUser(UserQuery userQuery) {
+    public User assembleUser(UserQuery userQuery, String ip, String token) {
         return User.builder()
                 .account(userQuery.getAccount())
                 .password(userQuery.getPassword())
+                .ip(ip)
+                .token(new Token().setToken(token))
                 .build();
     }
     public UserVO assembleUserVO(User user) {

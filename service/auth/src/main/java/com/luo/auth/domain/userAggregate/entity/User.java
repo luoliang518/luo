@@ -2,6 +2,8 @@ package com.luo.auth.domain.userAggregate.entity;
 
 import com.luo.auth.domain.roleAggregate.entity.Permission;
 import com.luo.auth.domain.roleAggregate.entity.RoleGroup;
+import com.luo.auth.domain.tenantAggregate.entity.Tenant;
+import com.luo.auth.domain.userAggregate.valueObject.Token;
 import com.luo.auth.infrastructure.config.security.dto.PermissionSecurity;
 import com.luo.common.constant.TokenConstant;
 import com.luo.common.exception.ServiceException;
@@ -32,6 +34,8 @@ public class User {
     private String account;
     // 密码
     private String password;
+    // ip
+    private String ip;
     // 头像
     private String avatar;
     // 邮箱
@@ -44,24 +48,8 @@ public class User {
     private List<Tenant> tenants;
     // 角色
     private List<RoleGroup> roleGroups;
-    // ip
-    private String ip;
     // token
     private Token token;
-    // token过期时间
-    private Date tokenDueTime;
-    public Date getTokenDueTime() {
-        long currentTime = new Date().getTime();
-//        long expirationTime = (this.token == null) ? TokenConstant.TOKEN_SURVIVAL_TIME : this.token.getExpires();
-        long expirationTime = TokenConstant.TOKEN_REFRESH_TIME;
-        this.tokenDueTime = new Date(currentTime + expirationTime);
-        return this.tokenDueTime;
-    }
-    public Date getTokenSurvivalTime() {
-        long deathTime = tokenDueTime.getTime();
-        long currentTime = new Date().getTime();
-        return new Date(deathTime - currentTime);
-    }
     /**
      * 获取权限列表 为空返回空列表
      */
@@ -122,10 +110,10 @@ public class User {
         }
     }
 
-    public void setDefSurvivalToken(String token) {
-        this.token = Token.builder()
-                .token(token)
-                .expires(TokenConstant.TOKEN_SURVIVAL_TIME)
-                .build();
+    public Token getToken() {
+        if (this.token==null){
+            this.token = new Token();
+        }
+        return this.token;
     }
 }

@@ -1,4 +1,4 @@
-package com.luo.auth.domain.messageAggergate.entity;
+package com.luo.auth.domain.messageAggergate.valueObject;
 
 import com.luo.common.constant.VerificationCodeConstant;
 import lombok.Getter;
