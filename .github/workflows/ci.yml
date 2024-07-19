@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - '*'  # 当推送到 main 分支时触发
+      - '*'
 
 jobs:
   build:
@@ -22,3 +22,8 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: target/*.jar
