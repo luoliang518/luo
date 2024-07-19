@@ -3,11 +3,11 @@ name: CI
 on:
   push:
     branches:
-      - '*'
+      - main  # 当推送到 main 分支时触发
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -22,8 +22,8 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Upload build artifact
+      - name: Upload JAR
         uses: actions/upload-artifact@v3
         with:
-          name: build-artifact
+          name: luo
           path: target/*.jar
