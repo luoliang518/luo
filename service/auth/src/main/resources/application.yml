@@ -1,5 +1,5 @@
 auth:
-  author: 2000518
+  author:
   password:
 server:
   port: 518
