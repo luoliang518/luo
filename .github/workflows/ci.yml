@@ -16,7 +16,7 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          distribution: 'install'
+          distribution: 'adopt'
           java-version: '21'
 
       - name: Build with Maven
