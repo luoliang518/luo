@@ -1,5 +1,4 @@
 .idea/
 target
 logs/
-pk
 service/auth/src/main/resources/application-pwd.yml
