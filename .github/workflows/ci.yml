@@ -21,9 +21,11 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
+        env:
+          AUTH_PASSWORD: ${{ secrets.AUTH_PASSWORD }}
 
       - name: Upload JAR
         uses: actions/upload-artifact@v3
         with:
           name: luo
-          path: target/*.jar
+          path: build/libs/*.jar
