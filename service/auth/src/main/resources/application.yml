@@ -1,5 +1,5 @@
 auth:
-  author:
+  author: luoliang
   password:
 server:
   port: 518
