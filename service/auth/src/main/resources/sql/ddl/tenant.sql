@@ -10,7 +10,7 @@ CREATE TABLE tenant(
                            contact_name VARCHAR(255) COMMENT '联系人姓名',
                            contact_phone VARCHAR(50) COMMENT '联系电话',
                            contact_email VARCHAR(255) COMMENT '联系邮箱',
-                           cert VARCHAR(255) COMMENT '证书',
+                           cert longblob COMMENT '证书',
                            cert_issue_date DATE COMMENT '证书签发日期',
                            cert_expiry_date DATE COMMENT '证书到期日期',
                            cert_status VARCHAR(50) COMMENT '证书状态',

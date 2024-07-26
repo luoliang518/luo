@@ -1,7 +1,7 @@
 spring:
   data:
     redis:
-      host: 192.168.81.205
-      port: 36379
-      password: XYXX@07_27
-      database: 2
+      host: 192.2.2.183
+      port: 6379
+      password: 123456
+      database: 1

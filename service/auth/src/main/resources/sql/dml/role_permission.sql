@@ -1,0 +1,1 @@
+insert into `role_permission` (`id`, `tenant_id`, `create_user`, `update_user`, `create_time`, `update_time`, `deleted`, `role_id`, `role_name`, `permission_id`, `permission_name`, `permission_code`) values('1','1','1','1','2024-07-12 09:01:32','2024-07-12 09:01:32','0','1','超级管理员','1','首页','index');

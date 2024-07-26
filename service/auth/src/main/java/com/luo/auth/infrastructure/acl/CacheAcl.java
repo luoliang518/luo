@@ -44,10 +44,6 @@ public class CacheAcl {
         redisson.getBucket(CacheKeyEnum.UserLogin.create(user.getAccount(), user.getIp(),
                         CacheKeyEnum.UserInfo.create()))
                 .set(user, user.getToken().getTokenSurvivalTime(), TimeUnit.SECONDS);
-        // 将该token放入缓存新token处 如果新token已经有值，则移入token再赋予新token值
-        redisson.getBucket(CacheKeyEnum.UserLogin.create(user.getAccount(), user.getIp(),
-                        CacheKeyEnum.UserToken.create()))
-                .set(user.getToken(), user.getToken().getTokenSurvivalTime(), TimeUnit.SECONDS);
     }
 
     public User getUserInfo(String account, String ip) {

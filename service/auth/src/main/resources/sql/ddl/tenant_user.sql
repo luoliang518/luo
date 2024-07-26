@@ -13,4 +13,4 @@ CREATE TABLE `tenant_user` (
                                KEY `idx_tenant_id` (`tenant_id`),
                                KEY `idx_deleted` (`deleted`),
                                KEY `idx_user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='租户用户表';
+) ENGINE=InnoDB COMMENT='租户用户表';

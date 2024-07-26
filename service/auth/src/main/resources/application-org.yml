@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://192.168.81.204:3306/school_info_luo
+    url: jdbc:mysql://192.2.2.167:3306/auth
     username: root
-    password: XYXX@07_27
+    password: rgJ4q,q_k#rk
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
@@ -12,9 +12,7 @@ spring:
       max-lifetime: 30000
   data:
     redis:
-      host: 192.168.81.205
-      port: 36379
-      password: XYXX@07_27
-      connection-minimum-idle-size: 0
-      connection-pool-size: 4
+      host: 192.2.2.183
+      port: 6379
+      password: 123456
       database: 1

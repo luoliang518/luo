@@ -1,0 +1,1 @@
+insert into `role` (`id`, `tenant_id`, `create_user`, `update_user`, `create_time`, `update_time`, `deleted`, `role_name`) values('1','1','1','1','2024-07-12 08:52:43','2024-07-12 08:52:52','0','超级管理员');

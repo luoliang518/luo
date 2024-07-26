@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -54,7 +56,6 @@ public class AuthorizationGlobalFilter implements GlobalFilter, Ordered {
         if (StringUtils.hasText(token)) {
             // 合法性校验
             String parsedToken = tokenCache.computeIfAbsent(token, this::parseToken);
-            // 存入redis todo
             if (StringUtils.hasText(parsedToken)){
                 request.mutate().header(TokenConstant.AUTH, TokenConstant.BEARER_PREFIX + token);
                 return chain.filter(exchange);

@@ -1,0 +1,1 @@
+insert into `role_group` (`id`, `tenant_id`, `create_user`, `update_user`, `create_time`, `update_time`, `deleted`, `roel_group_code`, `role_group_name`, `role_ids`) values('1','1','1','1','2024-07-12 09:09:24','2024-07-12 09:09:36','0','admin','管理员用户组','[1]');
