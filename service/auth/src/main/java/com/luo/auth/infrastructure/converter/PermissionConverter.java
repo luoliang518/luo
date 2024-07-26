@@ -8,6 +8,8 @@ import com.luo.auth.infrastructure.repository.po.UserPO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 /**
  * @author luoliang
  */
@@ -15,4 +17,6 @@ import org.mapstruct.Mapping;
 public interface PermissionConverter {
     @Mapping(source = "id", target = "permissionId")
     Permission permissionPoToPermission(PermissionPO permissionPO);
+    @Mapping(source = "id", target = "permissionId")
+    List<Permission> permissionPosToPermissions(List<PermissionPO> permissionPOs);
 }

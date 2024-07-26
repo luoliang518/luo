@@ -6,6 +6,8 @@ package com.luo.common.constant;
  * @Date 2024/6/17
  */
 public class TokenConstant {
+    public final static String BEARER_PREFIX = "Bearer ";
+    public final static String AUTH = "Authorization";
     /*
     令牌存活时间 默认两小时
      */

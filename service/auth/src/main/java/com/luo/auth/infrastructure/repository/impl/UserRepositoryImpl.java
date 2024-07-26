@@ -2,6 +2,9 @@ package com.luo.auth.infrastructure.repository.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luo.auth.domain.roleAggregate.entity.Permission;
 import com.luo.auth.domain.roleAggregate.entity.Role;
 import com.luo.auth.domain.roleAggregate.entity.RoleGroup;
@@ -21,6 +24,7 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
@@ -72,7 +76,7 @@ public class UserRepositoryImpl extends ServiceImpl<UserMapper, UserPO> implemen
 
     @Override
     public User getUserPermission(User user) {
-        user.getRoleGroups().forEach(roleGroup -> {
+        user.getRoleGroups().stream().parallel().forEach(roleGroup -> {
             List<Long> roleIds = roleGroup.getRoles().stream().map(Role::getRoleId).collect(Collectors.toList());
             List<RolePermissionPO> rolePermissionPOs = rolePermissionMapper.selectList(
                     Wrappers.<RolePermissionPO>lambdaQuery().in(RolePermissionPO::getRoleId, roleIds));

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <property name="logback.appname" value="auth" />
+    <property name="logback.appname" value="gateway" />
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -23,7 +23,7 @@
             <charset>UTF-8</charset>
         </encoder>
     </appender>
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </root>
@@ -53,8 +53,12 @@
 <!--        <appender-ref ref="FILE" />-->
 <!--    </logger>-->
 
-<!--    <logger name="com.zaxxer.hikari" level="ERROR" additivity="false">-->
-<!--        <appender-ref ref="CONSOLE" />-->
-<!--        <appender-ref ref="FILE" />-->
-<!--    </logger>-->
+    <logger name="org.springframework.cloud.gateway.filter.factory.RequestRateLimiterGatewayFilterFactory" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="org.springframework.data.redis" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </logger>
 </configuration>

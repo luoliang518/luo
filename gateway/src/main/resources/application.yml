@@ -1,0 +1,23 @@
+server:
+  port: 80
+spring:
+  profiles:
+    active: org,pwd
+  cloud:
+    gateway:
+      default-filters:
+          - name: RequestRateLimiter
+            args:
+              redis-rate-limiter.replenishRate: 1
+              redis-rate-limiter.burstCapacity: 1
+              redis-rate-limiter.requestedTokens: 1
+              key-resolver: "#{@userOrIpKeyResolver}" #这个必须要配置，否则返回403
+      routes:
+        - id: auth
+          uri: http://localhost:518
+          predicates:
+            - Path=/auth/**
+logging:
+  level:
+    org.springframework.cloud.gateway.filter.factory.RequestRateLimiterGatewayFilterFactory: DEBUG
+    org.springframework.data.redis: DEBUG
