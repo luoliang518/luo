@@ -8,7 +8,8 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOrigins:
+              - "https://af95-115-236-36-106.ngrok-free.app/"
             allowedMethods:
               - GET
               - POST

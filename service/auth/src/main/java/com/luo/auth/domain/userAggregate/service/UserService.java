@@ -7,14 +7,17 @@ import com.luo.auth.infrastructure.acl.AuthAcl;
 import com.luo.auth.infrastructure.acl.CacheAcl;
 import com.luo.auth.infrastructure.acl.TokenAcl;
 import com.luo.auth.infrastructure.converter.UserConverter;
+import com.luo.spring.infrastructure.util.AuthorizationUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -67,17 +70,16 @@ public class UserService {
     private User getUser(User user) {
         // 判断请求头是否拥有token
         String token = user.getToken().getToken();
-        return Optional.ofNullable(token)
-                .filter(StringUtils::hasText)
-                .map(t -> {
-                    // 校验令牌
-                    Jws<Claims> jwt = tokenAcl.tokenAnalysis(t);
-                    // 使用 redis 优化
-                    return cacheAcl.getUserInfo(jwt.getBody().getSubject(), user.getIp());
-                })
-                .orElseGet(() -> {
-                    // 第一次登录获取用户信息
-                    return authAcl.authUser(user);
-                });
+        if (StringUtils.hasText(token)) {
+            try {
+                Jws<Claims> jwt = tokenAcl.tokenAnalysis(AuthorizationUtil.getTokenAuth(token));
+                // 使用 redis 优化
+                return cacheAcl.getUserInfo(jwt.getBody().getSubject(), user.getIp());
+            } catch (Exception e) {
+                log.info("token解析错误:" + token, e);
+            }
+        }
+        // 第一次登录获取用户信息
+        return authAcl.authUser(user);
     }
 }

@@ -3,6 +3,7 @@ package com.luo.auth.infrastructure.acl;
 import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.infrastructure.config.security.dto.UserSecurity;
 import com.luo.auth.infrastructure.util.PrivateJwtUtil;
+import com.luo.spring.infrastructure.util.AuthorizationUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +29,7 @@ public class TokenAcl {
     }
 
     public Jws<Claims> getTokenFromRequest(String requestTokenHeader) {
-        return privateJwtUtil.tokenAnalysis(requestTokenHeader.substring(7));
+        return privateJwtUtil.tokenAnalysis(AuthorizationUtil.getTokenAuth(requestTokenHeader));
     }
 
     public String generateToken(User user) {
