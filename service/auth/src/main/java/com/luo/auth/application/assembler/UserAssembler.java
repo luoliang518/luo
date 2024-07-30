@@ -17,7 +17,8 @@ public class UserAssembler {
     private final TenantAssembler tenantAssembler;
     public VerificationCode assembleVerificationCode(VerificationCodeCommand verificationCodeCommand){
         return new VerificationCode(verificationCodeCommand.getPhoneNumber(),
-                verificationCodeCommand.getEmail());
+                verificationCodeCommand.getEmail(),
+                verificationCodeCommand.getCode());
     }
     public UserCodeVo assembleUserCodeVo(VerificationCode verificationCode) {
         return UserCodeVo.builder()

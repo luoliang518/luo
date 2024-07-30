@@ -5,6 +5,8 @@ public enum ResultCode implements BaseCode {
      * 处理成功
      */
     OK(20000, "处理成功"),
+    SEND_CODE_SUCCESS(20100, "验证码发送成功"),
+    USER_REGISTER_SUCCESS(20200, "用户注册成功"),
     /**
      * 失败
      */

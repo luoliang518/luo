@@ -14,6 +14,7 @@ import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -34,6 +35,7 @@ public class UserService {
 
     /**
      * 根据token+ip 或者 账号+密码获取用户
+     *
      * @param user
      * @return
      */
@@ -55,6 +57,7 @@ public class UserService {
             return finalUser;
         });
     }
+
     public User initUserRole(User user) {
         user = userRepository.getUserRoleGroup(user);
         user = userRepository.getUserRole(user);
@@ -63,20 +66,21 @@ public class UserService {
         cacheAcl.saveUserTokenCache(user);
         return user;
     }
+
     private User getUser(User user) {
         // 判断请求头是否拥有token
-        switch (user.getToken().getToken()) {
-            case String token ->{
-                // 校验令牌
-                Jws<Claims> jwt = tokenAcl.tokenAnalysis(token);
-                // 使用redis优化
-                return  cacheAcl.getUserInfo(jwt.getBody().getSubject(), user.getIp());
-            }
-            case null ->{
-                // 第一次登录获取用户信息
-                user = authAcl.authUser(user);
-                return user;
-            }
-        }
+        String token = user.getToken().getToken();
+        return Optional.ofNullable(token)
+                .filter(StringUtils::hasText)
+                .map(t -> {
+                    // 校验令牌
+                    Jws<Claims> jwt = tokenAcl.tokenAnalysis(t);
+                    // 使用 redis 优化
+                    return cacheAcl.getUserInfo(jwt.getBody().getSubject(), user.getIp());
+                })
+                .orElseGet(() -> {
+                    // 第一次登录获取用户信息
+                    return authAcl.authUser(user);
+                });
     }
 }

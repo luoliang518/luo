@@ -75,23 +75,23 @@ public class User {
      * 校验用户信息
      */
     public void checkUserInfo() {
-        if (this.account != null &&
+        if (StringUtils.hasText(this.account) &&
                 !this.account.matches("[a-zA-Z0-9]+")) {
             throw new ServiceException("请输入大小写字母或数字作为账号");
         }
-        if (this.password!=null &&
+        if (StringUtils.hasText(this.password) &&
                 !this.password.matches("[a-zA-Z0-9]+")){
             throw new ServiceException("请输入大小写字母及数字作为密码");
         }
-        if (this.username!=null &&
+        if (StringUtils.hasText(this.username)&&
                 !this.username.matches("[a-zA-Z0-9\u4e00-\u9fa5]+")){
             throw new ServiceException("请输入中文字符、大小写字母或数字作为用户名");
         }
-        if (this.email != null &&
+        if (StringUtils.hasText(this.email)&&
                 !this.email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
             throw new ServiceException("请输入正确邮箱");
         }
-        if (this.phone!=null &&
+        if (StringUtils.hasText(this.phone) &&
                 !this.phone.matches("^1[3-9]\\d{9}$")){
             throw new ServiceException("请输入正确手机号");
         }

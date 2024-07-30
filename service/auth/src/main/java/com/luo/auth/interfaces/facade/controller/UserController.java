@@ -7,6 +7,7 @@ import com.luo.auth.application.dto.vo.UserCodeVo;
 import com.luo.auth.application.dto.vo.UserVO;
 import com.luo.auth.application.service.UserAppService;
 import com.luo.common.result.Response;
+import com.luo.common.result.ResultCode;
 import com.luo.common.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class UserController {
      */
     @PostMapping("/sendCode")
     public Response<UserCodeVo> sendCode(@RequestBody VerificationCodeCommand verificationCodeCommand){
-        return ResponseUtil.success(UserAppService.sendCode(verificationCodeCommand));
+        return ResponseUtil.success(ResultCode.SEND_CODE_SUCCESS,UserAppService.sendCode(verificationCodeCommand));
     }
     /**
      * 用户注册
@@ -39,7 +40,7 @@ public class UserController {
     @PostMapping("/userRegistration")
     public Response<?> userRegistration(@RequestBody UserRegistrationCommand userRegistrationCommand){
         UserAppService.userRegistration(userRegistrationCommand);
-        return ResponseUtil.success();
+        return ResponseUtil.success(ResultCode.USER_REGISTER_SUCCESS);
     }
     /**
      * 用户账号密码登录

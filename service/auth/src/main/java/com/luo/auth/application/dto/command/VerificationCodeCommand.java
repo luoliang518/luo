@@ -1,6 +1,7 @@
 package com.luo.auth.application.dto.command;
 
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 @Data
 public class VerificationCodeCommand {

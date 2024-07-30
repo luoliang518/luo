@@ -27,7 +27,12 @@ public class ResponseUtil {
     public static <T> Response<T> success(T data) {
         return new Response<>(true, ResultCode.OK, data);
     }
-
+    public static <T> Response<T> success(BaseCode baseCode) {
+        return new Response<>(true, baseCode);
+    }
+    public static <T> Response<T> success(BaseCode baseCode,T data) {
+        return new Response<>(true, baseCode, data);
+    }
     /**
      * 生成带数据和额外数据的成功响应
      *

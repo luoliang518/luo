@@ -19,9 +19,10 @@ public class VerificationCode implements Serializable {
     private String code;
     private Long expiration = VerificationCodeConstant.VERIFICATION_CODE_SURVIVAL_TIME;
 
-    public VerificationCode(String phone,String email) {
+    public VerificationCode(String phone,String email,String code) {
         setPhoneMessage(phone);
         setEmailMessage(email);
+        this.code = code;
     }
 
     public void setVerificationCode() {

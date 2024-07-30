@@ -71,7 +71,11 @@ public class EmailSenderService {
     }
 
     public boolean verifyVerificationCode(VerificationCode verificationCode) {
-        VerificationCode verificationCodeCache = cacheAcl.getEmailCode(verificationCode).setExpiration(verificationCode.getExpiration());
+        VerificationCode verificationCodeCache = cacheAcl.getEmailCode(verificationCode);
+        if (verificationCodeCache==null){
+            throw new ServiceException("验证码已过期，请重新发送");
+        }
+        verificationCodeCache.setExpiration(verificationCode.getExpiration());
         return verificationCodeCache.getCode().equals(verificationCode.getCode());
     }
 }

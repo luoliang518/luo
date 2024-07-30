@@ -14,10 +14,13 @@ import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.domain.userAggregate.service.UserService;
 import com.luo.auth.infrastructure.util.IPUtil;
 import com.luo.auth.infrastructure.util.RequestUtil;
+import com.luo.common.constant.VerificationCodeConstant;
 import com.luo.common.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -36,6 +39,10 @@ public class UserAppServiceImpl implements UserAppService {
 
     @Override
     public UserCodeVo sendCode(VerificationCodeCommand verificationCodeCommand) {
+        // 参数校验 校验邮箱格式
+        if (!VerificationCodeConstant.EMAIL_PATTERN.matcher(verificationCodeCommand.getEmail()).matches()){
+            throw new ServiceException("请输入正确邮箱");
+        }
         // 发送邮件
         VerificationCode verificationCode = emailSenderService.sendVerificationCode(
                 userAssembler.assembleVerificationCode(verificationCodeCommand)
