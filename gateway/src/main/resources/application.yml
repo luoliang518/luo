@@ -1,10 +1,20 @@
 server:
-  port: 80
+  port: 500
 spring:
   profiles:
     active: org,pwd
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders: "*"
       default-filters:
           - name: RequestRateLimiter
             args:

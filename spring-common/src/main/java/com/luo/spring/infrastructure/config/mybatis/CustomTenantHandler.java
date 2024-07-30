@@ -1,4 +1,4 @@
-package com.luo.auth.infrastructure.config.mybatis;
+package com.luo.spring.infrastructure.config.mybatis;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.luo.common.context.tenant.TenantContextHolder;

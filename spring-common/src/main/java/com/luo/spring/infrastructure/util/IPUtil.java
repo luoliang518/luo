@@ -1,4 +1,4 @@
-package com.luo.auth.infrastructure.util;
+package com.luo.spring.infrastructure.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.server.reactive.ServerHttpRequest;

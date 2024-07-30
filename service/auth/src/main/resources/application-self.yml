@@ -3,15 +3,7 @@ spring:
     url: jdbc:mysql://192.168.44.128:3306/auth
     username: root
     password: ENC(+ebtSM6yz+aQfLNzwoE9Aw==)
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      maximum-pool-size: 8
-      minimum-idle: 2
-      idle-timeout: 30000
   data:
     redis:
       host: 192.168.44.128
       port: 6379
-      connection-minimum-idle-size: 8
-      connection-pool-size: 8

@@ -1,7 +1,6 @@
 package com.luo.auth.infrastructure.util;
 
 import com.luo.auth.domain.userAggregate.entity.User;
-import com.luo.common.constant.TokenConstant;
 import com.luo.common.exception.ServiceException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -27,7 +26,7 @@ import java.util.Date;
 @Component
 @Data
 @Slf4j
-public class JwtUtil {
+public class PrivateJwtUtil {
     @Value("${auth.author}")
     private String author;
     @Value("${auth.password}")

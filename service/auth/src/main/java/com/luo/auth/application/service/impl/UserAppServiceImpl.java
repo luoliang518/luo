@@ -12,15 +12,13 @@ import com.luo.auth.domain.messageAggergate.service.EmailSenderService;
 import com.luo.auth.domain.tenantAggregate.service.TenantService;
 import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.domain.userAggregate.service.UserService;
-import com.luo.auth.infrastructure.util.IPUtil;
-import com.luo.auth.infrastructure.util.RequestUtil;
 import com.luo.common.constant.VerificationCodeConstant;
 import com.luo.common.exception.ServiceException;
+import com.luo.spring.infrastructure.util.AuthorizationUtil;
+import com.luo.spring.infrastructure.util.IPUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -72,7 +70,7 @@ public class UserAppServiceImpl implements UserAppService {
         // 获取ip
         String ip = IPUtil.getip(request);
         // 尝试获取token
-        String tokenHeader = RequestUtil.getTokenHeader(request);
+        String tokenHeader = AuthorizationUtil.getTokenHeader(request);
         // 认证用户
         User user = userService.authUser(userAssembler.assembleUser(userQuery,ip,tokenHeader));
         // 认证用户所在租户 并且存入缓存

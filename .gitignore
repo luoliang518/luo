@@ -1,4 +1,4 @@
 .idea/
 target
 logs/
-service/auth/src/main/resources/application-pwd.yml
+spring-common/src/main/resources/application-pwd.yml

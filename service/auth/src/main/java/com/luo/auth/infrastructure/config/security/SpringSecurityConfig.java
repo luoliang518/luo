@@ -5,12 +5,11 @@ import com.luo.auth.domain.filter.UserFilter;
 import com.luo.auth.domain.userAggregate.service.UserDetailsServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,30 +19,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * 开启controller层权限控制
+ *
+ * @author luoliang
  * @PreAuthorize 在方法调用之前进行验证，用于确定是否允许访问方法。它支持Spring表达式语言（SpEL），可以使用方法参数、返回值等来编写条件。
  * @PostAuthorize 在方法执行后再进行验证，用于过滤方法的返回结果。它可以确保只有满足特定条件的结果才会返回给调用方。
  * @PreFilter 允许在方法执行前过滤输入参数的集合。例如，可以根据用户权限过滤传入方法的列表。
  * @PostFilter 允许在方法执行后过滤返回结果的集合。例如，可以过滤返回给调用者的列表，确保只返回符合条件的元素。
- *      hasRole('ROLE_ADMIN')：检查当前用户是否具有名为 ROLE_ADMIN 的角色。
- *      hasAuthority('ROLE_ADMIN')：检查当前用户是否具有名为 ROLE_ADMIN 的权限。
- *      hasAnyRole('ROLE_ADMIN', 'ROLE_USER')：检查当前用户是否具有多个角色中的任意一个。
- *      hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')：检查当前用户是否具有多个权限中的任意一个。
- * @author luoliang
- * @Date 2024/5/29
+ * hasRole('ROLE_ADMIN')：检查当前用户是否具有名为 ROLE_ADMIN 的角色。
+ * hasAuthority('ROLE_ADMIN')：检查当前用户是否具有名为 ROLE_ADMIN 的权限。
+ * hasAnyRole('ROLE_ADMIN', 'ROLE_USER')：检查当前用户是否具有多个角色中的任意一个。
+ * hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')：检查当前用户是否具有多个权限中的任意一个。
  */
+@Slf4j
 @EnableWebSecurity
 @AllArgsConstructor
 @Configuration
@@ -52,10 +43,13 @@ public class SpringSecurityConfig {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final UserFilter userFilter;
     private final TenantFilter tenantFilter;
+    private final CorsConfigurationSource corsConfigurationSource;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     /**
      * 获取到认证管理器
      */
@@ -67,6 +61,7 @@ public class SpringSecurityConfig {
                 .passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -88,14 +83,14 @@ public class SpringSecurityConfig {
                 // 基于 token，不需要 session
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // cors security 解决方案
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint((request, response, authException) -> {
-                            authException.printStackTrace();
+                            log.info(authException.getMessage(),authException);
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
                         })
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            accessDeniedException.printStackTrace();
+                            log.info(accessDeniedException.getMessage(),accessDeniedException);
                             response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
                         })
                 )
@@ -103,21 +98,4 @@ public class SpringSecurityConfig {
                 .addFilterAfter(tenantFilter, UserFilter.class)
                 .build();
     }
-
-    /**
-     * 配置跨源访问(CORS)
-     */
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedHeaders(Collections.singletonList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:80", "http://localhost","https://47c7-115-236-36-106.ngrok-free.app"));
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-
 }

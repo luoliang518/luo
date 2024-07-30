@@ -1,4 +1,4 @@
-package com.luo.auth.infrastructure.config.thread;
+package com.luo.spring.infrastructure.config.thread;
 
 import org.springframework.boot.web.embedded.tomcat.TomcatProtocolHandlerCustomizer;
 import org.springframework.context.annotation.Bean;

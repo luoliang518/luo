@@ -2,7 +2,7 @@ package com.luo.auth.infrastructure.acl;
 
 import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.infrastructure.config.security.dto.UserSecurity;
-import com.luo.auth.infrastructure.util.JwtUtil;
+import com.luo.auth.infrastructure.util.PrivateJwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class TokenAcl {
-    private final JwtUtil jwtUtil;
+    private final PrivateJwtUtil privateJwtUtil;
 
     public void initAuthentication(HttpServletRequest request,User user) {
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -28,14 +28,14 @@ public class TokenAcl {
     }
 
     public Jws<Claims> getTokenFromRequest(String requestTokenHeader) {
-        return jwtUtil.tokenAnalysis(requestTokenHeader.substring(7));
+        return privateJwtUtil.tokenAnalysis(requestTokenHeader.substring(7));
     }
 
     public String generateToken(User user) {
-        return jwtUtil.generateToken(user);
+        return privateJwtUtil.generateToken(user);
     }
 
     public Jws<Claims> tokenAnalysis(String tokenHeader) {
-        return jwtUtil.tokenAnalysis(tokenHeader);
+        return privateJwtUtil.tokenAnalysis(tokenHeader);
     }
 }

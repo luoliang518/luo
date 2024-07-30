@@ -1,4 +1,4 @@
-package com.luo.auth.infrastructure.config.mybatis;
+package com.luo.spring.infrastructure.config.mybatis;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.luo.common.context.tenant.TenantContext;

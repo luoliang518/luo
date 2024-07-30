@@ -4,11 +4,11 @@ import com.luo.auth.domain.tenantAggregate.entity.Tenant;
 import com.luo.auth.domain.userAggregate.entity.User;
 import com.luo.auth.infrastructure.acl.CacheAcl;
 import com.luo.auth.infrastructure.acl.TokenAcl;
-import com.luo.auth.infrastructure.util.IPUtil;
-import com.luo.auth.infrastructure.util.RequestUtil;
 import com.luo.common.context.tenant.TenantContext;
 import com.luo.common.context.tenant.TenantContextHolder;
 import com.luo.common.exception.ServiceException;
+import com.luo.spring.infrastructure.util.AuthorizationUtil;
+import com.luo.spring.infrastructure.util.IPUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.servlet.FilterChain;
@@ -48,12 +48,12 @@ public class TenantFilter extends OncePerRequestFilter {
             @NonNull FilterChain chain)
             throws ServletException, IOException {
         // 判断接口是否需要放行
-        if(RequestUtil.isPathAllowed(request.getServletPath(),ALLOWED_PATHS)){
+        if(AuthorizationUtil.isPathAllowed(request.getServletPath(),ALLOWED_PATHS)){
             chain.doFilter(request, response);
             return;
         }
         // 从请求头 获取token信息
-        String tokenHeader = RequestUtil.getTokenHeader(request);
+        String tokenHeader = AuthorizationUtil.getTokenHeader(request);
         // 获取ip信息
         String ip = IPUtil.getip(request);
         // 获取租户信息

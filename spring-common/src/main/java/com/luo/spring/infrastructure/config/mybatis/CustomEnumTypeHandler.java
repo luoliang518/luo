@@ -1,4 +1,4 @@
-package com.luo.auth.infrastructure.config.mybatis;
+package com.luo.spring.infrastructure.config.mybatis;
 
 import com.luo.common.base.BaseEnum;
 import org.apache.ibatis.type.BaseTypeHandler;

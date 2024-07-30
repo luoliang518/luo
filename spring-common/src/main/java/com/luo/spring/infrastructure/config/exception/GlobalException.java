@@ -1,4 +1,4 @@
-package com.luo.auth.infrastructure;
+package com.luo.spring.infrastructure.config.exception;
 
 import com.luo.common.exception.ServiceException;
 import com.luo.common.result.Response;

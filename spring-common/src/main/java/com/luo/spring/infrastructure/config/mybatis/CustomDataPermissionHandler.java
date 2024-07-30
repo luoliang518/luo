@@ -1,13 +1,10 @@
-package com.luo.auth.infrastructure.config.mybatis;
+package com.luo.spring.infrastructure.config.mybatis;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.MultiDataPermissionHandler;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Table;
-import org.springframework.stereotype.Component;
-
-import java.util.concurrent.Executors;
 
 //@Component
 public class CustomDataPermissionHandler implements MultiDataPermissionHandler {

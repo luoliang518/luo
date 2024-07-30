@@ -2,8 +2,8 @@ package com.luo.auth.domain.messageAggergate.service;
 
 import com.luo.auth.domain.messageAggergate.valueObject.VerificationCode;
 import com.luo.auth.infrastructure.acl.CacheAcl;
-import com.luo.auth.infrastructure.config.email.EmailConfig;
 import com.luo.common.exception.ServiceException;
+import com.luo.spring.infrastructure.config.email.EmailConfig;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ public class EmailSenderService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(content);
-        message.setFrom(emailConfig.getFrom());
+        message.setFrom(emailConfig.getUsername());
         mailSender.send(message);
     }
 
@@ -57,7 +57,7 @@ public class EmailSenderService {
             helper = new MimeMessageHelper(mimeMessage, true);
             helper.setTo(verificationCode.getEmailMessage().getEmail());
             helper.setSubject(verificationCode.getEmailMessage().getSubject());
-            helper.setFrom(emailConfig.getFrom());
+            helper.setFrom(emailConfig.getUsername());
             Context context = new Context();
             context.setVariable("subject", verificationCode.getEmailMessage().getSubject());
             context.setVariable("username", verificationCode.getUsername());
